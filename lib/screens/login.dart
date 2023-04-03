@@ -1,7 +1,7 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vegipak/screens/home.dart';
@@ -11,6 +11,8 @@ import '../constants.dart' as Constants;
 import '../globals.dart' as Globals;
 
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -25,9 +27,9 @@ class _LoginState extends State<Login> {
   bool _isLoading = false;
   String _emailError = '';
   String _passwordError = '';
-  String _apiError = '';
+  final String _apiError = '';
   bool _isRememberMe = false;
-  List<String> _errors = [
+  final List<String> _errors = [
     'Email is invalid', // 0
     'Enter your email', // 1
     'Password must be longer than 8 characters', // 2
@@ -65,11 +67,11 @@ class _LoginState extends State<Login> {
 
     if (email.isNotEmpty) {
       if (!Functions.isEmailValid(email)) {
-        _emailError = this._errors[0];
+        _emailError = _errors[0];
         _hasEmailError = true;
       }
     } else {
-      _emailError = this._errors[1];
+      _emailError = _errors[1];
       _hasEmailError = true;
     }
 
@@ -79,7 +81,7 @@ class _LoginState extends State<Login> {
         _hasPasswordError = true;
       }*/
     } else {
-      _passwordError = this._errors[3];
+      _passwordError = _errors[3];
       _hasPasswordError = true;
     }
 
@@ -110,7 +112,7 @@ class _LoginState extends State<Login> {
 
   void _submitButtonClick() {
     FocusScope.of(context).unfocus();
-    this._onSubmitLogin();
+    _onSubmitLogin();
   }
 
   void launchURL(String url) async {
@@ -169,9 +171,7 @@ class _LoginState extends State<Login> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
-                height: 80,
-              ),
+              const SizedBox(height: 80),
               Image.asset(
                 Constants.Constants.companyFullLogoLight,
                 //color: Colors.black,
@@ -207,55 +207,49 @@ class _LoginState extends State<Login> {
                 ),
               ),
 */
-              SizedBox(
-                height: 25,
-              ),
+              const SizedBox(height: 25),
               _hasApiError
                   ? Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
-                        this._apiError,
+                        _apiError,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.normal,
                           color: Colors.red,
                         ),
                       ),
                     )
-                  : SizedBox(
-                      height: 0,
-                    ),
+                  : const SizedBox(),
               Card(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 elevation: 6,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 1, horizontal: 6),
                   child: Row(
                     children: <Widget>[
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Icon(
+                      const SizedBox(width: 6),
+                      const Icon(
                         Icons.email,
                         color: Colors.green,
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: TextField(
                           cursorColor: Colors.green,
                           keyboardType: TextInputType.emailAddress,
-                          controller: this._emailController,
+                          controller: _emailController,
                           maxLines: 1,
                           onSubmitted: (value) => _onSubmitLogin(),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             labelText: 'Email',
                             labelStyle: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600),
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -263,12 +257,11 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
               _hasEmailError
                   ? Container(
-                      margin: EdgeInsets.only(bottom: 15, left: 16, right: 16),
+                      margin: const EdgeInsets.only(
+                          bottom: 15, left: 16, right: 16),
                       child: Text(
                         _emailError,
                         textAlign: TextAlign.center,
@@ -279,33 +272,30 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               Card(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 elevation: 6,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 6),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 6),
                   child: Row(
                     children: <Widget>[
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Icon(
+                      const SizedBox(width: 6),
+                      const Icon(
                         Icons.vpn_key,
                         color: Colors.green,
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: TextField(
                           cursorColor: Colors.green,
-                          controller: this._passwordController,
-                          obscureText: this._obscureText,
+                          controller: _passwordController,
+                          obscureText: _obscureText,
                           autocorrect: false,
                           maxLines: 1,
                           onSubmitted: (value) => _onSubmitLogin(),
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Password',
                             labelStyle: TextStyle(
                                 color: Colors.green,
@@ -314,9 +304,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12),
                       IconButton(
                         color: Colors.green,
                         icon: Icon(_obscureText
@@ -324,19 +312,16 @@ class _LoginState extends State<Login> {
                             : Icons.visibility),
                         onPressed: _tooglePasswordVisibility,
                       ),
-                      SizedBox(
-                        width: 6,
-                      ),
+                      const SizedBox(width: 6),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               _hasPasswordError
                   ? Container(
-                      margin: EdgeInsets.only(bottom: 15, left: 16, right: 16),
+                      margin: const EdgeInsets.only(
+                          bottom: 15, left: 16, right: 16),
                       child: Text(
                         _passwordError,
                         textAlign: TextAlign.center,
@@ -347,46 +332,45 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     )
-                  : SizedBox(),
-              Row(children: [
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    width: 10,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Checkbox(
-                    value: _isRememberMe,
-                    checkColor: Colors.green,
-                    activeColor: Colors.white54.withOpacity(0.1),
-                    onChanged: (value) {
-                      this._setRememberMe();
-                      // SharedPreferences prefs = await _prefs;
-                      // prefs.setBool('remember_me', value);
-                    },
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    'Remember me',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.bold,
+                  : const SizedBox(),
+              Row(
+                children: [
+                  const Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 10,
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    // margin: EdgeInsets.only(left: 65),
+                  Expanded(
+                    flex: 1,
+                    child: Checkbox(
+                      value: _isRememberMe,
+                      checkColor: Colors.green,
+                      activeColor: Colors.white54.withOpacity(0.1),
+                      onChanged: (value) {
+                        _setRememberMe();
+                        // SharedPreferences prefs = await _prefs;
+                        // prefs.setBool('remember_me', value);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      'Remember me',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 6,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: this._onTapForgotPassword,
-                        child: Text(
+                        onPressed: _onTapForgotPassword,
+                        child: const Text(
                           'Forget Password?',
                           style: TextStyle(
                             fontSize: 14,
@@ -397,23 +381,22 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    width: 10,
+                  const Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 10,
+                    ),
                   ),
-                ),
-              ]),
-              SizedBox(
-                height: 50,
+                ],
               ),
+              const SizedBox(height: 50),
               _isLoading
                   ? Padding(
-                      padding: EdgeInsets.only(left: 12, right: 12, bottom: 8),
+                      padding:
+                          const EdgeInsets.only(left: 12, right: 12, bottom: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                        children: const [
                           CircularProgressIndicator(
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(Colors.red),
@@ -424,12 +407,13 @@ class _LoginState extends State<Login> {
                     )
                   : Container(
                       height: 50,
-                      margin: EdgeInsets.only(left: 16, right: 16, bottom: 5),
+                      margin:
+                          const EdgeInsets.only(left: 16, right: 16, bottom: 5),
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Colors.green),
-                        onPressed: this._submitButtonClick,
-                        child: Text(
+                        onPressed: _submitButtonClick,
+                        child: const Text(
                           'Sign In',
                           style: TextStyle(
                             fontSize: 16,
@@ -444,8 +428,8 @@ class _LoginState extends State<Login> {
                 child: Align(
                   alignment: Alignment.center,
                   child: TextButton(
-                    onPressed: this._onTapDriverRegistration,
-                    child: Text(
+                    onPressed: _onTapDriverRegistration,
+                    child: const Text(
                       'Create New Account',
                       style: TextStyle(
                         fontSize: 17,
@@ -456,9 +440,9 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Row(
-                children: [
+                children: const [
                   Expanded(
                     flex: 1,
                     child: SizedBox(

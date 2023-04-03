@@ -5,15 +5,15 @@ class CustomDialogBox extends StatefulWidget {
   final int id, qty;
   final String title, price, image, unit;
 
-  const CustomDialogBox(
-      {Key? key,
-      required this.id,
-      required this.title,
-      required this.price,
-      required this.image,
-      required this.unit,
-      required this.qty})
-      : super(key: key);
+  const CustomDialogBox({
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.image,
+    required this.unit,
+    required this.qty,
+  }) : super(key: key);
 
   @override
   State<CustomDialogBox> createState() => _CustomDialogBoxState();
@@ -48,21 +48,24 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
         SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.only(
-                left: Constants.padding,
-                top: Constants.avatarRadius,
-                right: Constants.padding,
-                bottom: Constants.padding),
+              left: Constants.padding,
+              top: Constants.avatarRadius,
+              right: Constants.padding,
+              bottom: Constants.padding,
+            ),
             margin: const EdgeInsets.only(top: Constants.avatarRadius),
             decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(Constants.padding),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black45,
-                      offset: Offset(0, 10),
-                      blurRadius: 10),
-                ]),
+              shape: BoxShape.rectangle,
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black45,
+                  offset: Offset(0, 10),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -76,71 +79,84 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(
-                  height: 22,
-                ),
+                const SizedBox(height: 22),
                 Row(
                   children: [
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            if (counter > 0) {
-                              setState(() {
-                                counter--;
-                                _controller = TextEditingController(
-                                    text: counter.toString());
-                              });
-                            }
-                          });
-                        },
-                        child: const Icon(Icons.remove)),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: TextFormField(
-                      style: const TextStyle(fontSize: 20, color: Colors.green),
-                      controller: _controller,
-                      textAlign: TextAlign.right,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.only(
-                            left: 15, bottom: 11, top: 0, right: 15),
-                        filled: true,
-                        fillColor: Colors.white,
                       ),
-                    )),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                        ),
-                        onPressed: () {
-                          if (counter < 10) {
+                      onPressed: () {
+                        setState(() {
+                          if (counter > 0) {
                             setState(() {
-                              counter++;
+                              counter--;
                               _controller = TextEditingController(
-                                  text: counter.toString());
+                                text: counter.toString(),
+                              );
                             });
                           }
+                        });
+                      },
+                      child: const Icon(Icons.remove),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.green),
+                        controller: _controller,
+                        onChanged: (value) {
+                          if (value.isNotEmpty) {
+                            // print(value);
+                            setState(() {
+                              counter = int.parse(value);
+                            });
+                            // print('counter: ' + counter.toString());
+                          }
                         },
-                        child: const Icon(Icons.add)),
+                        textAlign: TextAlign.right,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                            left: 15,
+                            bottom: 11,
+                            top: 0,
+                            right: 15,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (counter < 10) {
+                          setState(() {
+                            counter++;
+                            _controller = TextEditingController(
+                              text: counter.toString(),
+                            );
+                          });
+                        }
+                      },
+                      child: const Icon(Icons.add),
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 70,
-                ),
+                const SizedBox(height: 70),
               ],
             ),
           ),
@@ -153,9 +169,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(Constants.avatarRadius)),
-                child: Image.asset(widget.image)),
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(Constants.avatarRadius)),
+              child: Image.asset(widget.image),
+            ),
           ),
         ),
         Positioned(
@@ -177,9 +194,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               child: const Text(
                 'Add to cart',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22),
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                ),
               ),
             ),
           ),

@@ -41,39 +41,39 @@ class _AllVegitablesState extends State<AllVegitables> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 18,
-        ),
+        const SizedBox(height: 18),
         Padding(
           padding: const EdgeInsets.only(top: 25),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    primary: gridView == 2 ? Colors.green : Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      gridView = 2;
-                    });
-                  },
-                  icon: const Icon(Icons.grid_view_rounded),
-                  label: const Text('2x3')),
+                style: ElevatedButton.styleFrom(
+                  primary: gridView == 2 ? Colors.green : Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    gridView = 2;
+                  });
+                },
+                icon: const Icon(Icons.grid_view_rounded),
+                label: const Text('2x3'),
+              ),
               const SizedBox(
                 width: 5,
               ),
               ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    primary: gridView == 3 ? Colors.green : Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      gridView = 3;
-                    });
-                  },
-                  icon: const Icon(Icons.grid_on),
-                  label: const Text('3x4')),
+                style: ElevatedButton.styleFrom(
+                  primary: gridView == 3 ? Colors.green : Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    gridView = 3;
+                  });
+                },
+                icon: const Icon(Icons.grid_on),
+                label: const Text('3x4'),
+              ),
             ],
           ),
         ),
@@ -82,10 +82,11 @@ class _AllVegitablesState extends State<AllVegitables> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: gridView,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 20,
-                    childAspectRatio: 0.83),
+                  crossAxisCount: gridView,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 20,
+                  childAspectRatio: 0.83,
+                ),
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
@@ -96,20 +97,23 @@ class _AllVegitablesState extends State<AllVegitables> {
                         return element['id'] == items[index].id;
                       });
                       if (getItem != null) {
+                        // print(getItem);
                         qunt = getItem['qty'];
                       }
                       var qty = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return CustomDialogBox(
-                              id: items[index].id,
-                              title: items[index].productName,
-                              price: items[index].price,
-                              image: items[index].image,
-                              unit: items[index].unit,
-                              qty: qunt,
-                            );
-                          });
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomDialogBox(
+                            id: items[index].id,
+                            title: items[index].productName,
+                            price: items[index].price,
+                            image: items[index].image,
+                            unit: items[index].unit,
+                            qty: qunt,
+                          );
+                        },
+                      );
+
                       if (qty != null) {
                         if (Checkout.instance.checkout.isEmpty && qty > 0) {
                           Checkout.instance.checkout
@@ -132,7 +136,9 @@ class _AllVegitablesState extends State<AllVegitables> {
                             }
                           }
                         }
-                        widget.onCartChange(Checkout.instance.checkout.length);
+                        // print('QTY: $qunt');
+                        // print('QTY1: $qty');
+                        // widget.onCartChange(Checkout.instance.checkout.length);
                       }
                     },
                     child: Column(
@@ -172,13 +178,19 @@ class _AllVegitablesState extends State<AllVegitables> {
                             ),
                           ),
                         ),
-                        Text(items[index].productName,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w400)),
+                        Text(
+                          items[index].productName,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                         Text(
                           "${Constants.currencySymbol} ${items[index].price}/${items[index].unit}",
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
                         )
                       ],
                     ),

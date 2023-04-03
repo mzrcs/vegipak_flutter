@@ -27,11 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     switch (_currentIndex) {
       case 0:
-        _screen = AllVegitables(onCartChange: (itemsCount) {
-          setState(() {
-            totalItems = itemsCount;
-          });
-        });
+        _screen = AllVegitables(
+          onCartChange: (itemsCount) {
+            setState(() {
+              totalItems = itemsCount;
+            });
+          },
+        );
         break;
       case 1:
         _screen = MyCart(onCartChange: (itemsCount) {
@@ -70,19 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: totalItems > 0
-                ? Badge(
-                    position: BadgePosition.topEnd(top: -20),
-                    badgeContent: Text(
-                      '$totalItems',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    child: const Icon(Icons.shopping_cart_checkout_outlined),
-                  )
-                : const Icon(Icons.shopping_cart_checkout_outlined),
+            icon:
+                //  totalItems > 0
+                //     ? Badge(
+                //         position: BadgePosition.topEnd(top: -20),
+                //         badgeContent: Text(
+                //           '$totalItems',
+                //           style: const TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 18,
+                //               fontWeight: FontWeight.bold),
+                //         ),
+                //         child: const Icon(Icons.shopping_cart_checkout_outlined),
+                //       )
+                //     :
+                const Icon(Icons.shopping_cart_checkout_outlined),
             title: const Text('Cart'),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
