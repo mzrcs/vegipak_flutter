@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vegipak/screens/login.dart';
-import '../globals.dart' as globals;
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:vegipak/screens/login.dart';
+// import '../globals.dart' as globals;
+import '../utils/routes/routes_name.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -13,12 +14,12 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) async {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => Login()),
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      RouteName.login,
+      (route) => false,
     );
   }
 
