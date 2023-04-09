@@ -5,12 +5,12 @@ import 'package:vegipak/models/cart.dart';
 import 'package:vegipak/screens/confirm_order.dart';
 import 'package:vegipak/singleton.dart/checkout.dart';
 
-class MyCart extends StatefulWidget {
+class MyCartScreen extends StatefulWidget {
   final Function onCartChange;
-  const MyCart({Key? key, required this.onCartChange}) : super(key: key);
+  const MyCartScreen({Key? key, required this.onCartChange}) : super(key: key);
 
   @override
-  State<MyCart> createState() => _MyCartState();
+  State<MyCartScreen> createState() => _MyCartScreenState();
 }
 
 var items = [
@@ -35,7 +35,7 @@ var items = [
   Item(18, "Carrot / گاجر", "assets/images/vegi/carrot.png", "100", "kg"),
 ];
 
-class _MyCartState extends State<MyCart> {
+class _MyCartScreenState extends State<MyCartScreen> {
   Cart userCart = Checkout.instance.getUserCart(items);
 
   @override
@@ -204,8 +204,8 @@ class _MyCartState extends State<MyCart> {
                           //     builder: (BuildContext context) {
                           //       return const CheckoutDialog();
                           //     });
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ConfirmOrder()));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) => const ConfirmOrder()));
                         }
                       },
                       child: const Text(

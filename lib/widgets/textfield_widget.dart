@@ -4,7 +4,7 @@ Widget textFieldWidget({
   required String hintText,
   required IconData iconData,
   required TextEditingController controller,
-  Function? onSubmitted,
+  void Function(String)? onChanged,
 }) {
   // return Column(
   //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ Widget textFieldWidget({
           flex: 5,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: TextFormField(
+            child: TextField(
               controller: controller,
               // validator: (input) => validator(input),
 
@@ -82,7 +82,10 @@ Widget textFieldWidget({
               //   Get.to(const OtpVerificationScreen());
               // },
               // onSubmitted: (String? input) => onSubmit(),
-              onFieldSubmitted: (String? input) => onSubmitted!(),
+              // onFieldSubmitted: (String? input) => onSubmitted!(),
+              onChanged: (value) {
+                onChanged!(value);
+              },
               decoration: InputDecoration(
                 // hintStyle: GoogleFonts.poppins(
                 //   fontSize: 12,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vegipak/constants.dart';
-import 'package:vegipak/custom_widgets/custom_dialog_box.dart';
+import 'package:vegipak/app/navigation/vegitable/widget/custom_dialog_box.dart';
 import 'package:vegipak/models/item.dart';
 import 'package:collection/collection.dart';
 import 'package:vegipak/singleton.dart/checkout.dart';

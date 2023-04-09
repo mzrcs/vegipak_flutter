@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/screens/home.dart';
+import 'package:vegipak/app/auth/otp/view/otp_screen.dart';
+import 'package:vegipak/screens/home_screen.dart';
 // import 'package:vegipak/screens/login.dart';
-import 'package:vegipak/utils/routes/routes_name.dart';
-import 'package:vegipak/view/auth/login_screen.dart';
-import 'package:vegipak/view/auth/signup_screen.dart';
+import 'package:vegipak/app/utils/routes/routes_name.dart';
+import 'package:vegipak/app/auth/sign_in/view/sign_in.dart';
+// import 'package:vegipak/app/auth/signup_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -11,8 +12,8 @@ class RouteGenerator {
     switch (settings.name) {
       case RouteName.login:
         return MaterialPageRoute(builder: (context) => const LoginScreen());
-      // case RouteName.signup:
-      //   return MaterialPageRoute(builder: (context) => const SignupScreen());
+      case RouteName.otp:
+        return MaterialPageRoute(builder: (context) => const OtpScreen());
       // home
       case RouteName.home:
         return MaterialPageRoute(builder: (context) => const HomeScreen());

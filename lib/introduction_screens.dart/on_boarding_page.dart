@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:vegipak/screens/login.dart';
 // import '../globals.dart' as globals;
-import '../utils/routes/routes_name.dart';
+import '../app/auth/check_sign_in_prov.dart';
+import '../app/utils/routes/routes_name.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -25,6 +27,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/images/$assetName', width: width);
+  }
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<SplashProvider>(context, listen: false).splashTimer(context);
+    super.didChangeDependencies();
   }
 
   @override
