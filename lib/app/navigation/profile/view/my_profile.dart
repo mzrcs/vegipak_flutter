@@ -35,19 +35,17 @@ class MyProfile extends StatelessWidget {
               const Spacer(),
               Consumer<ProfileProvider>(
                 builder: (context, value, child) {
-                  return value.isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: myButton(
-                            'Logout',
-                            () {
-                              Provider.of<ProfileProvider>(context,
-                                      listen: false)
-                                  .logOut(context);
-                            },
-                          ),
-                        );
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: myButton(
+                      'Logout',
+                      () {
+                        Provider.of<ProfileProvider>(context, listen: false)
+                            .logOut(context);
+                      },
+                      loading: value.isLoading,
+                    ),
+                  );
                 },
               ),
             ],

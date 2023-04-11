@@ -1,21 +1,50 @@
 import 'package:flutter/material.dart';
 
-Widget myButton(String title, Function onPressed) {
-  return MaterialButton(
-    minWidth: double.infinity,
+Widget myButton(
+  String title,
+  void Function()? onPressed, {
+  bool? loading = false,
+}) {
+  return SizedBox(
+    width: double.infinity,
     height: 50,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-    ),
-    color: Colors.green,
-    onPressed: () => onPressed(),
-    child: Text(
-      title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-        color: Colors.white,
+    child: ElevatedButton(
+      // minWidth: double.infinity,
+      // height: 50,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(8),
+      // ),
+      // color: Colors.green,
+      // disabledColor: Colors.green.withOpacity(0.9),
+      // elevation: 2,
+      // onPressed: loading! ? null : () => onPressed!(),
+      style: ElevatedButton.styleFrom(
+        disabledBackgroundColor: Colors.green.withOpacity(0.5),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
+      onPressed: onPressed,
+      child: loading!
+          ? const SizedBox(
+              width: 25,
+              height: 25,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2.0,
+                ),
+              ),
+            )
+          : Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
     ),
   );
 }

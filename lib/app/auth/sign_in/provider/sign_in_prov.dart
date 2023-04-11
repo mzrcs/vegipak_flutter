@@ -8,7 +8,62 @@ import '../../../services/sign_in_service.dart';
 // import '../../../utils/routes/routes_name.dart';
 import '../model/sign_in_model.dart';
 
+bool isEmail(String em) {
+  String p =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  RegExp regExp = RegExp(p);
+
+  return regExp.hasMatch(em);
+}
+
+bool isValidPassword(String value) {
+  String pattern =
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+  RegExp regExp = RegExp(pattern);
+  return regExp.hasMatch(value);
+}
+
 class SignIn extends ChangeNotifier {
+  String _emailError = '';
+  String _passError = '';
+  bool _isEmailValid = true;
+  bool _isPassValid = true;
+
+  // getters
+  String get emailError => _emailError;
+  String get passError => _passError;
+  bool get isEmailValid => _isEmailValid;
+  bool get isPassValid => _isPassValid;
+
+  void validateEmail(String? email) {
+    // email validation logic
+    // _isEmailValid = _email.contains('@') && _email.contains('.');
+    if (email!.isEmpty) {
+      _emailError = 'Please enter your email address';
+    }
+    if (email.isNotEmpty) {
+      _isEmailValid = !isEmail(email);
+      _emailError = 'Enter a valid email address';
+    }
+    _isEmailValid = isEmail(email);
+    notifyListeners();
+  }
+
+  void validatePass(String? password) {
+    // email validation logic
+    if (password!.isEmpty) {
+      _passError = 'Please enter passowrd';
+    } else if (password.length < 8) {
+      _passError = 'Password minimum 8 characters';
+    } else if (password.isNotEmpty || password.length >= 8) {
+      _isPassValid = !isValidPassword(password);
+      _passError = ' Password must include number and special characters';
+    }
+    _isPassValid = isValidPassword(password);
+    notifyListeners();
+  }
+
 //---------------------------*Visibility (password)
   bool isobscure = true;
   Icon icon = const Icon(
@@ -32,29 +87,29 @@ class SignIn extends ChangeNotifier {
     }
   }
 
-  final TextEditingController email = TextEditingController();
+  // final TextEditingController email = TextEditingController();
 
-  String? emailValidation(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This is required';
-    } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return "Please enter a valid email address";
-    } else {
-      return null;
-    }
-  }
+  // String? emailValidation(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'This is required';
+  //   } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+  //     return "Please enter a valid email address";
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
-  final TextEditingController password = TextEditingController();
+  // final TextEditingController password = TextEditingController();
 
-  String? passwordValidation(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This is required';
-    } else if (value.length < 3) {
-      return 'Should contain minimum of 4 letters';
-    } else {
-      return null;
-    }
-  }
+  // String? passwordValidation(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'This is required';
+  //   } else if (value.length < 3) {
+  //     return 'Should contain minimum of 4 letters';
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
   SigninServices signinServices = SigninServices();
@@ -69,55 +124,16 @@ class SignIn extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void signIn(BuildContext context) {
-  //   if (formGlobalKey.currentState!.validate()) {
-  //     formGlobalKey.currentState!.save();
-  //     //---
-  //     setLoading(true);
-
-  //     final SignInModel signinModel = SignInModel(
-  //       email: email.text,
-  //       password: password.text,
-  //     );
-
-  //     signinServices.signinUser(signinModel, context).then(
-  //       (value) {
-  //         if (value != null) {
-  //           log("write =${value.accessToken}");
-  //           storage.write(key: 'token', value: value.accessToken);
-  //           // storage.write(key: 'refreshToken', value: value.refreshToken);
-  //           notifyListeners();
-  //           storage.read(key: 'token').then((value) {
-  //             if (value != null) {
-  //               log('read =$value');
-  //             }
-  //           });
-  //           // Provider.of<NavigationIndex>(context, listen: false).currentIndex =
-  //           //     0;
-  //           // Navigator.of(context).push(MaterialPageRoute(
-  //           //   builder: (context) => const BottomNavigationScreen(),
-  //           // ));
-  //           setLoading(false);
-
-  //           Navigator.pushNamed(context, RouteName.home);
-
-  //           //---
-  //           clearTextfield();
-  //         } else {
-  //           return;
-  //         }
-  //       },
-  //     );
-  //     setLoading(false);
-  //   }
-  // }
-
-  void signIn(BuildContext context) async {
+  void signIn(
+    BuildContext context,
+    TextEditingController email,
+    TextEditingController password,
+  ) async {
     setLoading(true);
 
     final SignInModel signinModel = SignInModel(
-      email: email.text,
-      password: password.text,
+      email: email.text.trim(),
+      password: password.text.trim(),
     );
 
     signinServices.signinUser(signinModel, context).then((value) {
@@ -131,7 +147,7 @@ class SignIn extends ChangeNotifier {
             builder: (context) => const BottomNavigationScreen(),
           ));
           // Navigator.pushNamed(context, RouteName.home);
-          clearTextfield();
+          clearTextfield(email, password);
         });
       } else {
         setLoading(false);
@@ -140,17 +156,28 @@ class SignIn extends ChangeNotifier {
     // setLoading(false);
   }
 
-  //---------------------------*Clear Textformfield
-  void clearTextfield() {
+  // void checkSignIn(BuildContext context) {
+  //   if (_isEmailValid || _isPassValid) {
+  //     signIn(context);
+  //     // print('EmailValidate: $isEmailValid');
+  //     // print('PassValidate: $isPassValid');
+  //   }
+  // }
+
+  //----------------- Clear Textformfield
+  void clearTextfield(
+    TextEditingController email,
+    TextEditingController password,
+  ) {
     email.clear();
     password.clear();
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    email.dispose();
-    password.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   email.dispose();
+  //   password.dispose();
+  //   super.dispose();
+  // }
 }

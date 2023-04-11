@@ -30,12 +30,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    Provider.of<SplashProvider>(context, listen: false).splashTimer(context);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(fontSize: 19.0);
 

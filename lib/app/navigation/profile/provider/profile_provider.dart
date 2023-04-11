@@ -37,10 +37,10 @@ class ProfileProvider extends ChangeNotifier {
     setLoading(true);
     await storage.delete(key: 'token');
     Future.delayed(const Duration(seconds: 3), () {
-      setLoading(false);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
+      setLoading(false);
     });
     notifyListeners();
   }
