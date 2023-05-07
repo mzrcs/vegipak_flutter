@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../navigation/navigation_bar/view/navigation_bar.dart';
+import '../../../navigation/navigation_bar/navigation_bar.dart';
 import '../../../services/sign_up_service.dart';
 import '../../../services/verify_otp_service.dart';
 import '../../sign_up/model/sign_up_model.dart';

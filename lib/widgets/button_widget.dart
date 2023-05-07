@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../app/utils/constants.dart';
+
 Widget myButton(
   String title,
   void Function()? onPressed, {
@@ -14,12 +16,13 @@ Widget myButton(
       // shape: RoundedRectangleBorder(
       //   borderRadius: BorderRadius.circular(8),
       // ),
-      // color: Colors.green,
+
       // disabledColor: Colors.green.withOpacity(0.9),
       // elevation: 2,
       // onPressed: loading! ? null : () => onPressed!(),
       style: ElevatedButton.styleFrom(
-        disabledBackgroundColor: Colors.green.withOpacity(0.5),
+        backgroundColor: kGreenColor,
+        disabledBackgroundColor: kGreenColorTint.withOpacity(0.5),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

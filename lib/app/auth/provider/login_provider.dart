@@ -1,12 +1,18 @@
+import 'dart:async';
+// import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../../../navigation/navigation_bar/provider/index_navigation.dart';
-import '../../../navigation/navigation_bar/view/navigation_bar.dart';
-import '../../../services/sign_in_service.dart';
+import '../../logic/cubit/user_cubit/user_cubit.dart';
+import '../../logic/cubit/user_cubit/user_state.dart';
+import '../../navigation/navigation_bar/provider/index_navigation.dart';
+import '../../navigation/navigation_bar/navigation_bar.dart';
+import '../../services/sign_in_service.dart';
 // import '../../../utils/routes/routes_name.dart';
-import '../model/sign_in_model.dart';
+import '../../darta/models/user/user_model.dart';
 
 bool isEmail(String em) {
   String p =
@@ -24,7 +30,12 @@ bool isValidPassword(String value) {
   return regExp.hasMatch(value);
 }
 
-class SignIn extends ChangeNotifier {
+class LoginProvider extends ChangeNotifier {
+  final BuildContext context;
+  LoginProvider(this.context) {
+    _listenToUserCubit();
+  }
+
   String _emailError = '';
   String _passError = '';
   bool _isEmailValid = true;
@@ -114,47 +125,92 @@ class SignIn extends ChangeNotifier {
   FlutterSecureStorage storage = const FlutterSecureStorage();
   SigninServices signinServices = SigninServices();
   // bool isLoading = false;
-  GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
+  // GlobalKey<FormState> formGlobalKey = GlobalKey<FormState>();
 
-  bool _loading = false;
-  bool get isLoading => _loading;
+  bool isLoading = false;
+  String error = "";
 
-  setLoading(bool value) {
-    _loading = value;
-    notifyListeners();
-  }
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  StreamSubscription? _userSubscription;
 
-  void signIn(
-    BuildContext context,
-    TextEditingController email,
-    TextEditingController password,
-  ) async {
-    setLoading(true);
-
-    final SignInModel signinModel = SignInModel(
-      email: email.text.trim(),
-      password: password.text.trim(),
-    );
-
-    signinServices.signinUser(signinModel, context).then((value) {
-      if (value != null) {
-        storage.write(key: 'token', value: value.accessToken);
+  void _listenToUserCubit() {
+    _userSubscription =
+        BlocProvider.of<UserCubit>(context).stream.listen((userState) {
+      if (userState is UserLoadingState) {
+        isLoading = true;
+        error = "";
         notifyListeners();
-        Future.delayed(const Duration(seconds: 3)).then((value) {
-          setLoading(false);
-          Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const BottomNavigationScreen(),
-          ));
-          // Navigator.pushNamed(context, RouteName.home);
-          clearTextfield(email, password);
-        });
+      } else if (userState is UserErrorState) {
+        isLoading = false;
+        error = userState.message;
+        notifyListeners();
       } else {
-        setLoading(false);
+        isLoading = false;
+        error = "";
+        notifyListeners();
       }
     });
-    // setLoading(false);
   }
+
+  void logIn() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    BlocProvider.of<UserCubit>(context)
+        .signIn(email: email, password: password);
+  }
+
+  @override
+  void dispose() {
+    _userSubscription?.cancel();
+    super.dispose();
+  }
+
+  // bool _loading = false;
+  // bool get isLoading => _loading;
+
+  // setLoading(bool value) {
+  //   _loading = value;
+  //   notifyListeners();
+  // }
+
+  // void signIn(
+  //   BuildContext context,
+  //   TextEditingController email,
+  //   TextEditingController password,
+  // ) async {
+  //   // setLoading(true);
+
+  //   final UserModel signinModel = UserModel(
+  //     email: email.text.trim(),
+  //     password: password.text.trim(),
+  //   );
+
+  //   signinServices.signinUser(signinModel, context).then((value) {
+  //     if (value != null) {
+  //       storage.write(key: 'token', value: value.accessToken);
+  //       notifyListeners();
+  //       Future.delayed(const Duration(seconds: 3)).then((value) {
+  //         // setLoading(false);
+  //         Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
+  //         Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (context) => const BottomNavigationScreen(),
+  //         ));
+  //         // Navigator.pushNamed(context, RouteName.home);
+  //         clearTextfield(email, password);
+  //       });
+  //     } else {
+  //       // setLoading(false);
+  //     }
+  //   });
+  //   // setLoading(false);
+  // }
 
   // void checkSignIn(BuildContext context) {
   //   if (_isEmailValid || _isPassValid) {

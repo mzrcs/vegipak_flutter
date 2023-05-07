@@ -53,6 +53,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 const SizedBox(height: 30),
                 textFieldWidget(
+                  context: context,
                   hintText: 'Email',
                   iconData: Icons.email,
                   controller: _emailController,

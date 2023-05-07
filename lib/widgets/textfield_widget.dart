@@ -1,6 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:vegipak/app/utils/constants.dart';
+
+Widget textFieldWidget1({
+  required BuildContext context,
+  required String hintText,
+  required IconData iconData,
+  required TextEditingController controller,
+  void Function(String)? onChanged,
+  TextInputType? textInputType,
+  bool? isPhoneField = false,
+  bool? readOnly = false,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(8),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          spreadRadius: 4,
+          blurRadius: 15,
+        )
+      ],
+    ),
+    child: TextFormField(
+      validator: (String? value) {
+        if (value == null || value.isEmpty) {
+          return 'Required';
+        }
+        return null;
+      },
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.center,
+      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+      controller: controller,
+      cursorColor: kGreenColor,
+      autofocus: false,
+      autocorrect: false,
+      keyboardType: textInputType,
+      obscureText: false,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        // icon: const Icon(Icons.email, color: kGreenColor),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Icon(iconData, color: kGreenColor),
+        ),
+        // counterText: '  ',
+        prefixText: '  ',
+        filled: true,
+        fillColor: Colors.white,
+        isCollapsed: true,
+        contentPadding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+        hintText: hintText,
+        hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              fontSize: 15,
+              color: Colors.grey.shade500,
+              fontWeight: FontWeight.w500,
+            ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+      ),
+    ),
+  );
+}
 
 Widget textFieldWidget({
+  required BuildContext context,
   required String hintText,
   required IconData iconData,
   required TextEditingController controller,
@@ -29,7 +100,7 @@ Widget textFieldWidget({
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: Icon(iconData, color: Colors.green)),
+              Expanded(child: Icon(iconData, color: kGreenColor)),
               if (isPhoneField) textWidget(text: '+92', fontSize: 17),
               if (isPhoneField) const SizedBox(width: 12),
             ],
@@ -47,6 +118,10 @@ Widget textFieldWidget({
             child: TextField(
               controller: controller,
               readOnly: readOnly!,
+              cursorColor: kGreenColor,
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
               // validator: (input) => validator(input),
 
               // onTap: () {
@@ -62,6 +137,11 @@ Widget textFieldWidget({
                 //   fontSize: 12,
                 //   fontWeight: FontWeight.normal,
                 // ),
+                hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                      fontSize: 15,
+                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w500,
+                    ),
                 hintText: hintText,
 
                 // errorStyle: const TextStyle(
@@ -110,7 +190,7 @@ Widget dropDownWidget({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Icon(iconData, color: Colors.green),
+                child: Icon(iconData, color: kGreenColor),
               ),
             ],
           ),
@@ -145,10 +225,12 @@ Widget dropDownWidget({
 Widget textWidget({
   required String text,
   double fontSize = 12,
-  FontWeight fontWeight = FontWeight.normal,
 }) {
   return Text(
     text,
-    style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+    style: TextStyle(
+      fontSize: fontSize,
+      color: Colors.grey.shade500,
+    ),
   );
 }

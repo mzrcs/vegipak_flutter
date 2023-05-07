@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:vegipak/app/auth/sign_in/provider/sign_in_prov.dart';
+import 'package:vegipak/app/auth/provider/login_provider.dart';
 
-import '../../../auth/sign_in/view/sign_in.dart';
+import '../../../auth/login_screen.dart';
 // import '../../../utils/routes/routes_name.dart';
 
 class ProfileProvider extends ChangeNotifier {
