@@ -1,11 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../auth/log_in.dart';
-import '../logic/cubit/user_cubit/user_cubit.dart';
-import '../logic/cubit/user_cubit/user_state.dart';
-// import '../navigation/navigation_bar/view/navigation_bar.dart';
-import '../utils/routes/routes_name.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vegipak/app/splash/splash_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,46 +13,41 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Timer? _timer;
+  // Timer? _timer;
 
   void goToNextScreen() async {
-    final userCubit = BlocProvider.of<UserCubit>(context);
-    final userState = userCubit.state;
+    final SharedPreferences sp = await SharedPreferences.getInstance();
 
-    if (userState is UserLoggedInState) {
-      Navigator.pushReplacementNamed(context, RouteName.home);
-    } else if (userState is UserLoggedOutState || userState is UserErrorState) {
-      // print('object');
-      Navigator.pushReplacementNamed(context, RouteName.login);
-    } else {
-      // Wait/404
-    }
+    sp.remove('email');
+    // sp.remove('first_name');
+    // sp.remove('last_name');
   }
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _timer = Timer(const Duration(microseconds: 2500), () {
-      goToNextScreen();
-    });
+  //   // _timer = Timer(const Duration(microseconds: 2500), () {
+  //   //   goToNextScreen();
+  //   // });
+  // }
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<SplashProvider>(context, listen: false).splashTimer(context);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserCubit, UserState>(
-      listener: (context, state) {
-        goToNextScreen();
-      },
-      child: const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 
-  @override
-  void dispose() {
-    _timer!.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _timer!.cancel();
+  //   super.dispose();
+  // }
 }

@@ -13,14 +13,13 @@ Widget textFieldWidget1({
 }) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(8),
-      ),
+      borderRadius: BorderRadius.circular(6),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.05),
           spreadRadius: 4,
-          blurRadius: 15,
+          blurRadius: 10,
+          offset: const Offset(0, 8),
         )
       ],
     ),
@@ -34,22 +33,23 @@ Widget textFieldWidget1({
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       style: Theme.of(context).textTheme.displaySmall!.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w400,
+            color: Colors.black87,
+            fontSize: 17,
           ),
       controller: controller,
       cursorColor: kGreenColor,
+      readOnly: readOnly!,
       autofocus: false,
       autocorrect: false,
       keyboardType: textInputType,
       obscureText: false,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        // icon: const Icon(Icons.email, color: kGreenColor),
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 6),
           child: Icon(iconData, color: kGreenColor),
         ),
-        // counterText: '  ',
         prefixText: '  ',
         filled: true,
         fillColor: Colors.white,
@@ -62,15 +62,16 @@ Widget textFieldWidget1({
               fontWeight: FontWeight.w500,
             ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide.none,
         ),
+        // errorText: 'This is the error text',
       ),
     ),
   );
 }
 
-Widget textFieldWidget({
+Widget phoneFieldWidget({
   required BuildContext context,
   required String hintText,
   required IconData iconData,

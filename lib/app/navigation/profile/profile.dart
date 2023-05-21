@@ -1,21 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/navigation/profile/provider/profile_provider.dart';
-import 'package:vegipak/widgets/button_widget.dart';
+import 'package:vegipak/app/utils/routes/routes_name.dart';
+// import 'package:vegipak/app/navigation/profile/widgets/logout_alert.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:provider/provider.dart';
+// import 'package:vegipak/app/navigation/profile/provider/profile_provider.dart';
+// import 'package:vegipak/widgets/button_widget.dart';
 
-import '../../logic/cubit/user_cubit/user_cubit.dart';
-import '../../logic/cubit/user_cubit/user_state.dart';
+// import '../../logic/cubit/user_cubit/user_cubit.dart';
+// import '../../logic/cubit/user_cubit/user_state.dart';
 
-class MyProfile extends StatefulWidget {
-  const MyProfile({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<MyProfile> createState() => _MyProfileState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _MyProfileState extends State<MyProfile> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -65,17 +69,7 @@ class _MyProfileState extends State<MyProfile> {
     // );
 
     return Scaffold(
-      body: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-        if (state is UserLoadingState || state is UserInitialState) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is UserErrorState) {
-          return Center(child: Text(state.message));
-        } else if (state is UserLoggedInState) {
-          return userProfile();
-        } else {
-          return const SizedBox();
-        }
-      }),
+      body: userProfile(),
     );
   }
 
@@ -102,41 +96,44 @@ class _MyProfileState extends State<MyProfile> {
             ),
             const SizedBox(height: 5),
             CupertinoButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, RouteName.editMyProfile);
+              },
               padding: EdgeInsets.zero,
               child: const Text("Edit Profile"),
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        // Divider(color: AppColors.text),
-        ListTile(
-          onTap: () {},
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.help, color: Colors.green),
-          title: const Text("Help"),
-        ),
-        ListTile(
-          onTap: () {},
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.help, color: Colors.green),
-          title: const Text("Privacy Policy"),
-        ),
-        ListTile(
-          onTap: () {},
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.help, color: Colors.green),
-          title: const Text("Terms of Use"),
-        ),
-        ListTile(
-          onTap: () {},
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.settings, color: Colors.green),
-          title: const Text("Settings"),
-        ),
+        // const SizedBox(height: 8),
+        // // Divider(color: AppColors.text),
+        // ListTile(
+        //   onTap: () {},
+        //   contentPadding: EdgeInsets.zero,
+        //   leading: const Icon(Icons.help, color: Colors.green),
+        //   title: const Text("Help"),
+        // ),
+        // ListTile(
+        //   onTap: () {},
+        //   contentPadding: EdgeInsets.zero,
+        //   leading: const Icon(Icons.help, color: Colors.green),
+        //   title: const Text("Privacy Policy"),
+        // ),
+        // ListTile(
+        //   onTap: () {},
+        //   contentPadding: EdgeInsets.zero,
+        //   leading: const Icon(Icons.help, color: Colors.green),
+        //   title: const Text("Terms of Use"),
+        // ),
+        // ListTile(
+        //   onTap: () {},
+        //   contentPadding: EdgeInsets.zero,
+        //   leading: const Icon(Icons.settings, color: Colors.green),
+        //   title: const Text("Settings"),
+        // ),
         ListTile(
           onTap: () {
-            BlocProvider.of<UserCubit>(context).signOut();
+            Provider.of<ProfileProvider>(context, listen: false)
+                .logOut(context);
           },
           contentPadding: EdgeInsets.zero,
           leading: const Icon(Icons.exit_to_app, color: Colors.red),

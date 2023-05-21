@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vegipak/app/darta/models/user/sign_in_token.dart';
 
 class UserDetails {
   String? token;

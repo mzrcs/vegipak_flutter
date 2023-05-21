@@ -1,14 +1,17 @@
-import 'dart:developer';
-
+// import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vegipak/app/auth/provider/sign_in_provider.dart';
+import 'package:vegipak/app/auth/provider/sign_up_provider.dart';
 // import 'package:vegipak/app/auth/otp/provider/otp_verification_prov.dart';
 // import 'package:vegipak/app/auth/otp/view/otp_screen.dart';
 // import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
 import 'package:vegipak/app/navigation/settings/provider/settings_provider.dart';
+import 'package:vegipak/app/navigation/vegitable/provider/product_provider.dart';
 // import 'package:vegipak/app/welcome/onboard_screen.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:vegipak/introduction_screens.dart/on_boarding_page.dart';
@@ -21,10 +24,13 @@ import 'package:vegipak/app/utils/routes/routes_name.dart';
 // import 'app/auth/check_sign_in_prov.dart';
 // import 'app/auth/login_screen.dart';
 // import 'app/auth/provider/login_provider.dart';
-import 'app/logic/cubit/user_cubit/user_cubit.dart';
+// import 'app/logic/cubit/user_cubit/user_cubit.dart';
 // import 'app/navigation/navigation_bar/provider/index_navigation.dart';
 // import 'app/navigation/profile/provider/profile_provider.dart';
 // import 'app/navigation/vegitable/provider/vegitable_prov.dart';
+import 'app/navigation/navigation_bar/provider/index_navigation.dart';
+import 'app/navigation/profile/provider/profile_provider.dart';
+import 'app/splash/splash_provider.dart';
 import 'app/utils/theme/app_theme.dart';
 
 void main() {
@@ -72,69 +78,66 @@ class _AppState extends State<App> {
     //   SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
     // );
 
-    return MultiBlocProvider(
+    return MultiProvider(
+      // create: (context) => SettingsProvider(),
       providers: [
-        BlocProvider(create: (context) => UserCubit()),
+        ChangeNotifierProvider(create: (context) => SplashProvider()),
+        //----------------
+
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => SignupProvider()),
+        ChangeNotifierProvider(create: (context) => NavigationIndex()),
+
+        ChangeNotifierProvider(create: (context) => ProductProvider(context)),
+
+        //----------------
+        ChangeNotifierProvider(create: (context) => ProfileProvider(context)),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
-      child: ChangeNotifierProvider(
-        create: (context) => SettingsProvider(),
-        // providers: [
-        //   //----------------
-        //   ChangeNotifierProvider(create: (context) => SignIn()),
-        //   ChangeNotifierProvider(create: (context) => VerifyOtpProvider()),
-        //   ChangeNotifierProvider(create: (context) => SplashProvider()),
-        //   ChangeNotifierProvider(create: (context) => NavigationIndex()),
-        //   ChangeNotifierProvider(create: (context) => VegitableProv()),
-        //   ChangeNotifierProvider(create: (context) => OrderProv()),
-        //   ChangeNotifierProvider(create: (context) => ProfileProvider()),
-        //   ChangeNotifierProvider(create: (context) => SettingsProvider()),
-        // ],
-        child:
-            Consumer<SettingsProvider>(builder: (context, settingsManager, _) {
-          ThemeData theme;
-          if (settingsManager.darkMode) {
-            theme = AppTheme.dark();
-          } else {
-            theme = AppTheme.light();
-          }
-          return MaterialApp(
-            title: 'VegiPak',
-            debugShowCheckedModeBanner: false,
-            theme: theme,
-            // theme: ThemeData(primarySwatch: Colors.green),
-            // home: _isIntroScreenShownAlready ? const Login() : const OnBoardingPage(),
-            onGenerateRoute: RouteGenerator.generateRoute,
-            initialRoute: RouteName.splash,
-            // home: const LoginScreen(),
-          );
-        }),
-      ),
+      child: Consumer<SettingsProvider>(builder: (context, settingsManager, _) {
+        ThemeData theme;
+        if (settingsManager.darkMode) {
+          theme = AppTheme.dark();
+        } else {
+          theme = AppTheme.light();
+        }
+        return MaterialApp(
+          title: 'VegiPak',
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          // theme: ThemeData(primarySwatch: Colors.green),
+          // home: _isIntroScreenShownAlready ? const Login() : const OnBoardingPage(),
+          onGenerateRoute: RouteGenerator.generateRoute,
+          initialRoute: RouteName.splash,
+          // home: const LoginScreen(),
+        );
+      }),
     );
   }
 }
 
-class MyBlocObserver extends BlocObserver {
-  @override
-  void onCreate(BlocBase bloc) {
-    log("Created: $bloc");
-    super.onCreate(bloc);
-  }
+// class MyBlocObserver extends BlocObserver {
+//   @override
+//   void onChange(BlocBase bloc, Change change) {
+//     log("Change in $bloc: $change");
+//     super.onChange(bloc, change);
+//   }
 
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    log("Change in $bloc: $change");
-    super.onChange(bloc, change);
-  }
+//   @override
+//   void onClose(BlocBase bloc) {
+//     log("Closed: $bloc");
+//     super.onClose(bloc);
+//   }
 
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    log("Change in $bloc: $transition");
-    super.onTransition(bloc, transition);
-  }
+//   @override
+//   void onCreate(BlocBase bloc) {
+//     log("Created: $bloc");
+//     super.onCreate(bloc);
+//   }
 
-  @override
-  void onClose(BlocBase bloc) {
-    log("Closed: $bloc");
-    super.onClose(bloc);
-  }
-}
+//   @override
+//   void onTransition(Bloc bloc, Transition transition) {
+//     log("Change in $bloc: $transition");
+//     super.onTransition(bloc, transition);
+//   }
+// }

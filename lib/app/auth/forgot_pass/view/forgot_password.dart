@@ -52,7 +52,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                textFieldWidget(
+                phoneFieldWidget(
                   context: context,
                   hintText: 'Email',
                   iconData: Icons.email,

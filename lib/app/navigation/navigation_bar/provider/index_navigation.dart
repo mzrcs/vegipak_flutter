@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../cart/view/my_cart.dart';
 import '../../order/view/my_order.dart';
-import '../../profile/my_profile.dart';
+import '../../profile/profile.dart';
 import '../../vegitable/all_vegitables.dart';
 
 class NavigationIndex extends ChangeNotifier {
@@ -9,8 +9,10 @@ class NavigationIndex extends ChangeNotifier {
   List pages = [
     const AllVegitables(),
     const MyCart(),
-    const MyOrder(),
-    const MyProfile(),
+    const AllVegitables(),
+    // const MyCart(),
+    // const MyOrder(),
+    const Profile(),
   ];
 
   void bottomNav(int value) {

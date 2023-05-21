@@ -48,6 +48,8 @@ dependencies:
   flutter_native_splash: ^2.2.16
   google_fonts: ^4.0.4
   font_awesome_flutter: ^10.4.0
+  internet_connection_checker: ^1.0.0+1
+  loading_animation_widget: ^1.2.0+4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -115,16 +117,26 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schyler
+  #   - family: Teko-Medium
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
+  #       - asset: assets/font/Teko-Medium.ttf
+  #       # - asset: assets\font\Teko-Regular.ttf
+  #         # style: italic
+  #   - family: PTSerif-Regular
   #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  #       - asset: assets/font/PTSerif-Regular.ttf
+  #       # - asset: assets\font\Teko-Regular.ttf
+  #         # style: italic
+  #   - family: PTSerif-Italic
+  #     fonts:
+  #       - asset: assets/font/PTSerif-Italic.ttf
+  #       # - asset: assets\font\Teko-Regular.ttf
+  #         # style:assets\font\PTSerif-Bold.ttf
+  #   - family: PTSerif-Bold
+  #     fonts:
+  #       - asset: assets/font/PTSerif-Bold.ttf
+  #       # - asset: assets\font\Teko-Regular.ttf
+  #         # style:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

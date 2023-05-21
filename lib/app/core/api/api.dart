@@ -12,12 +12,14 @@ class Api {
   Api() {
     _dio.options.baseUrl = BASE_URL;
     _dio.options.headers = DEFAULT_HEADERS;
-    _dio.interceptors.add(PrettyDioLogger(
-        // requestBody: true,
-        // requestHeader: true,
-        // responseBody: true,
-        // responseHeader: true,
-        ));
+    _dio.interceptors.add(
+      PrettyDioLogger(
+          // requestBody: true,
+          // requestHeader: true,
+          // responseBody: true,
+          // responseHeader: true,
+          ),
+    );
   }
 
   Dio get sendRequest => _dio;

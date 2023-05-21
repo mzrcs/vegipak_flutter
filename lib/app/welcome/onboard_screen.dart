@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../auth/check_sign_in_prov.dart';
+// import '../auth/check_sign_in_prov.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/size_config.dart';
 import 'onboard_content.dart';
@@ -21,12 +20,6 @@ class _OnboardScreenState extends State<OnboardScreen> {
       RouteName.login,
       (route) => false,
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    Provider.of<SplashProvider>(context, listen: false).splashTimer(context);
-    super.didChangeDependencies();
   }
 
   @override

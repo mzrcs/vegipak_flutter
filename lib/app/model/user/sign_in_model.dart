@@ -1,5 +1,5 @@
-class UserModel {
-  UserModel({
+class SignInModel {
+  SignInModel({
     required this.email,
     required this.password,
   });
@@ -7,7 +7,7 @@ class UserModel {
   String email;
   String password;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory SignInModel.fromJson(Map<String, dynamic> json) => SignInModel(
         email: json["email"],
         password: json["password"],
       );

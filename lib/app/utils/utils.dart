@@ -58,6 +58,19 @@ class Utils {
     );
   }
 
+  static void showSnackbar(
+    BuildContext context,
+    String msg,
+  ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: Colors.red.withOpacity(.8),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
   // DATE FORMAT
   String dateFormat(String date) {
     var parsedDate = DateTime.parse(date);

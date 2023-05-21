@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/utils/constants.dart';
-
 import '../../../widgets/textfield_widget.dart';
-import '../../navigation/settings/provider/settings_provider.dart';
-import '../../utils/routes/routes_name.dart';
-import '../provider/signup_provider.dart';
+// import '../../utils/routes/routes_name.dart';
+import '../provider/sign_up_provider.dart';
 import 'auth_bottom_rich_text.dart';
 import 'auth_confim_button.dart';
 
-class SignupForm extends StatefulWidget {
-  const SignupForm({
+class SignUpForm extends StatelessWidget {
+  const SignUpForm({
     super.key,
     required this.formKey,
     required this.firstNameController,
@@ -30,136 +29,129 @@ class SignupForm extends StatefulWidget {
   final TextEditingController addressController;
 
   @override
-  State<SignupForm> createState() => _SignupFormState();
-}
-
-class _SignupFormState extends State<SignupForm> {
-  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SignupProvider>(context);
+    return Consumer<SignupProvider>(builder: (context, provider, _) {
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 8),
+            IconButton(
+              padding: const EdgeInsets.only(left: 12.0),
+              splashRadius: 20,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const FaIcon(
+                FontAwesomeIcons.arrowLeftLong,
+                color: Colors.grey,
+                size: 21,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'Sign up',
+                style: Theme.of(context)
+                    .textTheme
+                    .displayLarge!
+                    .copyWith(fontSize: 30, color: Colors.black87),
+              ),
+            ),
 
-    final settingsManager =
-        Provider.of<SettingsProvider>(context, listen: false);
+            const SizedBox(height: 30),
 
-    return SafeArea(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(18.0).copyWith(top: 8),
-            child: Form(
-              key: widget.formKey,
-              child: SingleChildScrollView(
+            // Signup Form
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Form(
+                key: formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // SizedBox(height: MediaQuery.of(context).size.height / 12),
-                    Text(
-                      'Sign up',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(fontSize: 34),
-                    ),
-                    const SizedBox(height: 50),
-
-                    (provider.error != "")
-                        ? Text(provider.error,
-                            style: const TextStyle(color: Colors.red))
-                        : const SizedBox(),
-
-                    const SizedBox(height: 12),
-
                     // !: First Name field
                     textFieldWidget1(
                       context: context,
                       hintText: 'First Name',
                       iconData: Icons.person,
-                      controller: widget.firstNameController,
+                      controller: firstNameController,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     // !: Last Name field
                     textFieldWidget1(
                       context: context,
                       hintText: 'Last Name',
                       iconData: Icons.person,
-                      controller: widget.lastNameController,
+                      controller: lastNameController,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     // !: Email field
                     textFieldWidget1(
                       context: context,
                       hintText: 'Email',
                       iconData: Icons.email,
-                      controller: widget.emailController,
+                      controller: emailController,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     // !: Phone field
-                    textFieldWidget(
+                    phoneFieldWidget(
                       context: context,
                       hintText: '3xxxxxxxxx',
                       iconData: Icons.phone,
                       isPhoneField: true,
-                      controller: widget.phoneController,
+                      controller: phoneController,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     // !: Password field
                     textFieldWidget1(
                       context: context,
                       hintText: 'Password',
                       iconData: Icons.lock,
-                      controller: widget.passwordController,
+                      controller: passwordController,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
 
                     // !: Address field
                     textFieldWidget1(
                       context: context,
                       hintText: 'Address',
                       iconData: Icons.home,
-                      controller: widget.addressController,
+                      controller: addressController,
                     ),
+                    const SizedBox(height: 30),
+                    Consumer<SignupProvider>(builder: (context, value, _) {
+                      return AuthConfirmButton(
+                        isLoading: value.isLoading,
+                        title: 'Sign up',
+                        callBack: () {
+                          Provider.of<SignupProvider>(context, listen: false)
+                              .signUp(context);
+                        },
+                      );
+                    }),
 
-                    const SizedBox(height: 40),
-                    AuthConfirmButton(
-                      title: 'Sign up',
-                      callBack: provider.createAccount,
-                    ),
-
-                    SizedBox(height: MediaQuery.of(context).size.height / 8),
+                    SizedBox(height: MediaQuery.of(context).size.height / 10),
                     AuthBottomRichText(
-                      detailText: 'Already have an account? ',
-                      clickableText: 'Log in',
+                      detailText: 'Already hav an account? ',
+                      clickableText: 'Sign In',
                       onTap: () {
-                        Navigator.pushNamed(context, RouteName.login);
+                        Navigator.pop(context);
                       },
                       darkColor: Colors.grey.shade500,
                       lightColor: kGreenColor,
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: provider.isLoading
-                ? LinearProgressIndicator(
-                    backgroundColor:
-                        settingsManager.darkMode ? Colors.white : Colors.white,
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: 4),
-                  ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

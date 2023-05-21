@@ -1,13 +1,16 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:vegipak/app/auth/provider/login_provider.dart';
-
-import '../../../auth/login_screen.dart';
-// import '../../../utils/routes/routes_name.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../model/user/token.dart';
+import '../../../utils/routes/routes_name.dart';
 
 class ProfileProvider extends ChangeNotifier {
+  ProfileProvider(context) {
+    getSavedData(context);
+  }
+
+  AuthModel authModel = AuthModel();
+
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
   bool _loading = false;
@@ -18,30 +21,59 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout(BuildContext context) async {
-    setLoading(true);
-    await storage.delete(key: 'token');
-    Future.delayed(const Duration(seconds: 3)).then((value) {
-      setLoading(false);
-      // Navigator.pushNamed(context, RouteName.login);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-        builder: (context) {
-          return const LoginScreen();
-        },
-      ), (route) => false);
-    });
-    // setLoading(false);
+  final emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  String? email;
+
+  Future<void> getSavedData(context) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    email = sp.getString('email');
+    emailController.text = email!;
+    notifyListeners();
+  }
+
+  // void updateMyProfile(BuildContext context) {
+  //   if (formKey.currentState!.validate()) {
+  //     formKey.currentState!.save();
+
+  //     setLoading(true);
+
+  //     // final SignInModel signinModel = SignInModel(
+  //     //   email: emailController.text,
+  //     //   password: passwordController.text,
+  //     // );
+
+  //     userServices.signinUser(model: signinModel).then((value) {
+  //       if (value != null) {
+  //         setLoading(false);
+
+  //         storage.write(key: 'token', value: value.token);
+  //         saveUser(value);
+
+  //         Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
+  //         Navigator.pushReplacementNamed(context, RouteName.home);
+
+  //         clearTextfield();
+  //       } else {
+  //         setLoading(false);
+  //         return;
+  //       }
+  //     });
+  //   }
+  // }
+
+  removeData() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove('email');
   }
 
   void logOut(context) async {
-    setLoading(true);
     await storage.delete(key: 'token');
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-          (route) => false);
-      setLoading(false);
-    });
+    removeData();
+
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteName.login, (route) => false);
     notifyListeners();
   }
 }

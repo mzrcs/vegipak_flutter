@@ -1,14 +1,12 @@
+
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DioException {
-  void dioError(
-    Object e,
-  ) {
+  void dioError(Object e) {
     if (e is DioError) {
       if (e.response?.statusCode == 401) {
         AppToast.showToast('Invalid input', Colors.red);
@@ -18,7 +16,8 @@ class DioException {
         //   Colors.red,
         // );
       } else if (e.response?.statusCode == 400) {
-        AppToast.showToast('Unknown fieldt', Colors.red);
+        print(e.response!.data);
+        AppToast.showToast('Unknown field', Colors.red);
       } else if (e.response?.statusCode == 403) {
         AppToast.showToast('User credential is not working', Colors.red);
         // SnackBarPop.popUp(

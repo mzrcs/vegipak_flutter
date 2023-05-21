@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vegipak/app/utils/constants.dart';
 
 class AuthConfirmButton extends StatelessWidget {
@@ -6,18 +7,20 @@ class AuthConfirmButton extends StatelessWidget {
     Key? key,
     required this.title,
     required this.callBack,
+    this.isLoading = false,
   }) : super(key: key);
   final String title;
   final Function()? callBack;
+  final bool? isLoading;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Material(
-        color: kGreenColor,
+        color: isLoading! ? kGreyColor4 : kGreenColor,
         elevation: 4,
         child: InkWell(
-          onTap: callBack,
+          onTap: isLoading! ? null : callBack,
           child: Ink(
             height: 50,
             width: MediaQuery.of(context).size.width,
@@ -28,14 +31,20 @@ class AuthConfirmButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                isLoading!
+                    ? LoadingAnimationWidget.staggeredDotsWave(
                         color: Colors.white,
+                        size: 28,
+                      )
+                    : Text(
+                        title,
+                        style:
+                            Theme.of(context).textTheme.displayMedium!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                       ),
-                ),
               ],
             ),
           ),

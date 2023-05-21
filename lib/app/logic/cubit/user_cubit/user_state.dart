@@ -1,6 +1,3 @@
-import 'package:vegipak/app/darta/models/user/sign_in_token.dart';
-
-import '../../../darta/models/user/user_model.dart';
 
 abstract class UserState {}
 
