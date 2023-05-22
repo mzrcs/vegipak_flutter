@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vegipak/screens/home_screen.dart';
 
 import '../functions.dart' as Functions;
-import '../constants.dart' as Constants;
+import '../app/constants.dart' as Constants;
 import '../globals.dart' as Globals;
 
 class Login extends StatefulWidget {

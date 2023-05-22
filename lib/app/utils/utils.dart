@@ -58,15 +58,20 @@ class Utils {
     );
   }
 
-  static void showSnackbar(
+  static Future<void> snackBarPopUp(
     BuildContext context,
-    String msg,
-  ) {
+    String text,
+    Color color,
+  ) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg),
-        backgroundColor: Colors.red.withOpacity(.8),
-        behavior: SnackBarBehavior.floating,
+        content: Text(
+          text,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+        ),
+        backgroundColor: color,
+        duration: const Duration(seconds: 3),
       ),
     );
   }

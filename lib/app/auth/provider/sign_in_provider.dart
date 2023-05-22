@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vegipak/app/model/user/token.dart';
 import 'package:vegipak/app/services/user_service.dart';
 import 'package:vegipak/app/utils/routes/routes_name.dart';
+import 'package:vegipak/app/utils/utils.dart';
 import '../../model/user/sign_in_model.dart';
 import '../../navigation/navigation_bar/provider/index_navigation.dart';
 
@@ -50,7 +51,7 @@ class LoginProvider extends ChangeNotifier {
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  UserService userServices = UserService();
+  final UserService _userServices = UserService();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -64,7 +65,10 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void signIn(BuildContext context) {
+  Future loginApi(BuildContext context) async {
+    final provider = Provider.of<NavigationIndex>(context, listen: false);
+    final navigator = Navigator.of(context);
+
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
@@ -75,7 +79,45 @@ class LoginProvider extends ChangeNotifier {
         password: passwordController.text,
       );
 
-      userServices.signinUser(model: signinModel).then((value) {
+      _userServices.signinUser(model: signinModel).then((value) async {
+        if (value != null) {
+          setLoading(false);
+
+          Utils.snackBarPopUp(context, 'Login Successful ✓', Colors.green);
+
+          await storage.write(key: 'token', value: value.token);
+
+          saveUser(value);
+
+          provider.currentIndex = 0;
+          navigator.pushReplacementNamed(RouteName.home);
+
+          clearTextfield();
+        } else {
+          setLoading(false);
+        }
+      }).onError((error, stackTrace) {
+        // If there's an error with the API call, set the login loading state to false.
+        setLoading(false);
+
+        // Show an error message using a Snackbar.
+        Utils.snackBarPopUp(context, error.toString(), Colors.red);
+      });
+    }
+  }
+
+  Future<void> signIn(BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      setLoading(true);
+
+      final SignInModel signinModel = SignInModel(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      await _userServices.signinUser(model: signinModel).then((value) {
         if (value != null) {
           setLoading(false);
 

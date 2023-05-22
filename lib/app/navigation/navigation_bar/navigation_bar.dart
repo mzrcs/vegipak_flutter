@@ -1,11 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-// import 'package:vegipak/app/logic/cubit/user_cubit/user_cubit.dart';
-// import 'package:vegipak/app/utils/routes/routes_name.dart';
-// import '../../logic/cubit/user_cubit/user_state.dart';
-// import '../../splash/splash_screen.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 import 'provider/index_navigation.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
@@ -40,7 +36,15 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 inactiveColor: Colors.grey,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.shopping_cart_checkout_outlined),
+                icon: Consumer<CartProvider>(builder: (context, value, _) {
+                  return value.totalProductCount == 0
+                      ? const Icon(Icons.shopping_cart_checkout_outlined)
+                      : Badge(
+                          label: Text(value.cartList.length.toString()),
+                          child:
+                              const Icon(Icons.shopping_cart_checkout_outlined),
+                        );
+                }),
                 title: const Text('Cart'),
                 activeColor: Colors.green,
                 inactiveColor: Colors.grey,
@@ -59,7 +63,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               ),
             ],
             onItemSelected: (index) {
-              print('object $index');
               Provider.of<NavigationIndex>(context, listen: false)
                   .bottomNav(index);
             },

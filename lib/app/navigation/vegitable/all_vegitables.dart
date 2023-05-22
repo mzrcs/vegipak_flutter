@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/core/const.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/provider/product_provider.dart';
+import 'package:vegipak/app/navigation/vegitable/widget/custom_dialog_box.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/vegi_product_item.dart';
 import '../../utils/constants.dart';
 
@@ -68,6 +70,9 @@ class AllVegitables extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () async {
+                                    Provider.of<CartProvider>(context,
+                                            listen: false)
+                                        .quantity = 1;
                                     // int qunt = 0;
                                     // var getItem = Checkout.instance.checkout
                                     //     .firstWhereOrNull((element) {
@@ -77,19 +82,14 @@ class AllVegitables extends StatelessWidget {
                                     //   // print(getItem);
                                     //   qunt = getItem['qty'];
                                     // }
-                                    // var qty = await showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) {
-                                    //     return CustomDialogBox(
-                                    //       id: value.items[index].id,
-                                    //       title: value.items[index].productName,
-                                    //       price: value.items[index].price,
-                                    //       image: value.items[index].image,
-                                    //       unit: value.items[index].unit,
-                                    //       qty: 0,
-                                    //     );
-                                    //   },
-                                    // );
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CustomDialogBox(
+                                          product: value.productList[index],
+                                        );
+                                      },
+                                    );
 
                                     // if (qty != null) {
                                     //   if (Checkout.instance.checkout.isEmpty && qty > 0) {

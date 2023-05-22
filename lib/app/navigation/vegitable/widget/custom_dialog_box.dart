@@ -1,11 +1,152 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
-import 'package:vegipak/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:vegipak/app/model/product/product_model.dart';
+import 'package:vegipak/app/constants.dart';
+import '../../../model/cart/cart_model.dart';
+import '../../cart/provider/cart_provider.dart';
+import 'add_or_remove_button.dart';
 
-class CustomDialogBox extends StatefulWidget {
+class CustomDialogBox extends StatelessWidget {
+  const CustomDialogBox({Key? key, required this.product}) : super(key: key);
+  final ProductModel product;
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<CartProvider>(context, listen: false);
+
+    return Consumer<CartProvider>(builder: (context, value, _) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Constants.padding),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  left: Constants.padding,
+                  top: Constants.avatarRadius,
+                  right: Constants.padding,
+                  bottom: Constants.padding,
+                ),
+                margin: const EdgeInsets.only(top: Constants.avatarRadius),
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(Constants.padding),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black45,
+                      offset: Offset(0, 10),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '${product.englishName} / ${product.urduName}',
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      "Price : ${product.salePrice}/${product.unit}",
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 22),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        AddOrRemoveButton(
+                          icon: Icons.remove,
+                          onTap: () {
+                            provider.decreaseQty();
+                          },
+                        ),
+                        AnimatedFlipCounter(
+                          value: value.quantity,
+                          duration: const Duration(milliseconds: 500),
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          curve: Curves.fastOutSlowIn,
+                          textStyle: const TextStyle(
+                              fontSize: 20, color: Colors.black),
+                        ),
+                        AddOrRemoveButton(
+                          icon: Icons.add,
+                          onTap: () {
+                            provider.increaseQty();
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 70),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: Constants.avatarRadius,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                      Radius.circular(Constants.avatarRadius)),
+                  child: Image.network(product.imageUrl),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 70,
+              right: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  var cartItem = CartModel(
+                    quantity: value.quantity,
+                    product: product,
+                  );
+                  value.addToCart(cartItem, context);
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(100),
+                          bottomRight: Radius.circular(10)),
+                      color: Colors.green),
+                  child: const Text(
+                    'Add to cart',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class CustomDialogBox2 extends StatefulWidget {
   final int id, qty;
   final String title, price, image, unit;
 
-  const CustomDialogBox({
+  const CustomDialogBox2({
     Key? key,
     required this.id,
     required this.title,
@@ -16,10 +157,10 @@ class CustomDialogBox extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomDialogBox> createState() => _CustomDialogBoxState();
+  State<CustomDialogBox2> createState() => _CustomDialogBox2State();
 }
 
-class _CustomDialogBoxState extends State<CustomDialogBox> {
+class _CustomDialogBox2State extends State<CustomDialogBox2> {
   int counter = 0;
   late TextEditingController _controller;
 

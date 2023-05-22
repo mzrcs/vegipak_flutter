@@ -12,11 +12,12 @@ class UpdateMyProfile extends StatefulWidget {
 class _UpdateMyProfileState extends State<UpdateMyProfile> {
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   ((timeStamp) {
-    //     Provider.of<ProfileProvider>(context, listen: false).getSavedData();
-    //   }),
-    // );
+    WidgetsBinding.instance.addPostFrameCallback(
+      ((timeStamp) {
+        Provider.of<ProfileProvider>(context, listen: false)
+            .getSavedData(context);
+      }),
+    );
 
     return Scaffold(
       appBar: AppBar(),

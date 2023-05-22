@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/constants.dart';
+import 'package:vegipak/app/constants.dart';
 
 Widget logoWidget() {
   return Container(

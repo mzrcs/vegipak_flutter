@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/constants.dart';
+import 'package:vegipak/app/constants.dart';
 import 'package:vegipak/mixins/checkout_validations.dart';
 
 class ConfirmOrder extends StatefulWidget {
@@ -52,10 +52,11 @@ class _ConfirmOrderState extends State<ConfirmOrder> with CheckoutValidations {
                   width: MediaQuery.of(context).size.width * 1,
                   height: MediaQuery.of(context).size.height * 0.8,
                   padding: const EdgeInsets.only(
-                      left: Constants.padding,
-                      top: 10,
-                      right: Constants.padding,
-                      bottom: Constants.padding),
+                    left: Constants.padding,
+                    top: 10,
+                    right: Constants.padding,
+                    bottom: Constants.padding,
+                  ),
                   margin: const EdgeInsets.only(top: 0),
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,

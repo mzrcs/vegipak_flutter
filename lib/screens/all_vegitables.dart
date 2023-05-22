@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/constants.dart';
+import 'package:vegipak/app/constants.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/custom_dialog_box.dart';
 import 'package:vegipak/models/item.dart';
 import 'package:collection/collection.dart';
@@ -103,7 +103,7 @@ class _AllVegitablesState extends State<AllVegitables> {
                       var qty = await showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return CustomDialogBox(
+                          return CustomDialogBox2(
                             id: items[index].id,
                             title: items[index].productName,
                             price: items[index].price,

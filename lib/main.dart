@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vegipak/app/auth/provider/sign_in_provider.dart';
 import 'package:vegipak/app/auth/provider/sign_up_provider.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
+import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
 // import 'package:vegipak/app/auth/otp/provider/otp_verification_prov.dart';
 // import 'package:vegipak/app/auth/otp/view/otp_screen.dart';
 // import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
@@ -89,6 +91,8 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => NavigationIndex()),
 
         ChangeNotifierProvider(create: (context) => ProductProvider(context)),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProv()),
 
         //----------------
         ChangeNotifierProvider(create: (context) => ProfileProvider(context)),

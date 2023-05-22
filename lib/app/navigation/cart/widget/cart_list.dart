@@ -1,77 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
+import 'package:vegipak/app/navigation/cart/widget/cart_item.dart';
 
 class CartListWidget extends StatelessWidget {
   const CartListWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userCart = [];
-    return userCart.isEmpty
-        ? const SizedBox(
-            child: Center(
-              child: Text('Cart is Empty'),
-            ),
-          )
-        : ListView.separated(
-            separatorBuilder: (context, index) => const Divider(
-              color: Colors.green,
-              thickness: 1,
-            ),
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: userCart.length,
-            itemBuilder: (context, index) {
-              // var cartItems = Checkout.instance.checkout;
-              // var item = userCart.items[index];
-              return ListTile(
-                leading: Image.asset(''),
-                trailing: IconButton(
-                    onPressed: () {
-                      // setState(() {
-                      //   Checkout.instance.removeItem(index);
-                      //   userCart = Checkout.instance.getUserCart(items);
-                      //   widget.onCartChange(Checkout.instance.checkout.length);
-                      // });
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    )),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'item.productName',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          "\$",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
-                          textAlign: TextAlign.left,
-                        )
-                      ],
+    return Consumer<CartProvider>(
+      builder: (context, value, _) {
+        var cartItems = value.cartList;
+        return value.cartList.isEmpty
+            ? SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: const Center(
+                  child: Text(
+                    'CART IS EMPTY',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      letterSpacing: 1,
+                      fontFamily: 'Teko-Medium',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 20,
                     ),
-                    Text(
-                      'x',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14),
-                    ),
-                    Text(
-                      "",
-                      style: const TextStyle(
-                          color: Colors.green,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+                  ),
                 ),
+              )
+            : ListView.separated(
+                separatorBuilder: (context, index) => const Divider(
+                  color: Colors.green,
+                  thickness: 1,
+                ),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  var cartItem = cartItems[index];
+
+                  return CartItem(
+                    product: cartItem.product,
+                    quantity: cartItem.quantity,
+                    onPressed: () {
+                      value.removeToCart(cartItem, context);
+                    },
+                  );
+                },
               );
-            },
-          );
+      },
+    );
   }
 }

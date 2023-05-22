@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../constants.dart';
-import '../view/confirm_order.dart';
+import 'package:provider/provider.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
+import 'package:vegipak/app/utils/utils.dart';
+import '../../../constants.dart';
+import '../confirm_order.dart';
 
 class CartConfirmOrdreWidget extends StatelessWidget {
   const CartConfirmOrdreWidget({super.key});
@@ -28,6 +31,7 @@ class CartConfirmOrdreWidget extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -40,9 +44,10 @@ class CartConfirmOrdreWidget extends StatelessWidget {
                         child: Text(
                           'Total :',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ],
@@ -56,13 +61,18 @@ class CartConfirmOrdreWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 16),
                         child: Align(
                           alignment: Alignment.topRight,
-                          child: Text(
-                            '${Constants.currencySymbol} 0',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.1),
+                          child: Consumer<CartProvider>(
+                            builder: (context, value, _) {
+                              return Text(
+                                '${Constants.currencySymbol} ${value.subTotal}',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.09),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -71,36 +81,37 @@ class CartConfirmOrdreWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                ),
-                onPressed: () async {
-                  // if (userCart.totalItems > 0) {
-                  // await showDialog(
-                  //     context: context,
-                  //     builder: (BuildContext context) {
-                  //       return const CheckoutDialog();
-                  //     });
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const ConfirmOrder(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Confirm Order',
-                  style: TextStyle(
+            Consumer<CartProvider>(builder: (context, value, _) {
+              return Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+                  onPressed: () {
+                    if (value.totalProductCount > 0) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ConfirmOrder(),
+                        ),
+                      );
+                    } else {
+                      Utils.snackBarPopUp(
+                          context, 'Not Item Add To cart', Colors.black);
+                    }
+                  },
+                  child: const Text(
+                    'Confirm Order',
+                    style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.w600,
-                      fontSize: 22),
+                      fontSize: 22,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

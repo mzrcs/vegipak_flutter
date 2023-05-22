@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/constants.dart';
+import 'package:vegipak/app/constants.dart';
 import 'package:vegipak/models/item.dart';
 import 'package:vegipak/models/cart.dart';
 import 'package:vegipak/screens/confirm_order.dart';
