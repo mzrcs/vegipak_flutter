@@ -8,6 +8,7 @@ class ProductServices {
   Future<List<ProductModel>?> vegitableProducts(context) async {
     Dio dios = await ApiInterceptor().getApiUser();
     try {
+      
       Response response = await dios.get("$BASE_URL/product/show");
 
       // ApiResponse apiResponse = ApiResponse.fromResponse(response);

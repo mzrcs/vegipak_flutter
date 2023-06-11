@@ -52,7 +52,7 @@ class CartItem extends StatelessWidget {
                     softWrap: false,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 15.sp,
+                      fontSize: 14.sp,
                     ),
                   ),
                 ),
@@ -70,7 +70,6 @@ class CartItem extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w100, fontSize: 12.sp),
             ),
             Text(
-              // "400",
               "${Constants.currencySymbol} ${product.salePrice * quantity}",
               style: TextStyle(
                 color: Colors.green,

@@ -205,7 +205,7 @@ class AppTheme {
           statusBarBrightness: Brightness.light,
         ),
         elevation: 0,
-        backgroundColor: Colors.white,
+        color: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),

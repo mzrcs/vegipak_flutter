@@ -71,6 +71,63 @@ Widget textFieldWidget1({
   );
 }
 
+Widget textFieldWidget2({
+  required BuildContext context,
+  required String hintText,
+  required TextEditingController controller,
+  void Function(String)? onChanged,
+  TextInputType? textInputType,
+  bool? isPhoneField = false,
+  bool? readOnly = false,
+}) {
+  return TextFormField(
+    validator: (String? value) {
+      if (value == null || value.isEmpty) {
+        return 'Required';
+      }
+      return null;
+    },
+    textAlign: TextAlign.start,
+    textAlignVertical: TextAlignVertical.center,
+    style: Theme.of(context).textTheme.displaySmall!.copyWith(
+          fontWeight: FontWeight.w400,
+          color: Colors.black87,
+          fontSize: 17,
+        ),
+    controller: controller,
+    cursorColor: MyColors.kGreenColor,
+    readOnly: readOnly!,
+    autofocus: false,
+    autocorrect: false,
+    keyboardType: textInputType,
+    obscureText: false,
+    textInputAction: TextInputAction.done,
+    decoration: InputDecoration(
+      // prefixIcon: Padding(
+      //   padding: const EdgeInsets.only(left: 6),
+      //   child: Icon(iconData, color: MyColors.kGreenColor),
+      // ),
+      prefixText: ' ',
+      filled: true,
+      fillColor: Colors.white,
+      isCollapsed: true,
+      contentPadding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+      hintText: hintText,
+      hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            fontSize: 15,
+            color: Colors.grey.shade500,
+            fontWeight: FontWeight.w500,
+          ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+      ),
+
+      // errorText: 'This is the error text',
+    ),
+  );
+}
+
 Widget phoneFieldWidget({
   required BuildContext context,
   required String hintText,

@@ -1,8 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vegipak/app/model/cart/cart_model.dart';
+import 'package:vegipak/app/model/order/my_order_model.dart';
 import 'package:vegipak/app/utils/utils.dart';
+
+import '../../../services/order_service.dart';
+import '../../../utils/routes/routes_name.dart';
+import '../../navigation_bar/provider/index_navigation.dart';
 
 class CartProvider extends ChangeNotifier {
   bool tapField = false;
@@ -62,38 +66,70 @@ class CartProvider extends ChangeNotifier {
     return double.parse(subTotal.toStringAsFixed(4));
   }
 
-  Future<void> orderNow() async {
-    Map<String, dynamic> data = {
-      "user_id": 1,
-      "phone": "0335233451",
-      "district_area_id": 8,
-      "address": "Addresss ASD",
-      "extra_notes": "Hello Buddy",
-      "status": "pending",
-      "total_price": int.parse(subTotal.toStringAsFixed(0)),
-      "line_items": cartList.map((e) => e.toJson()).toList(),
-    };
+  final OrderService _orderServices = OrderService();
 
-    print(jsonEncode(data));
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final noteController = TextEditingController();
 
-    // final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+  final formKey = GlobalKey<FormState>();
 
-    // await _userServices.signinUser(model: signinModel).then((value) {
-    //   if (value != null) {
-    //     setLoading(false);
+  bool _loading = false;
+  bool get isLoading => _loading;
 
-    //     storage.write(key: 'token', value: value.token);
+  setLoading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
 
-    //     userPrefrence.saveUser(value);
+  Future<void> orderNow(BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
 
-    //     Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-    //     Navigator.pushReplacementNamed(context, RouteName.home);
+      setLoading(true);
 
-    //     clearTextfield();
-    //   } else {
-    //     setLoading(false);
-    //     return;
-    //   }
-    // });
+      final MyOrderModel myOrderModel = MyOrderModel(
+        userId: 1,
+        phone: phoneController.text,
+        areaId: 8,
+        address: addressController.text,
+        note: noteController.text,
+        status: 'Pending',
+        total: int.parse(subTotal.toStringAsFixed(0)),
+        cartItems: cartList,
+      );
+
+      // print(jsonEncode(myOrderModel.toJson()));
+
+      await _orderServices.createOrder(model: myOrderModel).then((value) {
+        print(value);
+        if (value != null) {
+          setLoading(false);
+
+          // print('value $value');
+
+          Utils.snackBarPopUp(
+              context, "Order Created Successfully", Colors.green);
+
+          Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
+          Navigator.pushReplacementNamed(context, RouteName.home);
+
+          cartList.clear();
+          clearTextfield();
+        } else {
+          print('object');
+          setLoading(false);
+          return;
+        }
+      });
+    }
+  }
+
+  //----------------- Clear Textformfield
+  void clearTextfield() {
+    phoneController.clear();
+    addressController.clear();
+    noteController.clear();
+    notifyListeners();
   }
 }

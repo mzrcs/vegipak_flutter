@@ -41,4 +41,26 @@ class ApiResponse {
       message: data["message"] ?? "Unexpected error",
     );
   }
+
+
+}
+
+
+
+class ApiResponse2 {
+  String status;
+  dynamic data;
+  String? message;
+
+  ApiResponse2({required this.status, this.data, this.message});
+
+  factory ApiResponse2.fromResponse(Response response) {
+    final data = response.data as Map<String, dynamic>;
+    // print('error data $data');
+    return ApiResponse2(
+      status: data["status"],
+      data: data["body"],
+      message: data["message"] ?? "Unexpected error",
+    );
+  }
 }
