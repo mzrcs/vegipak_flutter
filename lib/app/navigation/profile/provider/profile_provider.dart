@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../auth/provider/user_provider.dart';
 import '../../../model/user/token.dart';
 import '../../../utils/routes/routes_name.dart';
 
@@ -63,14 +65,11 @@ class ProfileProvider extends ChangeNotifier {
   //   }
   // }
 
-  removeData() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove('email');
-  }
-
   void logOut(context) async {
+    final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+
     await storage.delete(key: 'token');
-    removeData();
+    userPrefrence.remove();
 
     Navigator.pushNamedAndRemoveUntil(
         context, RouteName.login, (route) => false);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vegipak/app/utils/constants.dart';
+import '../core/constants/my_colors.dart';
 
 Widget textFieldWidget1({
   required BuildContext context,
@@ -38,7 +38,7 @@ Widget textFieldWidget1({
             fontSize: 17,
           ),
       controller: controller,
-      cursorColor: kGreenColor,
+      cursorColor: MyColors.kGreenColor,
       readOnly: readOnly!,
       autofocus: false,
       autocorrect: false,
@@ -48,7 +48,7 @@ Widget textFieldWidget1({
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 6),
-          child: Icon(iconData, color: kGreenColor),
+          child: Icon(iconData, color: MyColors.kGreenColor),
         ),
         prefixText: '  ',
         filled: true,
@@ -101,7 +101,7 @@ Widget phoneFieldWidget({
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: Icon(iconData, color: kGreenColor)),
+              Expanded(child: Icon(iconData, color: MyColors.kGreenColor)),
               if (isPhoneField) textWidget(text: '+92', fontSize: 17),
               if (isPhoneField) const SizedBox(width: 12),
             ],
@@ -119,7 +119,7 @@ Widget phoneFieldWidget({
             child: TextField(
               controller: controller,
               readOnly: readOnly!,
-              cursorColor: kGreenColor,
+              cursorColor: MyColors.kGreenColor,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -191,7 +191,7 @@ Widget dropDownWidget({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Icon(iconData, color: kGreenColor),
+                child: Icon(iconData, color: MyColors.kGreenColor),
               ),
             ],
           ),

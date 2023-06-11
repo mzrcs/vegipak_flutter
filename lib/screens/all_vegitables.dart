@@ -91,55 +91,55 @@ class _AllVegitablesState extends State<AllVegitables> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () async {
-                      int qunt = 0;
-                      var getItem = Checkout.instance.checkout
-                          .firstWhereOrNull((element) {
-                        return element['id'] == items[index].id;
-                      });
-                      if (getItem != null) {
-                        // print(getItem);
-                        qunt = getItem['qty'];
-                      }
-                      var qty = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CustomDialogBox2(
-                            id: items[index].id,
-                            title: items[index].productName,
-                            price: items[index].price,
-                            image: items[index].image,
-                            unit: items[index].unit,
-                            qty: qunt,
-                          );
-                        },
-                      );
+                      // int qunt = 0;
+                      // var getItem = Checkout.instance.checkout
+                      //     .firstWhereOrNull((element) {
+                      //   return element['id'] == items[index].id;
+                      // });
+                      // if (getItem != null) {
+                      //   // print(getItem);
+                      //   qunt = getItem['qty'];
+                      // }
+                      // var qty = await showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return CustomDialogBox2(
+                      //       id: items[index].id,
+                      //       title: items[index].productName,
+                      //       price: items[index].price,
+                      //       image: items[index].image,
+                      //       unit: items[index].unit,
+                      //       qty: qunt,
+                      //     );
+                      //   },
+                      // );
 
-                      if (qty != null) {
-                        if (Checkout.instance.checkout.isEmpty && qty > 0) {
-                          Checkout.instance.checkout
-                              .add({"id": items[index].id, "qty": qty});
-                        } else {
-                          var searchResult = Checkout.instance.checkout
-                              .firstWhereOrNull((element) {
-                            return element['id'] == items[index].id;
-                          });
-                          if (searchResult == null && qty > 0) {
-                            Checkout.instance.checkout
-                                .add({"id": items[index].id, "qty": qty});
-                          } else {
-                            int index = Checkout.instance.checkout
-                                .indexOf(searchResult);
-                            if (qty == 0) {
-                              Checkout.instance.checkout.removeAt(index);
-                            } else {
-                              Checkout.instance.checkout[index]['qty'] = qty;
-                            }
-                          }
-                        }
-                        // print('QTY: $qunt');
-                        // print('QTY1: $qty');
-                        // widget.onCartChange(Checkout.instance.checkout.length);
-                      }
+                      // if (qty != null) {
+                      //   if (Checkout.instance.checkout.isEmpty && qty > 0) {
+                      //     Checkout.instance.checkout
+                      //         .add({"id": items[index].id, "qty": qty});
+                      //   } else {
+                      //     var searchResult = Checkout.instance.checkout
+                      //         .firstWhereOrNull((element) {
+                      //       return element['id'] == items[index].id;
+                      //     });
+                      //     if (searchResult == null && qty > 0) {
+                      //       Checkout.instance.checkout
+                      //           .add({"id": items[index].id, "qty": qty});
+                      //     } else {
+                      //       int index = Checkout.instance.checkout
+                      //           .indexOf(searchResult);
+                      //       if (qty == 0) {
+                      //         Checkout.instance.checkout.removeAt(index);
+                      //       } else {
+                      //         Checkout.instance.checkout[index]['qty'] = qty;
+                      //       }
+                      //     }
+                      //   }
+                      // print('QTY: $qunt');
+                      // print('QTY1: $qty');
+                      // widget.onCartChange(Checkout.instance.checkout.length);
+                      // }
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

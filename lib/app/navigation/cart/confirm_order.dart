@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vegipak/app/constants.dart';
+import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 import 'package:vegipak/mixins/checkout_validations.dart';
 
 class ConfirmOrder extends StatefulWidget {
@@ -205,10 +207,13 @@ class _ConfirmOrderState extends State<ConfirmOrder> with CheckoutValidations {
                 bottom: -2,
                 child: GestureDetector(
                   onTap: () {
-                    if (formGlobalKey.currentState!.validate()) {
-                      // print('good');
-                    }
+                    // if (formGlobalKey.currentState!.validate()) {
+                    //   // print('good');
+                    // }
                     // print('bad');
+
+                    Provider.of<CartProvider>(context, listen: false)
+                        .orderNow();
                   },
                   child: Container(
                     alignment: Alignment.center,

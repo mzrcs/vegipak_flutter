@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vegipak/app/splash/splash_provider.dart';
+import '../widgets/logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
-  static const String routeName = "splash";
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -16,21 +14,9 @@ class _SplashScreenState extends State<SplashScreen> {
   // Timer? _timer;
 
   void goToNextScreen() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-
-    sp.remove('email');
-    // sp.remove('first_name');
-    // sp.remove('last_name');
+    // final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+    // userPrefrence.getUser();
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   // _timer = Timer(const Duration(microseconds: 2500), () {
-  //   //   goToNextScreen();
-  //   // });
-  // }
 
   @override
   void didChangeDependencies() {
@@ -40,8 +26,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            logoWidget(),
+            const SizedBox(height: 20),
+            const SizedBox(
+              height: 30.0,
+              width: 30.0,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.transparent,
+                strokeWidth: 2.5,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

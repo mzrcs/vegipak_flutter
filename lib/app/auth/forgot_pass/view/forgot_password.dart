@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../widgets/button_widget.dart';
-import '../../../../widgets/logo_widget.dart';
-import '../../../../widgets/textfield_widget.dart';
+import '../../../widgets/button_widget.dart';
+import '../../../widgets/logo_widget.dart';
+import '../../../widgets/textfield_widget.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class ForgotPassword extends StatefulWidget {

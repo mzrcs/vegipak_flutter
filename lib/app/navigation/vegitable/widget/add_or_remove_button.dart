@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../utils/constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../core/constants/my_colors.dart';
 
 class AddOrRemoveButton extends StatelessWidget {
   const AddOrRemoveButton({super.key, this.onTap, required this.icon});
@@ -12,15 +13,15 @@ class AddOrRemoveButton extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(50),
       child: Material(
-        color: kGreenColor,
+        color: MyColors.kGreenColor,
         elevation: 4,
         child: InkWell(
           onTap: onTap,
           child: Ink(
-            height: 35,
-            width: 35,
+            height: 32.h,
+            width: 32.w,
             decoration: const BoxDecoration(shape: BoxShape.circle),
-            child: Icon(icon, color: Colors.black),
+            child: Icon(icon, color: Colors.white),
           ),
         ),
       ),

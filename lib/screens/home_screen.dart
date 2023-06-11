@@ -2,9 +2,6 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:vegipak/screens/all_vegitables.dart';
 import 'package:vegipak/screens/my_cart.dart';
-import 'package:vegipak/screens/my_orders.dart';
-import 'package:vegipak/screens/my_profile.dart';
-import 'package:badges/badges.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

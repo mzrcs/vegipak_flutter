@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vegipak/app/model/user/token.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vegipak/app/auth/provider/user_provider.dart';
+// import 'package:vegipak/app/model/user/token.dart';
 import 'package:vegipak/app/services/user_service.dart';
 import 'package:vegipak/app/utils/routes/routes_name.dart';
-import 'package:vegipak/app/utils/utils.dart';
+// import 'package:vegipak/app/utils/utils.dart';
 import '../../model/user/sign_in_model.dart';
 import '../../navigation/navigation_bar/provider/index_navigation.dart';
 
@@ -65,46 +66,46 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future loginApi(BuildContext context) async {
-    final provider = Provider.of<NavigationIndex>(context, listen: false);
-    final navigator = Navigator.of(context);
+  // Future loginApi(BuildContext context) async {
+  //   final provider = Provider.of<NavigationIndex>(context, listen: false);
+  //   final navigator = Navigator.of(context);
 
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+  //   if (formKey.currentState!.validate()) {
+  //     formKey.currentState!.save();
 
-      setLoading(true);
+  //     setLoading(true);
 
-      final SignInModel signinModel = SignInModel(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+  //     final SignInModel signinModel = SignInModel(
+  //       email: emailController.text,
+  //       password: passwordController.text,
+  //     );
 
-      _userServices.signinUser(model: signinModel).then((value) async {
-        if (value != null) {
-          setLoading(false);
+  //     _userServices.signinUser(model: signinModel).then((value) async {
+  //       if (value != null) {
+  //         setLoading(false);
 
-          Utils.snackBarPopUp(context, 'Login Successful ✓', Colors.green);
+  //         Utils.snackBarPopUp(context, 'Login Successful ✓', Colors.green);
 
-          await storage.write(key: 'token', value: value.token);
+  //         await storage.write(key: 'token', value: value.token);
 
-          saveUser(value);
+  //         saveUser(value);
 
-          provider.currentIndex = 0;
-          navigator.pushReplacementNamed(RouteName.home);
+  //         provider.currentIndex = 0;
+  //         navigator.pushReplacementNamed(RouteName.home);
 
-          clearTextfield();
-        } else {
-          setLoading(false);
-        }
-      }).onError((error, stackTrace) {
-        // If there's an error with the API call, set the login loading state to false.
-        setLoading(false);
+  //         clearTextfield();
+  //       } else {
+  //         setLoading(false);
+  //       }
+  //     }).onError((error, stackTrace) {
+  //       // If there's an error with the API call, set the login loading state to false.
+  //       setLoading(false);
 
-        // Show an error message using a Snackbar.
-        Utils.snackBarPopUp(context, error.toString(), Colors.red);
-      });
-    }
-  }
+  //       // Show an error message using a Snackbar.
+  //       Utils.snackBarPopUp(context, error.toString(), Colors.red);
+  //     });
+  //   }
+  // }
 
   Future<void> signIn(BuildContext context) async {
     if (formKey.currentState!.validate()) {
@@ -117,12 +118,15 @@ class LoginProvider extends ChangeNotifier {
         password: passwordController.text,
       );
 
+      final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+
       await _userServices.signinUser(model: signinModel).then((value) {
         if (value != null) {
           setLoading(false);
 
           storage.write(key: 'token', value: value.token);
-          saveUser(value);
+
+          userPrefrence.saveUser(value);
 
           Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
           Navigator.pushReplacementNamed(context, RouteName.home);
@@ -134,15 +138,6 @@ class LoginProvider extends ChangeNotifier {
         }
       });
     }
-  }
-
-  //----------------- Save to Preferences
-  Future<void> saveUser(AuthModel authModel) async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.setString('first_name', authModel.firstName.toString());
-    sp.setString('last_name', authModel.lastName.toString());
-    sp.setString('email', authModel.email.toString());
-    notifyListeners();
   }
 
   //----------------- Clear Textformfield

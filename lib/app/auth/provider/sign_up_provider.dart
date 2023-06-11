@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+// import 'package:vegipak/app/auth/provider/user_provider.dart';
 import '../../model/user/sign_up_model.dart';
 import '../../services/user_service.dart';
 import '../../navigation/navigation_bar/provider/index_navigation.dart';
@@ -70,7 +71,7 @@ class SignupProvider extends ChangeNotifier {
   }
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  UserService userServices = UserService();
+  final UserService _userServices = UserService();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -88,12 +89,54 @@ class SignupProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void signUp(BuildContext context) {
+  // void signUp(BuildContext context) {
+  //   if (formKey.currentState!.validate()) {
+  //     formKey.currentState!.save();
+
+  //     setLoading(true);
+
+  //     String userType = 'customer';
+  //     String firstName = firstNameController.text.trim();
+  //     String lastName = lastNameController.text.trim();
+  //     String email = emailController.text.trim();
+  //     String phone = phoneController.text.trim();
+  //     String password = passwordController.text.trim();
+  //     String address = addressController.text.trim();
+
+  //     final SignUpModel signUpModel = SignUpModel(
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       email: email,
+  //       userType: userType,
+  //       phone: phone,
+  //       areaId: 1,
+  //       address: address,
+  //       password: password,
+  //       status: true,
+  //     );
+
+  //     userServices.createAccount(model: signUpModel).then((value) {
+  //       if (value != null) {
+  //         setLoading(false);
+
+  //         storage.write(key: 'token', value: value.token);
+  //         Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
+  //         Navigator.pushReplacementNamed(context, RouteName.home);
+
+  //         clearTextfield();
+  //       } else {
+  //         setLoading(false);
+  //         return;
+  //       }
+  //     });
+  //   }
+  // }
+
+  Future<void> signUp(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
       setLoading(true);
-
       String userType = 'customer';
       String firstName = firstNameController.text.trim();
       String lastName = lastNameController.text.trim();
@@ -114,11 +157,17 @@ class SignupProvider extends ChangeNotifier {
         status: true,
       );
 
-      userServices.createAccount(model: signUpModel).then((value) {
+      // final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+
+      _userServices.createAccount(model: signUpModel).then((value) {
         if (value != null) {
           setLoading(false);
 
+          // print('token' + value.token!);
           storage.write(key: 'token', value: value.token);
+
+          // userPrefrence.saveUser(value);
+
           Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
           Navigator.pushReplacementNamed(context, RouteName.home);
 
@@ -128,6 +177,8 @@ class SignupProvider extends ChangeNotifier {
           return;
         }
       });
+    } else {
+      setLoading(false);
     }
   }
 

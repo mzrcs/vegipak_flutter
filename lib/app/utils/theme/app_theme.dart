@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vegipak/app/utils/constants.dart';
+import 'package:vegipak/app/core/constants/my_colors.dart';
 
 // class MyTheme {
 //   static const splash = Color(0xFF000000);
@@ -165,7 +165,7 @@ class AppTheme {
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateColor.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return kGreenColor;
+            return MyColors.kGreenColor;
           }
           return Colors.white;
         }),
@@ -174,12 +174,12 @@ class AppTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: kGreenColor,
+        seedColor: MyColors.kGreenColor,
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         iconSize: 16,
         elevation: 4,
-        backgroundColor: kGreenColorTint2,
+        backgroundColor: MyColors.kGreenColorTint2,
         foregroundColor: Colors.white,
       ),
       splashColor: Colors.white.withOpacity(0.5),
@@ -188,7 +188,7 @@ class AppTheme {
 
       checkboxTheme: CheckboxThemeData(
         checkColor: MaterialStateProperty.all(Colors.white),
-        fillColor: MaterialStateProperty.all(kGreenColor),
+        fillColor: MaterialStateProperty.all(MyColors.kGreenColor),
         side: BorderSide(
           color: Colors.grey.shade800,
           width: 1.5,
@@ -223,12 +223,12 @@ class AppTheme {
         elevation: 0,
         backgroundColor: Colors.transparent,
         unselectedItemColor: Colors.black,
-        selectedItemColor: kGreenColor,
+        selectedItemColor: MyColors.kGreenColor,
       ),
       textTheme: lightTextTheme,
       scaffoldBackgroundColor: Colors.white,
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: kGreenColor,
+        color: MyColors.kGreenColor,
         circularTrackColor: Colors.grey.shade300,
         refreshBackgroundColor: Colors.grey.shade300,
       ),
@@ -241,7 +241,7 @@ class AppTheme {
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateColor.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
-            return kGreenColor;
+            return MyColors.kGreenColor;
           }
           return Colors.white;
         }),
@@ -250,19 +250,19 @@ class AppTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: kGreenColor,
+        seedColor: MyColors.kGreenColor,
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         iconSize: 16,
         elevation: 4,
-        backgroundColor: kGreenColorTint2,
+        backgroundColor: MyColors.kGreenColorTint2,
         foregroundColor: Colors.white,
       ),
       splashColor: Colors.white.withOpacity(0.5),
       splashFactory: InkSplash.splashFactory,
       checkboxTheme: CheckboxThemeData(
         checkColor: MaterialStateProperty.all(Colors.white),
-        fillColor: MaterialStateProperty.all(kGreenColor),
+        fillColor: MaterialStateProperty.all(MyColors.kGreenColor),
         side: BorderSide(
           color: Colors.grey.shade800,
           width: 1.5,
@@ -274,12 +274,12 @@ class AppTheme {
       ),
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: kBlackColor,
+          statusBarColor: MyColors.kBlackColor,
           statusBarIconBrightness: Brightness.light,
           statusBarBrightness: Brightness.light,
         ),
         elevation: 0,
-        backgroundColor: kBlackColor,
+        backgroundColor: MyColors.kBlackColor,
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
@@ -297,10 +297,10 @@ class AppTheme {
         elevation: 0,
         backgroundColor: Colors.transparent,
         unselectedItemColor: Colors.white,
-        selectedItemColor: kGreenColor,
+        selectedItemColor: MyColors.kGreenColor,
         selectedLabelStyle: GoogleFonts.poppins(
           fontSize: 12,
-          color: kGreenColor,
+          color: MyColors.kGreenColor,
         ),
         unselectedLabelStyle: GoogleFonts.poppins(
           fontSize: 12,
@@ -308,9 +308,9 @@ class AppTheme {
         ),
       ),
       textTheme: darkTextTheme,
-      scaffoldBackgroundColor: kBlackColor,
+      scaffoldBackgroundColor: MyColors.kBlackColor,
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: kGreenColor,
+        color: MyColors.kGreenColor,
         circularTrackColor: Colors.grey.shade600,
         refreshBackgroundColor: Colors.grey.shade600,
       ),

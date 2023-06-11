@@ -1,4 +1,4 @@
-import 'package:vegipak/app/auth/otp/model/otp_enum.dart';
+// import 'package:vegipak/app/auth/otp/model/otp_enum.dart';
 // import '../../sign_up/model/sign_up_model.dart';
 
 // class OtpModel {

@@ -8,4 +8,13 @@ class CartModel {
     required this.quantity,
     required this.product,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "order_id": '1',
+      "product_id": product.id,
+      "qty": quantity,
+      "product_price": product.salePrice,
+    };
+  }
 }

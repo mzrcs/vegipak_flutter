@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vegipak/app/auth/provider/user_provider.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 import 'provider/index_navigation.dart';
 
@@ -15,15 +16,16 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     // final provider = Provider.of<NavigationIndex>(context, listen: false);
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Provider.of<CartProvider>(context, listen: false).getCart(context);
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<UserProvider>(context, listen: false).getUser();
+    });
     return Consumer<NavigationIndex>(
       builder: (context, provider, _) {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: provider.pages[provider.currentIndex],
           bottomNavigationBar: BottomNavyBar(
+            backgroundColor: Colors.white,
             selectedIndex: provider.currentIndex,
             showElevation: true,
             itemCornerRadius: 24,

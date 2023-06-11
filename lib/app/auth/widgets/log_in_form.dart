@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/logo_widget.dart';
-import '../../../widgets/textfield_widget.dart';
-import '../../utils/constants.dart';
+import '../../widgets/logo_widget.dart';
+import '../../widgets/textfield_widget.dart';
+import '../../core/constants/my_colors.dart';
 import '../../utils/routes/routes_name.dart';
 import '../provider/sign_in_provider.dart';
 import 'auth_bottom_rich_text.dart';
@@ -102,7 +102,7 @@ class LoginForm extends StatelessWidget {
                         Navigator.pushNamed(context, RouteName.signup);
                       },
                       darkColor: Colors.grey.shade500,
-                      lightColor: kGreenColor,
+                      lightColor: MyColors.kGreenColor,
                     ),
                   ],
                 ),

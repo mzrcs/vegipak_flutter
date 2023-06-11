@@ -27,7 +27,7 @@ class UserService {
     return null;
   }
 
-  Future<AuthModel?> createAccount({required SignUpModel model}) async {
+  Future<SignUpToken?> createAccount({required SignUpModel model}) async {
     try {
       Response response = await _api.sendRequest.post(
         "/auth/register",
@@ -35,15 +35,16 @@ class UserService {
       );
       ApiResponse apiResponse = ApiResponse.fromResponse(response);
 
-      // final signupResponse = TokenModel.fromJson(apiResponse.data);
+      // final signupResponse = apiResponse.data;
+
+      // print('date'  + signupResponse);
 
       // // Convert raw data to model
       // return signupResponse;
 
       if (apiResponse.status == 200 || apiResponse.status == 201) {
-        // print(response.data.toString());
-        final signupResponse = AuthModel.fromJson(apiResponse.data);
-        // print(response.data.toString());
+        final signupResponse = SignUpToken.fromJson(apiResponse.data);
+        print(response.data.toString());
         return signupResponse;
       }
     } on DioError catch (e) {

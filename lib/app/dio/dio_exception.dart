@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -16,7 +15,6 @@ class DioException {
         //   Colors.red,
         // );
       } else if (e.response?.statusCode == 400) {
-        print(e.response!.data);
         AppToast.showToast('Unknown field', Colors.red);
       } else if (e.response?.statusCode == 403) {
         AppToast.showToast('User credential is not working', Colors.red);
@@ -25,15 +23,13 @@ class DioException {
         //   'Forbidden',
         //   Colors.red,
         // );
-      }
-      // else if (e.response?.statusCode == 500) {
-      // SnackBarPop.popUp(
-      //   context,
-      //   'Something went wrong',
-      //   Colors.red,
-      // );
-      // }
-      else if (e.toString() ==
+      } else if (e.response?.statusCode == 422) {
+        print(e.response!.data['message']);
+        AppToast.showToast(
+            e.response!.data['message'][0].toString(), Colors.red);
+      } else if (e.response?.statusCode == 500) {
+        AppToast.showToast('Something went wrong', Colors.red);
+      } else if (e.toString() ==
           "[Error]: (006) Request Throttled. Over Rate limit: up to 2 per sec. See geocode.xyz/pricing") {
         AppToast.showToast('Failed, Please try again', Colors.red);
         // SnackBarPop.popUp(

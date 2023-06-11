@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:vegipak/app/utils/constants.dart';
-import '../../../widgets/textfield_widget.dart';
-// import '../../utils/routes/routes_name.dart';
+import '../../widgets/textfield_widget.dart';
+import '../../core/constants/my_colors.dart';
 import '../provider/sign_up_provider.dart';
 import 'auth_bottom_rich_text.dart';
 import 'auth_confim_button.dart';
@@ -142,7 +141,7 @@ class SignUpForm extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       darkColor: Colors.grey.shade500,
-                      lightColor: kGreenColor,
+                      lightColor: MyColors.kGreenColor,
                     ),
                     const SizedBox(height: 20),
                   ],

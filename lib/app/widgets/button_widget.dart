@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../app/utils/constants.dart';
+import '../core/constants/my_colors.dart';
 
 Widget myButton(
   String title,
@@ -21,8 +20,8 @@ Widget myButton(
       // elevation: 2,
       // onPressed: loading! ? null : () => onPressed!(),
       style: ElevatedButton.styleFrom(
-        backgroundColor: kGreenColor,
-        disabledBackgroundColor: kGreenColorTint.withOpacity(0.5),
+        backgroundColor: MyColors.kGreenColor,
+        disabledBackgroundColor: MyColors.kGreenColorTint.withOpacity(0.5),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

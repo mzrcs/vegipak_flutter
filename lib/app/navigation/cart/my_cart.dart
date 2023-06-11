@@ -17,19 +17,19 @@ class MyCart extends StatelessWidget {
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: Stack(
+        child: const Stack(
           children: [
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
-                  children: const [
+                  children: [
                     CartListWidget(),
                   ],
                 ),
               ),
             ),
-            const CartConfirmOrdreWidget(),
+            CartConfirmOrdreWidget(),
           ],
         ),
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:vegipak/app/utils/constants.dart';
+import '../../core/constants/my_colors.dart';
 
 class AuthConfirmButton extends StatelessWidget {
   const AuthConfirmButton({
@@ -17,7 +17,7 @@ class AuthConfirmButton extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Material(
-        color: isLoading! ? kGreyColor4 : kGreenColor,
+        color: isLoading! ? MyColors.kGreyColor4 : MyColors.kGreenColor,
         elevation: 4,
         child: InkWell(
           onTap: isLoading! ? null : callBack,
