@@ -5,6 +5,7 @@ import 'package:vegipak/app/model/order/my_order_model.dart';
 import '../core/api/api.dart';
 import '../dio/dio_exception.dart';
 import '../dio/dio_interceptor.dart';
+import '../model/user/area_model.dart';
 
 class OrderService {
   // final _api = Api();
@@ -38,6 +39,38 @@ class OrderService {
     } on DioError catch (e) {
       log('happenss');
       log(e.message.toString());
+      DioException().dioError(e);
+    }
+    return null;
+  }
+
+  Future<List<MyOrderModel>?> getMyOrders(context) async {
+    Dio dios = await ApiInterceptor().getApiUser();
+    try {
+      Response response = await dios.get("$BASE_URL/order/show");
+
+      // ApiResponse apiResponse = ApiResponse.fromResponse(response);
+
+      final List<MyOrderModel> orderList = (response.data['orders'] as List)
+          .map((e) => MyOrderModel.fromJson(e))
+          .toList();
+
+      // Convert raw data to model
+      return orderList;
+    } on DioError catch (e) {
+      // log(e.message.toString());
+      DioException().dioError(e);
+    }
+    return null;
+  }
+
+  Future<AreaModel?> districtAreas() async {
+    Dio dios = await ApiInterceptor().getApiUser();
+    try {
+      Response response = await dios.get("$BASE_URL/district-area/show");
+
+      return AreaModel.fromJson(response.data);
+    } on DioError catch (e) {
       DioException().dioError(e);
     }
     return null;

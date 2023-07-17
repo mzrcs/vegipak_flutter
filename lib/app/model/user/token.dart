@@ -1,12 +1,20 @@
 class AuthModel {
   String? token;
 
-  int? uId;
+  int uId;
   String? firstName;
   String? lastName;
   String? email;
+  String? phone;
 
-  AuthModel({this.token, this.uId, this.firstName, this.lastName, this.email});
+  AuthModel({
+    required this.uId,
+    this.token,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.phone,
+  });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
@@ -15,6 +23,7 @@ class AuthModel {
       firstName: json['user']['first_name'],
       lastName: json['user']['last_name'],
       email: json['user']['email'],
+      phone: json['user']['phone'],
     );
   }
 }

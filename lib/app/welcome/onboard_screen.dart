@@ -194,14 +194,23 @@ class _OnboardScreenState extends State<OnboardScreen> {
               ),
               SizedBox(
                 width: double.infinity,
-                height: 60,
+                height: 55,
                 child: ElevatedButton(
+                  onPressed: () => _onIntroEnd(context),
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
                   child: const Text(
                     'Let\'s go right away!',
-                    style:
-                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                  onPressed: () {},
                 ),
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,10 +14,10 @@ class Utils {
   // }
 
   // Device Type
-  static String getDeviceType() {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-    return data.size.shortestSide < 550 ? 'phone' : 'tablet';
-  }
+  // static String getDeviceType() {
+  //   final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+  //   return data.size.shortestSide < 550 ? 'phone' : 'tablet';
+  // }
 
   // TOAST
   // static toastMessage(String message) {
@@ -82,6 +83,73 @@ class Utils {
     // final inputDate = DateFormat.parse(date);
     // return DateFormat('d MMM, yyyy').format(parsedDate);
     return DateFormat('dd/MMM/yy').format(parsedDate);
+  }
+
+  // DROPDOWN
+  DropdownButtonHideUnderline customDropdownButton({
+    required BuildContext context,
+    // ClientViewModel clientViewModel,
+    // ClientViewModel clientProvider,
+    required String hintText,
+    required String errorText,
+    required List<DropdownMenuItem<String>>? items,
+    required Function(String?)? onChanged,
+    bool updateDropdown = false,
+  }) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButtonFormField2(
+        style: Theme.of(context).textTheme.displaySmall!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: Colors.black87,
+              fontSize: 17,
+            ),
+        decoration: InputDecoration(
+          //Add isDense true and zero Padding.
+          //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 4),
+
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+          ),
+        ),
+        isExpanded: false,
+        hint: Text(
+          hintText,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                fontSize: 15,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+        ),
+        items: items,
+        validator: (value) {
+          if (value == null) {
+            return errorText;
+          }
+          return null;
+        },
+        onChanged: onChanged,
+        onSaved: (value) {},
+        buttonStyleData: const ButtonStyleData(
+          height: 40,
+          padding: EdgeInsets.only(left: 2, right: 12),
+        ),
+        iconStyleData: const IconStyleData(
+          icon: Icon(
+            Icons.arrow_drop_down,
+            color: Colors.black45,
+          ),
+          iconSize: 30,
+        ),
+        dropdownStyleData: DropdownStyleData(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
   }
 
   // CROP IMAGE

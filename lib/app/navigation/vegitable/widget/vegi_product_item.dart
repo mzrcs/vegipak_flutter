@@ -7,8 +7,11 @@ import 'package:vegipak/app/model/product/product_model.dart';
 class VegiProductCardItem extends StatelessWidget {
   final int grid;
   final ProductModel product;
-  const VegiProductCardItem(
-      {super.key, required this.product, required this.grid});
+  const VegiProductCardItem({
+    super.key,
+    required this.product,
+    required this.grid,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,23 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:vegipak/app/auth/check_sign_in_prov.dart';
 import 'package:vegipak/app/auth/forgot_pass/view/forgot_password.dart';
-// import 'package:vegipak/app/auth/otp/view/otp_screen.dart';
-// import 'package:vegipak/app/auth/provider/login_provider.dart';
-// import 'package:vegipak/app/auth/provider/sign_up_provider.dart';
 import 'package:vegipak/app/auth/signup_screen.dart';
+import 'package:vegipak/app/navigation/cart/thankyou.dart';
 import 'package:vegipak/app/navigation/profile/update_profile/update_my_profile.dart';
 import 'package:vegipak/app/splash/splash_screen.dart';
-// import 'package:vegipak/screens/home_screen.dart';
-// import 'package:vegipak/screens/login.dart';
 import 'package:vegipak/app/utils/routes/routes_name.dart';
-
+import 'package:vegipak/app/welcome/onboard_screen.dart';
 import '../../auth/login_screen.dart';
-// import '../../navigation/navigation_bar/provider/index_navigation.dart';
 import '../../navigation/navigation_bar/navigation_bar.dart';
-// import '../../splash/splash_provider.dart';
-// import 'package:vegipak/app/auth/signup_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -26,6 +17,14 @@ class RouteGenerator {
       case RouteName.splash:
         return CupertinoPageRoute(
           builder: (context) => const SplashScreen(),
+        );
+      case RouteName.onboard:
+        return CupertinoPageRoute(
+          builder: (context) => const OnboardScreen(),
+        );
+      case RouteName.thankyou:
+        return CupertinoPageRoute(
+          builder: (context) => const ThankyouOrder(),
         );
       case RouteName.login:
         return CupertinoPageRoute(

@@ -1,10 +1,10 @@
 class UserModel {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? email;
+  late int id;
+  late String firstName;
+  late String lastName;
+  late String email;
   String? type;
-  String? phone;
+  late String phone;
   String? emailVerifiedAt;
   int? districtAreaId;
   String? address;
@@ -16,12 +16,12 @@ class UserModel {
   String? updatedAt;
 
   UserModel({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.email,
+    this.id = 0,
+    this.firstName = '',
+    this.lastName = '',
+    this.email = '',
     this.type,
-    this.phone,
+    this.phone = '',
     this.emailVerifiedAt,
     this.districtAreaId,
     this.address,
@@ -34,7 +34,7 @@ class UserModel {
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'] ?? 0;
     firstName = json['first_name'];
     lastName = json['last_name'];
     email = json['email'];

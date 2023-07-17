@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import '../../../auth/provider/user_provider.dart';
 import '../../../model/user/token.dart';
+import '../../../model/user/user_model.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class ProfileProvider extends ChangeNotifier {
@@ -11,7 +12,7 @@ class ProfileProvider extends ChangeNotifier {
     getSavedData(context);
   }
 
-  AuthModel authModel = AuthModel();
+  AuthModel authModel = AuthModel(uId: 4);
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
@@ -23,16 +24,25 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  String? email;
+  UserModel userModel = UserModel();
 
   Future<void> getSavedData(context) async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    email = sp.getString('email');
-    emailController.text = email!;
-    notifyListeners();
+    setLoading(true);
+    final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+    await userPrefrence.getSaveUser(userModel);
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      firstNameController.text = userModel.firstName;
+      lastNameController.text = userModel.lastName;
+      emailController.text = userModel.email;
+      phoneController.text = userModel.phone;
+      setLoading(false);
+    });
   }
 
   // void updateMyProfile(BuildContext context) {

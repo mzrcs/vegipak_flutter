@@ -10,6 +10,7 @@ class SplashProvider extends ChangeNotifier {
   // String? onboardValue;
   String? signinCheck;
   String? email;
+  bool isIntroScreenShown = false;
 
   void splashTimer(BuildContext context) {
     final router = Navigator.of(context);
@@ -20,20 +21,23 @@ class SplashProvider extends ChangeNotifier {
 
         final SharedPreferences sp = await SharedPreferences.getInstance();
         email = sp.getString('email');
+        isIntroScreenShown = sp.getBool('isIntroScreen') ?? false;
 
-        print(signinCheck.toString());
-        print('email ' + email.toString());
+        // print(signinCheck.toString());
+        // print('email ' + email.toString());
         if (signinCheck != null) {
-          print('splash');
-          // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-          //   builder: (context) {
-          //     return const BottomNavigationScreen();
-          //   },
-          // ), (route) => false);
           router.pushNamedAndRemoveUntil(RouteName.home, (route) => false);
         } else {
           if (signinCheck == null) {
-            router.pushNamedAndRemoveUntil(RouteName.login, (route) => false);
+            print(isIntroScreenShown);
+            if (!isIntroScreenShown) {
+              await sp.setBool('isIntroScreen', true);
+
+              router.pushNamedAndRemoveUntil(
+                  RouteName.onboard, (route) => false);
+            } else {
+              router.pushNamedAndRemoveUntil(RouteName.login, (route) => false);
+            }
           }
         }
       },

@@ -247,6 +247,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 
+import '../../utils/utils.dart';
 import '../../widgets/textfield_widget.dart';
 
 class OrderNow extends StatelessWidget {
@@ -266,14 +267,14 @@ class OrderNow extends StatelessWidget {
         ),
       ),
       body: Consumer<CartProvider>(
-        builder: (context, provider, _) {
+        builder: (context, value, _) {
           return Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16.0, vertical: 12.0),
                 child: Form(
-                  key: provider.formKey,
+                  key: value.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -290,7 +291,7 @@ class OrderNow extends StatelessWidget {
                       textFieldWidget2(
                         context: context,
                         hintText: 'Phone',
-                        controller: provider.phoneController,
+                        controller: value.phoneController,
                       ),
 
                       SizedBox(height: 12.h),
@@ -299,7 +300,42 @@ class OrderNow extends StatelessWidget {
                       textFieldWidget2(
                         context: context,
                         hintText: 'Address',
-                        controller: provider.addressController,
+                        controller: value.addressController,
+                      ),
+
+                      SizedBox(height: 12.h),
+
+                      Consumer<CartProvider>(
+                        builder: (context, provider, _) {
+                          return Utils().customDropdownButton(
+                            context: context,
+                            hintText: 'Select Area',
+                            errorText: 'Please select area',
+                            // clientViewModel,
+                            // clientProvider,
+                            items: provider.districtAreaList
+                                .map(
+                                  (item) => DropdownMenuItem<String>(
+                                    value: item.id.toString(),
+                                    child: Text(
+                                      item.name!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .copyWith(
+                                            height: 0,
+                                            fontSize: 17,
+                                          ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (value) {
+                              provider
+                                  .selectAreaId(int.parse(value.toString()));
+                            },
+                          );
+                        },
                       ),
 
                       SizedBox(height: 12.h),
@@ -308,14 +344,14 @@ class OrderNow extends StatelessWidget {
                       textFieldWidget2(
                         context: context,
                         hintText: 'Extra Note',
-                        controller: provider.noteController,
+                        controller: value.noteController,
                       ),
                     ],
                   ),
                 ),
               ),
-              if(provider.isLoading)
-               const Center(child: CircularProgressIndicator()),
+              if (value.isLoading)
+                const Center(child: CircularProgressIndicator()),
             ],
           );
         },

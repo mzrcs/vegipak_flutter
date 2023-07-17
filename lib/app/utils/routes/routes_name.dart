@@ -2,6 +2,7 @@ class RouteName {
   static const String splash = '/splash_screen';
   static const String onboard = '/onboard_screen';
   static const String loading = '/loading_screen';
+  static const String thankyou = '/thankyou_screen';
   static const String authNotLogin = '/auth_not_login';
 
   // Authentication

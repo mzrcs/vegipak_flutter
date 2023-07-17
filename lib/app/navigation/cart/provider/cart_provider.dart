@@ -1,14 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/model/cart/cart_model.dart';
 import 'package:vegipak/app/model/order/my_order_model.dart';
+import 'package:vegipak/app/model/user/area_model.dart';
 import 'package:vegipak/app/utils/utils.dart';
-
+import '../../../auth/provider/user_provider.dart';
+import '../../../model/user/user_model.dart';
 import '../../../services/order_service.dart';
 import '../../../utils/routes/routes_name.dart';
-import '../../navigation_bar/provider/index_navigation.dart';
 
 class CartProvider extends ChangeNotifier {
+  CartProvider(context) {
+    getDistrictArea();
+    getSavedData(context);
+  }
+
   bool tapField = false;
   int quantity = 1;
   TextEditingController qtyController = TextEditingController();
@@ -67,7 +75,9 @@ class CartProvider extends ChangeNotifier {
   }
 
   final OrderService _orderServices = OrderService();
+  List<DistrictAreas> districtAreaList = [];
 
+  int? selectedAreaId;
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
   final noteController = TextEditingController();
@@ -82,6 +92,40 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  selectAreaId(int value) {
+    selectedAreaId = value;
+    notifyListeners();
+  }
+
+  UserModel userModel = UserModel();
+
+  Future<void> getSavedData(context) async {
+    setLoading(true);
+    final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+    await userPrefrence.getSaveUser(userModel);
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      phoneController.text = userModel.phone;
+      setLoading(false);
+    });
+  }
+
+  Future getDistrictArea() async {
+    // log("message");
+    setLoading(true);
+    await _orderServices.districtAreas().then((value) {
+      if (value != null) {
+        // print(value.districtAreas);
+        districtAreaList = value.districtAreas!;
+        notifyListeners();
+
+        setLoading(false);
+      } else {
+        setLoading(false);
+        return null;
+      }
+    });
+  }
+
   Future<void> orderNow(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -89,17 +133,17 @@ class CartProvider extends ChangeNotifier {
       setLoading(true);
 
       final MyOrderModel myOrderModel = MyOrderModel(
-        userId: 1,
+        userId: 4,
         phone: phoneController.text,
-        areaId: 8,
+        areaId: selectedAreaId!,
         address: addressController.text,
         note: noteController.text,
         status: 'Pending',
         total: int.parse(subTotal.toStringAsFixed(0)),
-        cartItems: cartList,
+        // cartItems: cartList,
       );
 
-      // print(jsonEncode(myOrderModel.toJson()));
+      print(jsonEncode(myOrderModel.toJson()));
 
       await _orderServices.createOrder(model: myOrderModel).then((value) {
         print(value);
@@ -111,8 +155,7 @@ class CartProvider extends ChangeNotifier {
           Utils.snackBarPopUp(
               context, "Order Created Successfully", Colors.green);
 
-          Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-          Navigator.pushReplacementNamed(context, RouteName.home);
+          Navigator.pushReplacementNamed(context, RouteName.thankyou);
 
           cartList.clear();
           clearTextfield();
