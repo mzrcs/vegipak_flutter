@@ -1,11 +1,16 @@
+// import 'dart:developer';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vegipak/app/model/user/sign_in_model.dart';
 import '../../../auth/provider/user_provider.dart';
 import '../../../model/user/token.dart';
 import '../../../model/user/user_model.dart';
+import '../../../services/user_service.dart';
 import '../../../utils/routes/routes_name.dart';
+import '../../../utils/utils.dart';
 
 class ProfileProvider extends ChangeNotifier {
   ProfileProvider(context) {
@@ -22,6 +27,22 @@ class ProfileProvider extends ChangeNotifier {
   setLoading(bool value) {
     _loading = value;
     notifyListeners();
+  }
+
+  bool _loading2 = false;
+  bool get isLoading2 => _loading2;
+
+  setLoading2(bool value) {
+    _loading2 = value;
+    notifyListeners();
+  }
+
+  resetLoading() {
+    if (_loading2 == true) {
+      _loading2 = false;
+      // notifyListeners();
+    }
+    clearTextfield();
   }
 
   final firstNameController = TextEditingController();
@@ -75,6 +96,48 @@ class ProfileProvider extends ChangeNotifier {
   //   }
   // }
 
+  final UserService _userServices = UserService();
+
+  final oldPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+
+  Future<void> updatePassword(BuildContext context) async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      setLoading2(true);
+
+      // String oldPassword = oldPasswordController.text.trim();
+      // String newPassword = newPasswordController.text.trim();
+
+      final UpdatePasswordModel updatePasswordModel = UpdatePasswordModel(
+        oldPassword: oldPasswordController.text,
+        newPassword: newPasswordController.text,
+      );
+
+      // print(jsonEncode(updatePasswordModel.toJson()));
+
+      await _userServices.updatePassword(model: updatePasswordModel).then(
+        (value) {
+          log('value $value');
+          if (value != null) {
+            setLoading2(false);
+
+            Utils.snackBarPopUp(context,
+                'Password has been changed successfully.', Colors.green);
+            Navigator.pop(context);
+
+            clearTextfield();
+          } else {
+            log('else $value');
+            setLoading2(false);
+            return;
+          }
+        },
+      );
+    }
+  }
+
   void logOut(context) async {
     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
 
@@ -83,6 +146,13 @@ class ProfileProvider extends ChangeNotifier {
 
     Navigator.pushNamedAndRemoveUntil(
         context, RouteName.login, (route) => false);
+    notifyListeners();
+  }
+
+  //----------------- Clear Textformfield
+  void clearTextfield() {
+    oldPasswordController.clear();
+    newPasswordController.clear();
     notifyListeners();
   }
 }

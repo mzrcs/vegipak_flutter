@@ -1,11 +1,12 @@
 class AuthModel {
   String? token;
-
   int uId;
   String? firstName;
   String? lastName;
   String? email;
   String? phone;
+  String? address;
+  int? districtAreaId;
 
   AuthModel({
     required this.uId,
@@ -14,6 +15,8 @@ class AuthModel {
     this.lastName,
     this.email,
     this.phone,
+    this.address,
+    this.districtAreaId,
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
@@ -24,16 +27,18 @@ class AuthModel {
       lastName: json['user']['last_name'],
       email: json['user']['email'],
       phone: json['user']['phone'],
+      address: json['user']['address'],
+      districtAreaId: json['user']['district_area_id'],
     );
   }
 }
 
-class SignUpToken {
-  String? token;
+class SignUpAuthModel {
+  String? userEmail;
 
-  SignUpToken({required this.token});
+  SignUpAuthModel({required this.userEmail});
 
-  factory SignUpToken.fromJson(Map<String, dynamic> json) {
-    return SignUpToken(token: json['token']);
+  factory SignUpAuthModel.fromJson(Map<String, dynamic> json) {
+    return SignUpAuthModel(userEmail: json['user_email']);
   }
 }

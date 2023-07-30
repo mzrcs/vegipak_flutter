@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../provider/profile_provider.dart';
+import 'package:vegipak/app/components/button_widget.dart';
+import 'provider/profile_provider.dart';
 
 class UpdateMyProfile extends StatefulWidget {
   const UpdateMyProfile({super.key});
@@ -10,55 +12,57 @@ class UpdateMyProfile extends StatefulWidget {
 }
 
 class _UpdateMyProfileState extends State<UpdateMyProfile> {
-  // @override
-  // void initState() {
-  //   getUserData();
-  //   super.initState();
-  // }
-
-  // void getUserData() async {
-  //   final user = Provider.of<ProfileProvider>(context, listen: false);
-  //   user.getSavedData(context);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   ((timeStamp) {
-    //     Provider.of<ProfileProvider>(context, listen: false)
-    //         .getSavedData(context);
-    //   }),
-    // );
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Update Profile',
-          style: TextStyle(
-            fontSize: 18,
+        leading: IconButton(
+          padding: const EdgeInsets.only(left: 8.0),
+          splashRadius: 20,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const FaIcon(
+            FontAwesomeIcons.arrowLeftLong,
+            color: Colors.black54,
+            size: 20,
           ),
         ),
-        centerTitle: true,
       ),
-      body: Consumer<ProfileProvider>(
-        builder: (context, value, _) {
-          // print(value.email);
-          // log('userEmail ${value.userModel.email}');
-          return value.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Center(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              'Update Profile',
+              style: Theme.of(context)
+                  .textTheme
+                  .displayLarge!
+                  .copyWith(fontSize: 24, color: Colors.black87),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Consumer<ProfileProvider>(builder: (context, value, _) {
+            return value.isLoading
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Column(
                       children: [
-                        // const Text('Email',
-                        //     style: TextStyle(color: Colors.black)),
-                        // value.email != null
-                        //     ? Text(value.email.toString())
-                        //     : const SizedBox(),
-                        const SizedBox(height: 12),
-                        // name input field
                         profileField(
                           context: context,
                           initialValue: value.userModel.firstName,
@@ -66,7 +70,6 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                           hintText: 'First Name',
                         ),
                         const SizedBox(height: 16),
-
                         profileField(
                           context: context,
                           initialValue: value.userModel.lastName,
@@ -74,7 +77,6 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                           hintText: 'Last Name',
                         ),
                         const SizedBox(height: 16),
-
                         profileField(
                           context: context,
                           initialValue: value.userModel.email,
@@ -82,7 +84,6 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                           hintText: 'Email Address',
                         ),
                         const SizedBox(height: 16),
-
                         profileField(
                           context: context,
                           initialValue: value.userModel.phone,
@@ -90,16 +91,15 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                           hintText: 'Phone',
                         ),
                         const SizedBox(height: 16),
-
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Update'),
-                        ),
+                        myButton(
+                          'Update',
+                          () {},
+                        )
                       ],
                     ),
-                  ),
-                );
-        },
+                  );
+          })
+        ],
       ),
     );
   }

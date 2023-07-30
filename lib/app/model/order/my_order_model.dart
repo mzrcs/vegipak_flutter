@@ -1,5 +1,7 @@
 import 'dart:core';
 
+import '../cart/cart_model.dart';
+
 // import '../cart/cart_model.dart';
 
 class MyOrderModel {
@@ -11,7 +13,7 @@ class MyOrderModel {
   final String note;
   final String status;
   final int total;
-  // final List<CartModel>? cartItems;
+  final List<CartModel>? cartItems;
   // final String? createAt;
   // final String? updateAt;
 
@@ -24,7 +26,7 @@ class MyOrderModel {
     required this.note,
     required this.status,
     required this.total,
-    // this.cartItems,
+    this.cartItems,
     // this.createAt,
     // this.updateAt,
     // required this.cartItems,
@@ -51,8 +53,7 @@ class MyOrderModel {
       note: json['extra_notes'],
       status: json['status'],
       total: json['total_price'],
-
-      //  cartItems:  json['line_item'].map<CartModel>((e) => e.toJson()),
+      // cartItems: json['line_item'].map<CartModel>((e) => e.toJson()),
       // createAt: json['created_at'],
       // updateAt: json['updated_at'],
     );
@@ -67,7 +68,7 @@ class MyOrderModel {
       "extra_notes": note,
       "status": status,
       "total_price": total,
-      // 'line_items': cartItems!.map((item) => item.toJson()).toList(),
+      'line_items': cartItems!.map((item) => item.toJson()).toList(),
       // "created_at": createAt,
       // "updated_at": updateAt,
     };

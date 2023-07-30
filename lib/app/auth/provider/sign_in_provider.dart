@@ -56,6 +56,9 @@ class LoginProvider extends ChangeNotifier {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final forgotEmailController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
 
   bool _loading = false;

@@ -1,1 +1,0 @@
-enum OtpEnum { forgotOtpScreen, signUpOtpScreen }

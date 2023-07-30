@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:vegipak/app/auth/widgets/auth_confim_button.dart';
 
-import '../../utils/routes/routes_name.dart';
-import '../../components/logo_widget.dart';
-import '../navigation_bar/provider/index_navigation.dart';
+import '../components/logo_widget.dart';
+import '../utils/routes/routes_name.dart';
 
-class ThankyouOrder extends StatelessWidget {
-  const ThankyouOrder({super.key});
+class VerificationSuccess extends StatelessWidget {
+  const VerificationSuccess({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,14 @@ class ThankyouOrder extends StatelessWidget {
               Column(
                 children: [
                   const Text(
-                    "Thankyou for Order",
+                    "Verification Successfully",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    "Your password send to your email please check & Re-Login to your account!",
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -41,11 +46,12 @@ class ThankyouOrder extends StatelessWidget {
 
               // const SizedBox(height: 100),
               AuthConfirmButton(
-                title: 'Back to main menu',
+                title: 'Back to login',
                 callBack: () {
-                  Provider.of<NavigationIndex>(context, listen: false)
-                      .currentIndex = 0;
-                  Navigator.pushReplacementNamed(context, RouteName.home);
+                  // Navigator.pushReplacementNamed(context, RouteName.login);
+
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteName.login, (Route route) => false);
                 },
               )
             ],

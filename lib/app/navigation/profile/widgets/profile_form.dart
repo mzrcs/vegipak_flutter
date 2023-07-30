@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../widgets/textfield_widget.dart';
+import '../../../components/textfield_widget.dart';
 import '../../../auth/provider/sign_up_provider.dart';
 import '../../../auth/widgets/auth_confim_button.dart';
 import '../provider/profile_provider.dart';

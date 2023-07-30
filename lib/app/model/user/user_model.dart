@@ -7,7 +7,7 @@ class UserModel {
   late String phone;
   String? emailVerifiedAt;
   int? districtAreaId;
-  String? address;
+  late String address;
   String? profilePicture;
   int? status;
   String? isBlock;
@@ -24,7 +24,7 @@ class UserModel {
     this.phone = '',
     this.emailVerifiedAt,
     this.districtAreaId,
-    this.address,
+    this.address = '',
     this.profilePicture,
     this.status,
     this.isBlock,

@@ -12,6 +12,7 @@ class RouteName {
   static const String forgotPassword = '/forgot_password';
   static const String resetPassword = '/reset_password';
   static const String otp = '/otp_view';
+  static const String forgotPasswordOtp = '/forgot_password_otp';
   static const String otpSuccess = '/otp_success';
 
   // Home
@@ -37,20 +38,24 @@ class RouteName {
   static const String posterMessages = '/poster_messages';
   static const String workerMessages = '/worker_messages';
 
-  // More
+  // Profile
   static const String viewMyProfile = '/my_profile';
   static const String editMyProfile = '/edit_my_profile';
-  static const String changePassword = '/change_password';
-  static const String accountSetting = '/account_settings';
-  static const String selectLanguage = '/select_language';
-  static const String aboutUs = '/about_us';
-  static const String contactUs = '/contact_us';
-  static const String termAndCondition = '/term_and_condition';
-  static const String privacyPolicy = '/privacy_policy';
-  static const String deleteAccount = '/delete_account';
-  static const String confirmDelete = '/confirm_delete';
+  static const String profileSetting = '/profile_setting';
+  static const String updatePassword = '/update_password';
 
-  // Test
-  static const String testLocation = '/test_location';
-  static const String testSearchLocation = '/test_search_location';
+
+  // static const String changePassword = '/change_password';
+  // static const String accountSetting = '/account_settings';
+  // static const String selectLanguage = '/select_language';
+  // static const String aboutUs = '/about_us';
+  // static const String contactUs = '/contact_us';
+  // static const String termAndCondition = '/term_and_condition';
+  // static const String privacyPolicy = '/privacy_policy';
+  // static const String deleteAccount = '/delete_account';
+  // static const String confirmDelete = '/confirm_delete';
+
+  // // Test
+  // static const String testLocation = '/test_location';
+  // static const String testSearchLocation = '/test_search_location';
 }

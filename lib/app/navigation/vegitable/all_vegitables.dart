@@ -3,26 +3,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/core/const.dart';
+// import 'package:vegipak/app/custom/annotated_widget.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
+import 'package:vegipak/app/navigation/vegitable/provider/connectivity_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/provider/product_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/custom_dialog_box.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/vegi_product_item.dart';
 import '../../core/constants/my_colors.dart';
 
-class AllVegitables extends StatelessWidget {
+class AllVegitables extends StatefulWidget {
   const AllVegitables({super.key});
+
+  @override
+  State<AllVegitables> createState() => _AllVegitablesState();
+}
+
+class _AllVegitablesState extends State<AllVegitables> {
+  @override
+  void initState() {
+    Provider.of<ConnectivityProvider>(context, listen: false)
+        .getConnectivity(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Consumer<ProductProvider>(
-      builder: (context, value, _) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Flex(
+    return Consumer2<ConnectivityProvider, ProductProvider>(
+      builder: (context, connectivity, value, _) {
+        connectivity.getConnectivity(context);
+
+        return SafeArea(
+          child: Scaffold(
+        
+            body: Flex(
               direction: Axis.vertical,
               children: [
                 Padding(
@@ -254,11 +270,13 @@ class AllVegitables extends StatelessWidget {
                                   crossAxisSpacing: 10.w,
                                   childAspectRatio: width / (height / 1.45),
                                 ),
-                                itemCount: searchProduct.searchProductList.length,
+                                itemCount:
+                                    searchProduct.searchProductList.length,
                                 itemBuilder: (context, index) {
                                   print(value.searchProductList.length);
 
-                                  var product = searchProduct.searchProductList[index];
+                                  var product =
+                                      searchProduct.searchProductList[index];
 
                                   return GestureDetector(
                                     onTap: () async {

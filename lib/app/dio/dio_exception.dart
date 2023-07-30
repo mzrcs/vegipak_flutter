@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class DioException {
         //   Colors.red,
         // );
       } else if (e.response?.statusCode == 422) {
-        print(e.response!.data['message']);
+        // log(e.response!.data['message']);
         AppToast.showToast(
             e.response!.data['message'][0].toString(), Colors.red);
       } else if (e.response?.statusCode == 500) {

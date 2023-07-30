@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/splash/splash_provider.dart';
-import '../widgets/logo_widget.dart';
+// import '../custom/annotated_widget.dart';
+import '../components/logo_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

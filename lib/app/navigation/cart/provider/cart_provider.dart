@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,8 +106,12 @@ class CartProvider extends ChangeNotifier {
     await userPrefrence.getSaveUser(userModel);
     Future.delayed(const Duration(seconds: 1)).then((value) async {
       phoneController.text = userModel.phone;
+      addressController.text = userModel.address;
+      selectedAreaId = userModel.districtAreaId;
       setLoading(false);
     });
+
+    log('area Id ${userModel.districtAreaId}');
   }
 
   Future getDistrictArea() async {
@@ -140,7 +145,7 @@ class CartProvider extends ChangeNotifier {
         note: noteController.text,
         status: 'Pending',
         total: int.parse(subTotal.toStringAsFixed(0)),
-        // cartItems: cartList,
+        cartItems: cartList,
       );
 
       print(jsonEncode(myOrderModel.toJson()));

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/textfield_widget.dart';
+import '../../components/textfield_widget.dart';
 import '../../core/constants/my_colors.dart';
+import '../../utils/utils.dart';
 import '../provider/sign_up_provider.dart';
 import 'auth_bottom_rich_text.dart';
 import 'auth_confim_button.dart';
@@ -30,126 +30,154 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SignupProvider>(builder: (context, provider, _) {
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            IconButton(
-              padding: const EdgeInsets.only(left: 12.0),
-              splashRadius: 20,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const FaIcon(
-                FontAwesomeIcons.arrowLeftLong,
-                color: Colors.grey,
-                size: 21,
-              ),
+      return ListView(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // const SizedBox(height: 8),
+          // IconButton(
+          //   padding: const EdgeInsets.only(left: 12.0),
+          //   splashRadius: 20,
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          //   icon: const FaIcon(
+          //     FontAwesomeIcons.arrowLeftLong,
+          //     color: Colors.grey,
+          //     size: 21,
+          //   ),
+          // ),
+          // const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'Sign up',
+              style: Theme.of(context)
+                  .textTheme
+                  .displayLarge!
+                  .copyWith(fontSize: 30, color: Colors.black87),
             ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Sign up',
-                style: Theme.of(context)
-                    .textTheme
-                    .displayLarge!
-                    .copyWith(fontSize: 30, color: Colors.black87),
-              ),
-            ),
+          ),
 
-            const SizedBox(height: 30),
+          const SizedBox(height: 30),
 
-            // Signup Form
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    // !: First Name field
-                    textFieldWidget1(
-                      context: context,
-                      hintText: 'First Name',
-                      iconData: Icons.person,
-                      controller: firstNameController,
-                    ),
-                    const SizedBox(height: 12),
+          // Signup Form
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  // !: First Name field
+                  textFieldWidget1(
+                    context: context,
+                    hintText: 'First Name',
+                    iconData: Icons.person,
+                    controller: firstNameController,
+                  ),
+                  const SizedBox(height: 12),
 
-                    // !: Last Name field
-                    textFieldWidget1(
-                      context: context,
-                      hintText: 'Last Name',
-                      iconData: Icons.person,
-                      controller: lastNameController,
-                    ),
-                    const SizedBox(height: 12),
+                  // !: Last Name field
+                  textFieldWidget1(
+                    context: context,
+                    hintText: 'Last Name',
+                    iconData: Icons.person,
+                    controller: lastNameController,
+                  ),
+                  const SizedBox(height: 12),
 
-                    // !: Email field
-                    textFieldWidget1(
-                      context: context,
-                      hintText: 'Email',
-                      iconData: Icons.email,
-                      controller: emailController,
-                    ),
-                    const SizedBox(height: 12),
+                  // !: Email field
+                  textFieldWidget1(
+                    context: context,
+                    hintText: 'Email',
+                    iconData: Icons.email,
+                    controller: emailController,
+                  ),
+                  const SizedBox(height: 12),
 
-                    // !: Phone field
-                    phoneFieldWidget(
-                      context: context,
-                      hintText: '3xxxxxxxxx',
-                      iconData: Icons.phone,
-                      isPhoneField: true,
-                      controller: phoneController,
-                    ),
-                    const SizedBox(height: 12),
+                  // !: Phone field
+                  phoneFieldWidget(
+                    context: context,
+                    hintText: '3xxxxxxxxx',
+                    iconData: Icons.phone,
+                    isPhoneField: true,
+                    controller: phoneController,
+                  ),
+                  const SizedBox(height: 12),
 
-                    // !: Password field
-                    textFieldWidget1(
-                      context: context,
-                      hintText: 'Password',
-                      iconData: Icons.lock,
-                      controller: passwordController,
-                    ),
-                    const SizedBox(height: 12),
+                  // !: Password field
+                  textFieldWidget1(
+                    context: context,
+                    hintText: 'Password',
+                    iconData: Icons.lock,
+                    controller: passwordController,
+                  ),
+                  const SizedBox(height: 12),
 
-                    // !: Address field
-                    textFieldWidget1(
-                      context: context,
-                      hintText: 'Address',
-                      iconData: Icons.home,
-                      controller: addressController,
-                    ),
-                    const SizedBox(height: 30),
-                    Consumer<SignupProvider>(builder: (context, value, _) {
-                      return AuthConfirmButton(
-                        isLoading: value.isLoading,
-                        title: 'Sign up',
-                        callBack: () {
-                          Provider.of<SignupProvider>(context, listen: false)
-                              .signUp(context);
-                        },
-                      );
-                    }),
+                  Utils().customDropdownButton(
+                    context: context,
+                    hintText: 'Select Area',
+                    errorText: 'Please select area',
+                    iconData: Icons.home,
+                    items: provider.districtAreaList
+                        .map(
+                          (item) => DropdownMenuItem<String>(
+                            value: item.id.toString(),
+                            child: Text(
+                              item.name!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black87,
+                                    fontSize: 17,
+                                  ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      provider.selectAreaId(int.parse(value.toString()));
+                    },
+                  ),
 
-                    SizedBox(height: MediaQuery.of(context).size.height / 10),
-                    AuthBottomRichText(
-                      detailText: 'Already hav an account? ',
-                      clickableText: 'Sign In',
-                      onTap: () {
-                        Navigator.pop(context);
+                  const SizedBox(height: 12),
+
+                  // !: Address field
+                  textFieldWidget1(
+                    context: context,
+                    hintText: 'Address',
+                    iconData: Icons.home,
+                    controller: addressController,
+                  ),
+                  const SizedBox(height: 30),
+                  Consumer<SignupProvider>(builder: (context, value, _) {
+                    return AuthConfirmButton(
+                      isLoading: value.isLoading,
+                      title: 'Sign up',
+                      callBack: () {
+                        Provider.of<SignupProvider>(context, listen: false)
+                            .signUp(context);
                       },
-                      darkColor: Colors.grey.shade500,
-                      lightColor: MyColors.kGreenColor,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                    );
+                  }),
+
+                  SizedBox(height: MediaQuery.of(context).size.height / 10),
+                  AuthBottomRichText(
+                    detailText: 'Already hav an account? ',
+                    clickableText: 'Sign In',
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    darkColor: Colors.grey.shade500,
+                    lightColor: MyColors.kGreenColor,
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
     });
   }

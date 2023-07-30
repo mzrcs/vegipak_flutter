@@ -2,6 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../core/constants/my_colors.dart';
+
 class Utils {
   // Change Focus Node
   // static fieldFocusChange(
@@ -86,7 +88,7 @@ class Utils {
   }
 
   // DROPDOWN
-  DropdownButtonHideUnderline customDropdownButton({
+  customDropdownButton({
     required BuildContext context,
     // ClientViewModel clientViewModel,
     // ClientViewModel clientProvider,
@@ -94,58 +96,91 @@ class Utils {
     required String errorText,
     required List<DropdownMenuItem<String>>? items,
     required Function(String?)? onChanged,
+    required IconData iconData,
     bool updateDropdown = false,
+    String? value,
   }) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButtonFormField2(
-        style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              fontWeight: FontWeight.w400,
-              color: Colors.black87,
-              fontSize: 17,
-            ),
-        decoration: InputDecoration(
-          //Add isDense true and zero Padding.
-          //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-          isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 4),
-
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
-          ),
-        ),
-        isExpanded: false,
-        hint: Text(
-          hintText,
-          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                fontSize: 15,
-                color: Colors.grey.shade500,
-                fontWeight: FontWeight.w500,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            spreadRadius: 4,
+            blurRadius: 10,
+            offset: const Offset(0, 8),
+          )
+        ],
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButtonFormField2(
+          value: value,
+          style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                fontWeight: FontWeight.w400,
+                color: Colors.black87,
+                fontSize: 17,
               ),
-        ),
-        items: items,
-        validator: (value) {
-          if (value == null) {
-            return errorText;
-          }
-          return null;
-        },
-        onChanged: onChanged,
-        onSaved: (value) {},
-        buttonStyleData: const ButtonStyleData(
-          height: 40,
-          padding: EdgeInsets.only(left: 2, right: 12),
-        ),
-        iconStyleData: const IconStyleData(
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: Colors.black45,
+          decoration: InputDecoration(
+            //Add isDense true and zero Padding.
+            //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+            isDense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 4),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: Icon(iconData, color: MyColors.kGreenColor, size: 24),
+            ),
+            fillColor: Colors.white,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6),
+              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+            ),
           ),
-          iconSize: 30,
-        ),
-        dropdownStyleData: DropdownStyleData(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+          isExpanded: true,
+          hint: Text(
+            hintText,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  fontSize: 15,
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          items: items,
+          validator: (value) {
+            if (value == null) {
+              return errorText;
+            }
+            return null;
+          },
+          onChanged: onChanged,
+          onSaved: (value) {},
+          buttonStyleData: const ButtonStyleData(
+            height: 40,
+            padding: EdgeInsets.only(left: 2, right: 12),
+          ),
+          iconStyleData: const IconStyleData(
+            icon: Icon(
+              Icons.arrow_drop_down,
+              color: Colors.black45,
+            ),
+            iconSize: 30,
+          ),
+          // isDense: true,
+          dropdownStyleData: DropdownStyleData(
+            maxHeight: MediaQuery.of(context).size.height * 0.60,
+            useSafeArea: true,
+            elevation: 4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       ),

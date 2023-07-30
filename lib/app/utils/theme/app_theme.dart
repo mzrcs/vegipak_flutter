@@ -162,6 +162,7 @@ class AppTheme {
   // Light ThemeData
   static ThemeData light() {
     return ThemeData(
+
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateColor.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {

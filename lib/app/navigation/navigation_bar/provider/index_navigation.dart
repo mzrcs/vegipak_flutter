@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../cart/my_cart.dart';
 // import '../../order/view/my_order.dart';
-import '../../order/view/my_order.dart';
+import '../../order/my_order.dart';
 import '../../profile/profile.dart';
 import '../../vegitable/all_vegitables.dart';
 

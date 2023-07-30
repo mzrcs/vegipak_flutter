@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/logo_widget.dart';
-import '../../widgets/textfield_widget.dart';
+import '../../components/logo_widget.dart';
+import '../../components/textfield_widget.dart';
 import '../../core/constants/my_colors.dart';
 import '../../utils/routes/routes_name.dart';
 import '../provider/sign_in_provider.dart';
@@ -73,11 +73,10 @@ class LoginForm extends StatelessWidget {
                               ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              // Navigator.pushNamed(
-                              //   context,
-                              //   AppPages.forgetPasswordPath,
-                              //   arguments: true,
-                              // );
+                              Navigator.pushNamed(
+                                context,
+                                RouteName.forgotPassword,
+                              );
                             },
                         ),
                       ),

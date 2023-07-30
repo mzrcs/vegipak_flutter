@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
-import '../provider/order_prov.dart';
+import '../../constants.dart';
+import 'provider/order_prov.dart';
 
 class MyOrder extends StatelessWidget {
   const MyOrder({super.key});

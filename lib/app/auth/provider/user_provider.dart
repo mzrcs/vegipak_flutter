@@ -33,7 +33,8 @@ class UserProvider extends ChangeNotifier {
     userModel.lastName = sp.getString('last_name') ?? '';
     userModel.email = sp.getString('email') ?? '';
     userModel.phone = sp.getString('phone') ?? '';
-
+    userModel.address = sp.getString('address') ?? '';
+    userModel.districtAreaId = sp.getInt('areaId') ?? 0;
     notifyListeners();
   }
 
@@ -45,6 +46,14 @@ class UserProvider extends ChangeNotifier {
     sp.setString('last_name', authModel.lastName.toString());
     sp.setString('email', authModel.email.toString());
     sp.setString('phone', authModel.phone.toString());
+    sp.setString('address', authModel.address.toString());
+    sp.setInt('areaId', authModel.districtAreaId!);
+    notifyListeners();
+  }
+
+  Future<void> saveUserEmail(SignUpAuthModel signUpAuthModel) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.setString('registerEmail', signUpAuthModel.userEmail.toString());
     notifyListeners();
   }
 
@@ -56,5 +65,7 @@ class UserProvider extends ChangeNotifier {
     sp.remove('last_name');
     sp.remove('email');
     sp.remove('phone');
+    sp.remove('address');
+    sp.remove('areaId');
   }
 }
