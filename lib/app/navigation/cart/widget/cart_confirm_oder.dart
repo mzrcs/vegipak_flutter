@@ -181,7 +181,7 @@ class CartOrderNow extends StatelessWidget {
                           const SizedBox(height: 8),
                           // total price
                           Text(
-                            '\$ ${value.subTotal}',
+                            'Rs. ${value.subTotal}',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -195,11 +195,11 @@ class CartOrderNow extends StatelessWidget {
                           if (value.totalProductCount > 0) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    ChangeNotifierProvider<CartProvider>.value(
-                                  value: context.read<CartProvider>(),
-                                  child: const OrderNow(),
-                                ),
+                                builder: (context) => OrderNow(),
+                                //     ChangeNotifierProvider<CartProvider>.value(
+                                //   value: context.read<CartProvider>(),
+                                //   child: const OrderNow(),
+                                // ),
                               ),
                             );
                           } else {

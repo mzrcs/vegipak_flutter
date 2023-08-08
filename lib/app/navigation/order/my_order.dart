@@ -1,213 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
+import 'package:vegipak/app/navigation/order/widget/my_orders_list.dart';
+import '../../custom/annotated_widget.dart';
 
-import '../../constants.dart';
-import 'provider/order_prov.dart';
-
-class MyOrder extends StatelessWidget {
+class MyOrder extends StatefulWidget {
   const MyOrder({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).textScaleFactor;
+  State<MyOrder> createState() => _MyOrderState();
+}
 
-    return Scaffold(
-      body: Consumer<OrderProv>(
-        builder: (context, value, child) {
-          return Column(
-            children: [
-              Expanded(
-                child: value.isLoading == true
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        itemCount: value.myOrdersList.length,
-                        itemBuilder: (_, index) => Card(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: value.myOrdersList[index].status ==
-                                        "Pending"
-                                    ? Colors.green
-                                    : Colors.white),
-                            child: ListTile(
-                                title: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 4),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                flex: 2,
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      "Order# ",
-                                                      style: TextStyle(
-                                                          color: Colors.black54,
-                                                          fontSize: width * 20,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      "${value.myOrdersList[index].id}",
-                                                      style: TextStyle(
-                                                          color: value
-                                                                      .myOrdersList[
-                                                                          index]
-                                                                      .status ==
-                                                                  "Pending"
-                                                              ? Colors.white
-                                                              : Colors.green,
-                                                          fontSize: width * 20,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )
-                                                  ],
-                                                )),
-                                            Expanded(
-                                                child: Center(
-                                                    child: Text(
-                                              "${Constants.currencySymbol} ${value.myOrdersList[index].total}",
-                                              style: TextStyle(
-                                                  color:
-                                                      value.myOrdersList[index]
-                                                                  .status ==
-                                                              "Pending"
-                                                          ? Colors.white
-                                                          : Colors.green,
-                                                  fontSize: width * 20,
-                                                  fontWeight: FontWeight.bold),
-                                            )))
-                                          ],
-                                        ),
-                                      ),
-                                      // Dated
-                                      // Row(
-                                      //   children: [
-                                      //     Expanded(
-                                      //       child: Text(
-                                      //         "Date : ${value.myOrdersList[index]}",
-                                      //         style: const TextStyle(
-                                      //             color: Colors.black54,
-                                      //             fontSize: 16,
-                                      //             fontWeight: FontWeight.bold),
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            "Status : ",
-                                            style: TextStyle(
-                                                color: Colors.black54,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "${value.myOrdersList[index].status}",
-                                            style: TextStyle(
-                                                color: value.myOrdersList[index]
-                                                            .status ==
-                                                        "Pending"
-                                                    ? Colors.white
-                                                    : value.myOrdersList[index]
-                                                                .status ==
-                                                            "Canceled"
-                                                        ? Colors.red
-                                                        : Colors.green,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: Colors.black26),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        // ...List.generate(
-                                        //     (value.orders[index]['items']
-                                        //             as List)
-                                        //         .length, (i) {
-                                        //   return Row(
-                                        //     crossAxisAlignment:
-                                        //         CrossAxisAlignment.center,
-                                        //     mainAxisAlignment:
-                                        //         MainAxisAlignment.center,
-                                        //     children: [
-                                        //       Expanded(
-                                        //         child: Center(
-                                        //           child: Text(
-                                        //             "${(value.orders[index]['items'] as List)[i]['name']}",
-                                        //             style: const TextStyle(
-                                        //                 color: Colors.black54,
-                                        //                 fontSize: 16,
-                                        //                 fontWeight:
-                                        //                     FontWeight.bold),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //       Expanded(
-                                        //         child: Center(
-                                        //           child: Text(
-                                        //             "${Constants.currencySymbol} ${(value.orders[index]['items'] as List)[i]['price']}",
-                                        //             style: const TextStyle(
-                                        //                 color: Colors.black54,
-                                        //                 fontSize: 16,
-                                        //                 fontWeight:
-                                        //                     FontWeight.bold),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //       Expanded(
-                                        //         child: Center(
-                                        //           child: Text(
-                                        //             "x${(value.orders[index]['items'] as List)[i]['qty']}",
-                                        //             style: const TextStyle(
-                                        //                 color: Colors.black54,
-                                        //                 fontSize: 16,
-                                        //                 fontWeight:
-                                        //                     FontWeight.bold),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //       const Expanded(
-                                        //         child: Center(
-                                        //             child: Text(
-                                        //           "${Constants.currencySymbol} 400",
-                                        //           style: TextStyle(
-                                        //               color: Colors.black54,
-                                        //               fontSize: 16,
-                                        //               fontWeight:
-                                        //                   FontWeight.bold),
-                                        //         )),
-                                        //       ),
-                                        //     ],
-                                        //   );
-                                        // }),
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                          ),
+class _MyOrderState extends State<MyOrder> {
+  @override
+  Widget build(BuildContext context) {
+    final value = context.watch<OrderProvider>();
+
+    // log('currentDate ${value.currentFormattedDate}');
+    // log('lastWeekDate ${value.lastWeekFormattedDate}');
+
+    return AnnotatedWidget(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          surfaceTintColor: Colors.transparent,
+          centerTitle: true,
+          title: const Text(
+            'My Orders',
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.w500,
+              fontSize: 17,
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "From: ${value.currentFormattedDate}",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w100,
                         ),
                       ),
-              ),
-            ],
-          );
-        },
+                      Text(
+                        "To: ${value.lastWeekFormattedDate}",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 6.h),
+                const MyOrderList(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

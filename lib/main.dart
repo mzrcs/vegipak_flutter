@@ -79,8 +79,8 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => NavigationIndex()),
 
         ChangeNotifierProvider(create: (context) => ProductProvider(context)),
-        ChangeNotifierProvider(create: (context) => CartProvider(context)),
-        ChangeNotifierProvider(create: (context) => OrderProv(context)),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider(context)),
 
         //----------------
         ChangeNotifierProvider(create: (context) => ProfileProvider(context)),

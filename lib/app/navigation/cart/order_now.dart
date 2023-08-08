@@ -8,8 +8,23 @@ import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
 import '../../utils/utils.dart';
 import '../../components/textfield_widget.dart';
 
-class OrderNow extends StatelessWidget {
+class OrderNow extends StatefulWidget {
   const OrderNow({super.key});
+
+  @override
+  State<OrderNow> createState() => _OrderNowState();
+}
+
+class _OrderNowState extends State<OrderNow> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<CartProvider>(context, listen: false).getSavedData(context);
+      Provider.of<CartProvider>(context, listen: false).getDistrictArea();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,96 +41,98 @@ class OrderNow extends StatelessWidget {
       ),
       body: Consumer<CartProvider>(
         builder: (context, value, _) {
-          return Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 12.0,
-                ),
-                child: Form(
-                  key: value.formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Fill out detail",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+          return value.isLoadingData
+              ? const Center(child: CircularProgressIndicator())
+              : Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
+                      child: Form(
+                        key: value.formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Fill out detail",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            textFieldWidget2(
+                              context: context,
+                              hintText: 'Phone',
+                              controller: value.phoneController,
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            // !: Address field
+                            textFieldWidget2(
+                              context: context,
+                              hintText: 'Address',
+                              controller: value.addressController,
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            Consumer<CartProvider>(
+                              builder: (context, provider, _) {
+                                log('area Id ${provider.selectedAreaId}');
+                                return Utils().customDropdownButton(
+                                  value: provider.selectedAreaId.toString(),
+                                  context: context,
+                                  hintText: 'Select Area',
+                                  errorText: 'Please select area',
+                                  iconData: Icons.home,
+                                  items: provider.districtAreaList
+                                      .map(
+                                        (item) => DropdownMenuItem<String>(
+                                          value: item.id.toString(),
+                                          child: Text(
+                                            item.name!,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black87,
+                                                  fontSize: 17,
+                                                ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (value) {
+                                    provider.selectAreaId(
+                                        int.parse(value.toString()));
+                                  },
+                                );
+                              },
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            // !: Note field
+                            textFieldWidget2(
+                              context: context,
+                              hintText: 'Extra Note',
+                              controller: value.noteController,
+                            ),
+                          ],
                         ),
                       ),
-
-                      SizedBox(height: 12.h),
-
-                      textFieldWidget2(
-                        context: context,
-                        hintText: 'Phone',
-                        controller: value.phoneController,
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      // !: Address field
-                      textFieldWidget2(
-                        context: context,
-                        hintText: 'Address',
-                        controller: value.addressController,
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      Consumer<CartProvider>(
-                        builder: (context, provider, _) {
-                          log('area Id ${provider.selectedAreaId}');
-                          return Utils().customDropdownButton(
-                            value: provider.selectedAreaId.toString(),
-                            context: context,
-                            hintText: 'Select Area',
-                            errorText: 'Please select area',
-                            iconData: Icons.home,
-                            items: provider.districtAreaList
-                                .map(
-                                  (item) => DropdownMenuItem<String>(
-                                    value: item.id.toString(),
-                                    child: Text(
-                                      item.name!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall!
-                                          .copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black87,
-                                            fontSize: 17,
-                                          ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              provider
-                                  .selectAreaId(int.parse(value.toString()));
-                            },
-                          );
-                        },
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      // !: Note field
-                      textFieldWidget2(
-                        context: context,
-                        hintText: 'Extra Note',
-                        controller: value.noteController,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (value.isLoading)
-                const Center(child: CircularProgressIndicator()),
-            ],
-          );
+                    ),
+                    if (value.isLoading)
+                      const Center(child: CircularProgressIndicator()),
+                  ],
+                );
         },
       ),
       bottomNavigationBar: Consumer<CartProvider>(
@@ -153,7 +170,7 @@ class OrderNow extends StatelessWidget {
                       const SizedBox(height: 8),
                       // total price
                       Text(
-                        '\$ ${value.subTotal}',
+                        'Rs. ${value.subTotal}',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

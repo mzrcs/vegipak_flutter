@@ -13,10 +13,10 @@ import '../../../services/order_service.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class CartProvider extends ChangeNotifier {
-  CartProvider(context) {
-    getDistrictArea();
-    getSavedData(context);
-  }
+  // CartProvider(context) {
+  //   getDistrictArea();
+  //   getSavedData(context);
+  // }
 
   bool tapField = false;
   int quantity = 1;
@@ -93,6 +93,14 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _loadingData = false;
+  bool get isLoadingData => _loadingData;
+
+  setLoadingData(bool value) {
+    _loadingData = value;
+    notifyListeners();
+  }
+
   selectAreaId(int value) {
     selectedAreaId = value;
     notifyListeners();
@@ -101,14 +109,14 @@ class CartProvider extends ChangeNotifier {
   UserModel userModel = UserModel();
 
   Future<void> getSavedData(context) async {
-    setLoading(true);
+    setLoadingData(true);
     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
     await userPrefrence.getSaveUser(userModel);
-    Future.delayed(const Duration(seconds: 1)).then((value) async {
+    Future.delayed(Duration.zero).then((value) async {
       phoneController.text = userModel.phone;
       addressController.text = userModel.address;
       selectedAreaId = userModel.districtAreaId;
-      setLoading(false);
+      setLoadingData(false);
     });
 
     log('area Id ${userModel.districtAreaId}');
@@ -116,16 +124,16 @@ class CartProvider extends ChangeNotifier {
 
   Future getDistrictArea() async {
     // log("message");
-    setLoading(true);
+    setLoadingData(true);
     await _orderServices.districtAreas().then((value) {
       if (value != null) {
         // print(value.districtAreas);
         districtAreaList = value.districtAreas!;
         notifyListeners();
 
-        setLoading(false);
+        setLoadingData(false);
       } else {
-        setLoading(false);
+        setLoadingData(false);
         return null;
       }
     });

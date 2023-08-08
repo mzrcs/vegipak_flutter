@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:vegipak/app/model/order/my_order_model.dart';
 import '../core/api/api.dart';
 import '../dio/dio_exception.dart';
@@ -44,10 +45,15 @@ class OrderService {
     return null;
   }
 
-  Future<List<MyOrderModel>?> getMyOrders(context) async {
+  Future<List<MyOrderModel>?> getMyOrders({
+    required BuildContext context,
+    required String currentDate,
+    required String lastWeekDate
+
+  }) async {
     Dio dios = await ApiInterceptor().getApiUser();
     try {
-      Response response = await dios.get("$BASE_URL/order/show");
+      Response response = await dios.get("$BASE_URL/order/show?to=$currentDate&from=$lastWeekDate");
 
       // ApiResponse apiResponse = ApiResponse.fromResponse(response);
 

@@ -14,8 +14,8 @@ class MyOrderModel {
   final String status;
   final int total;
   final List<CartModel>? cartItems;
-  // final String? createAt;
-  // final String? updateAt;
+  String? createdAt;
+  String? updatedAt;
 
   MyOrderModel({
     this.id,
@@ -27,9 +27,8 @@ class MyOrderModel {
     required this.status,
     required this.total,
     this.cartItems,
-    // this.createAt,
-    // this.updateAt,
-    // required this.cartItems,
+    this.createdAt,
+    this.updatedAt,
   });
 
   // factory MyOrderModel.fromJson(Map<String, dynamic> json) => MyOrderModel(
@@ -53,9 +52,11 @@ class MyOrderModel {
       note: json['extra_notes'],
       status: json['status'],
       total: json['total_price'],
-      // cartItems: json['line_item'].map<CartModel>((e) => e.toJson()),
-      // createAt: json['created_at'],
-      // updateAt: json['updated_at'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      cartItems: List.from(json['line_items'])
+          .map((e) => CartModel.fromJson(e))
+          .toList(),
     );
   }
 
