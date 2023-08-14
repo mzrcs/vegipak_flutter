@@ -70,4 +70,17 @@ class UserModel {
     data['updated_at'] = updatedAt;
     return data;
   }
+
+  Map<String, dynamic> updateJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['type'] = type;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['address'] = address;
+    data['district_area_id'] = districtAreaId;
+    data['status'] = status;
+    return data;
+  }
 }

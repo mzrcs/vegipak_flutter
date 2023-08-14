@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/core/const.dart';
-// import 'package:vegipak/app/custom/annotated_widget.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
-import 'package:vegipak/app/navigation/vegitable/provider/connectivity_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/provider/product_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/custom_dialog_box.dart';
 import 'package:vegipak/app/navigation/vegitable/widget/vegi_product_item.dart';
 import '../../core/constants/my_colors.dart';
+import '../navigation_bar/provider/index_navigation.dart';
 
 class AllVegitables extends StatefulWidget {
   const AllVegitables({super.key});
@@ -21,9 +20,8 @@ class AllVegitables extends StatefulWidget {
 class _AllVegitablesState extends State<AllVegitables> {
   @override
   void initState() {
-    Provider.of<ConnectivityProvider>(context, listen: false)
-        .getConnectivity(context);
     super.initState();
+    Provider.of<NavigationIndex>(context, listen: false).checkInternet();
   }
 
   @override
@@ -31,13 +29,10 @@ class _AllVegitablesState extends State<AllVegitables> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Consumer2<ConnectivityProvider, ProductProvider>(
-      builder: (context, connectivity, value, _) {
-        connectivity.getConnectivity(context);
-
+    return Consumer<ProductProvider>(
+      builder: (context, value, _) {
         return SafeArea(
           child: Scaffold(
-        
             body: Flex(
               direction: Axis.vertical,
               children: [

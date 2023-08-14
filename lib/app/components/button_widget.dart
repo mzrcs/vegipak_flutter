@@ -51,6 +51,44 @@ Widget myButton(
   );
 }
 
+Widget myButton2(
+  String title,
+  void Function()? onPressed,
+) {
+  return SizedBox(
+    // width: double.infinity,
+    height: 45,
+    child: ElevatedButton(
+      // minWidth: double.infinity,
+      // height: 50,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(8),
+      // ),
+
+      // disabledColor: Colors.green.withOpacity(0.9),
+      // elevation: 2,
+      // onPressed: loading! ? null : () => onPressed!(),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: MyColors.kGreenColor),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: MyColors.kGreenColor,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget myTextButton(String title, Function onPressed) {
   return TextButton(
     onPressed: () => onPressed(),

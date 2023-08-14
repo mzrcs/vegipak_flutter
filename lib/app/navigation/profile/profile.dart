@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/auth/provider/user_provider.dart';
 import 'package:vegipak/app/core/constants/my_colors.dart';
 
 import '../../utils/routes/routes_name.dart';
+import '../navigation_bar/provider/index_navigation.dart';
 // import 'package:vegipak/app/navigation/profile/provider/profile_provider.dart';
 // import 'package:vegipak/app/utils/routes/routes_name.dart';
 
@@ -16,6 +16,12 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<NavigationIndex>(context, listen: false).checkInternet();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

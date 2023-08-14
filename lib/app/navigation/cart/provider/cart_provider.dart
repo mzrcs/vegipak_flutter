@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:vegipak/app/model/cart/cart_model.dart';
 import 'package:vegipak/app/model/order/my_order_model.dart';
 import 'package:vegipak/app/model/user/area_model.dart';
+import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
 import 'package:vegipak/app/utils/utils.dart';
 import '../../../auth/provider/user_provider.dart';
 import '../../../model/user/user_model.dart';
@@ -78,6 +79,7 @@ class CartProvider extends ChangeNotifier {
   final OrderService _orderServices = OrderService();
   List<DistrictAreas> districtAreaList = [];
 
+  int? authId;
   int? selectedAreaId;
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
@@ -113,6 +115,7 @@ class CartProvider extends ChangeNotifier {
     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
     await userPrefrence.getSaveUser(userModel);
     Future.delayed(Duration.zero).then((value) async {
+      authId = userModel.id;
       phoneController.text = userModel.phone;
       addressController.text = userModel.address;
       selectedAreaId = userModel.districtAreaId;
@@ -146,7 +149,7 @@ class CartProvider extends ChangeNotifier {
       setLoading(true);
 
       final MyOrderModel myOrderModel = MyOrderModel(
-        userId: 4,
+        userId: authId!,
         phone: phoneController.text,
         areaId: selectedAreaId!,
         address: addressController.text,
@@ -159,7 +162,6 @@ class CartProvider extends ChangeNotifier {
       print(jsonEncode(myOrderModel.toJson()));
 
       await _orderServices.createOrder(model: myOrderModel).then((value) {
-        print(value);
         if (value != null) {
           setLoading(false);
 
@@ -170,10 +172,12 @@ class CartProvider extends ChangeNotifier {
 
           Navigator.pushReplacementNamed(context, RouteName.thankyou);
 
+          Provider.of<OrderProvider>(context, listen: false)
+              .getMyOrders(context);
+
           cartList.clear();
           clearTextfield();
         } else {
-          print('object');
           setLoading(false);
           return;
         }

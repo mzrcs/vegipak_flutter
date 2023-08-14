@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
 import 'package:vegipak/app/navigation/order/widget/my_orders_list.dart';
 import '../../custom/annotated_widget.dart';
+import '../navigation_bar/provider/index_navigation.dart';
 
 class MyOrder extends StatefulWidget {
   const MyOrder({super.key});
@@ -13,6 +14,12 @@ class MyOrder extends StatefulWidget {
 }
 
 class _MyOrderState extends State<MyOrder> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<NavigationIndex>(context, listen: false).checkInternet();
+  }
+
   @override
   Widget build(BuildContext context) {
     final value = context.watch<OrderProvider>();
@@ -40,7 +47,6 @@ class _MyOrderState extends State<MyOrder> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),

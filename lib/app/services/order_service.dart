@@ -25,35 +25,34 @@ class OrderService {
         data: jsonEncode(model.toJson()),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         if (response.data == null) {
           return null;
         } else {
           return response.data;
         }
       } else {
+        log('response $response');
         return null;
       }
 
       // // Convert raw data to model
       // return apiResponse.data;
     } on DioError catch (e) {
-      log('happenss');
-      log(e.message.toString());
+      // log(e.message.toString());
       DioException().dioError(e);
     }
     return null;
   }
 
-  Future<List<MyOrderModel>?> getMyOrders({
-    required BuildContext context,
-    required String currentDate,
-    required String lastWeekDate
-
-  }) async {
+  Future<List<MyOrderModel>?> getMyOrders(
+      {required BuildContext context,
+      required String currentDate,
+      required String lastWeekDate}) async {
     Dio dios = await ApiInterceptor().getApiUser();
     try {
-      Response response = await dios.get("$BASE_URL/order/show?to=$currentDate&from=$lastWeekDate");
+      Response response = await dios
+          .get("$BASE_URL/order/show?to=$currentDate&from=$lastWeekDate");
 
       // ApiResponse apiResponse = ApiResponse.fromResponse(response);
 

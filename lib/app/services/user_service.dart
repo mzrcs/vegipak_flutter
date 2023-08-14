@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:vegipak/app/model/user/user_model.dart';
 import '../core/api/api.dart';
 import '../dio/dio_interceptor.dart';
+import '../model/general/general_model.dart';
 import '../model/user/area_model.dart';
 import '../model/user/sign_in_model.dart';
 import '../model/user/sign_up_model.dart';
@@ -69,7 +71,7 @@ class UserService {
     return null;
   }
 
-  Future<AuthModel?> verifyAccount({required VerifyOTPModel model}) async {
+  Future<AuthModel?> verifySignUpOTP({required VerifyOTPModel model}) async {
     try {
       Response response = await _api.sendRequest.post(
         "/user/verifyOTP",
@@ -150,6 +152,43 @@ class UserService {
       }
     } catch (error) {
       log('error $error');
+    }
+    return null;
+  }
+
+  Future<AuthModel?> upateMyProfile({
+    required int authId,
+    required UserModel model,
+  }) async {
+    Dio dios = await ApiInterceptor().getApiUser();
+
+    try {
+      Response response = await dios.post(
+        "$BASE_URL/user/update/$authId",
+        data: jsonEncode(model.updateJson()),
+      );
+
+      // log('response $response');
+
+      ApiResponse apiResponse = ApiResponse.fromResponse(response);
+
+      // Convert raw data to model
+      return AuthModel.fromJson(apiResponse.data);
+    } on DioError catch (e) {
+      log('err $e');
+      DioException().dioError(e);
+    }
+    return null;
+  }
+
+  Future<General?> generalSetting() async {
+    Dio dios = await ApiInterceptor().getApiUser();
+    try {
+      Response response = await dios.get("$BASE_URL/general-setting/show");
+
+      return General.fromJson(response.data);
+    } on DioError catch (e) {
+      DioException().dioError(e);
     }
     return null;
   }

@@ -7,7 +7,6 @@ import 'package:vegipak/app/auth/provider/sign_in_provider.dart';
 import 'package:vegipak/app/auth/provider/sign_up_provider.dart';
 import 'package:vegipak/app/auth/provider/user_provider.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
-import 'package:vegipak/app/navigation/vegitable/provider/connectivity_provider.dart';
 import 'package:vegipak/app/navigation/order/provider/order_prov.dart';
 import 'package:vegipak/app/navigation/settings/provider/settings_provider.dart';
 import 'package:vegipak/app/navigation/vegitable/provider/product_provider.dart';
@@ -68,7 +67,6 @@ class _AppState extends State<App> {
       // create: (context) => SettingsProvider(),
       providers: [
         ChangeNotifierProvider(create: (context) => SplashProvider()),
-        ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
         //----------------
 
         ChangeNotifierProvider(create: (context) => UserProvider()),

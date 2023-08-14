@@ -13,6 +13,16 @@ class UpdateMyProfile extends StatefulWidget {
 
 class _UpdateMyProfileState extends State<UpdateMyProfile> {
   @override
+  void initState() {
+    super.initState();
+
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Provider.of<ProfileProvider>(context, listen: false)
+    //       .getSavedData(context);
+    // });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +62,8 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                         width: 30,
                         height: 30,
                         child: Center(
-                            child: CircularProgressIndicator(strokeWidth: 2.0)),
+                          child: CircularProgressIndicator(strokeWidth: 2.0),
+                        ),
                       ),
                     ),
                   )
@@ -61,41 +72,54 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                       horizontal: 16,
                       vertical: 12,
                     ),
-                    child: Column(
-                      children: [
-                        profileField(
-                          context: context,
-                          initialValue: value.userModel.firstName,
-                          labelText: 'First',
-                          hintText: 'First Name',
-                        ),
-                        const SizedBox(height: 16),
-                        profileField(
-                          context: context,
-                          initialValue: value.userModel.lastName,
-                          labelText: 'Last',
-                          hintText: 'Last Name',
-                        ),
-                        const SizedBox(height: 16),
-                        profileField(
-                          context: context,
-                          initialValue: value.userModel.email,
-                          labelText: 'Email',
-                          hintText: 'Email Address',
-                        ),
-                        const SizedBox(height: 16),
-                        profileField(
-                          context: context,
-                          initialValue: value.userModel.phone,
-                          labelText: 'Phone',
-                          hintText: 'Phone',
-                        ),
-                        const SizedBox(height: 16),
-                        myButton(
-                          'Update',
-                          () {},
-                        )
-                      ],
+                    child: Form(
+                      key: value.formKey,
+                      child: Column(
+                        children: [
+                          profileField(
+                            context: context,
+                            initialValue: value.userModel.firstName,
+                            controller: value.firstNameController,
+                            labelText: 'First',
+                            hintText: 'First Name',
+                          ),
+                          const SizedBox(height: 16),
+                          profileField(
+                            context: context,
+                            initialValue: value.userModel.lastName,
+                            controller: value.lastNameController,
+                            labelText: 'Last',
+                            hintText: 'Last Name',
+                          ),
+                          const SizedBox(height: 16),
+                          profileField(
+                            context: context,
+                            initialValue: value.userModel.email,
+                            controller: value.emailController,
+                            labelText: 'Email',
+                            hintText: 'Email Address',
+                            readOnly: true,
+                          ),
+                          const SizedBox(height: 16),
+                          profileField(
+                            context: context,
+                            initialValue: value.userModel.phone,
+                            controller: value.phoneController,
+                            labelText: 'Phone',
+                            hintText: 'Phone',
+                          ),
+                          const SizedBox(height: 16),
+                          myButton(
+                            'Update',
+                            () {
+                              Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .updateProfile(context);
+                            },
+                            loading: value.isLoading2,
+                          )
+                        ],
+                      ),
                     ),
                   );
           })
@@ -109,12 +133,16 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
     required String initialValue,
     required String labelText,
     required String hintText,
+    required TextEditingController controller,
+    bool readOnly = false,
   }) {
     return TextFormField(
-      initialValue: initialValue,
+      // initialValue: initialValue,
+      readOnly: readOnly,
       validator: (val) =>
           val != null && val.isNotEmpty ? null : 'Required Field',
       style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16),
+      controller: controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

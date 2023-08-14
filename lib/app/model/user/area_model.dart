@@ -15,8 +15,7 @@ class AreaModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (districtAreas != null) {
-      data['DistrictAreas'] =
-          districtAreas!.map((v) => v.toJson()).toList();
+      data['DistrictAreas'] = districtAreas!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -29,12 +28,13 @@ class DistrictAreas {
   String? createdAt;
   String? updatedAt;
 
-  DistrictAreas(
-      {this.id,
-      this.cityDistrictId,
-      this.name,
-      this.createdAt,
-      this.updatedAt});
+  DistrictAreas({
+    this.id,
+    this.cityDistrictId,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   DistrictAreas.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,7 +45,7 @@ class DistrictAreas {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['city_district_id'] = cityDistrictId;
     data['name'] = name;

@@ -7,6 +7,8 @@ class AuthModel {
   String? phone;
   String? address;
   int? districtAreaId;
+  int? status;
+
 
   AuthModel({
     required this.uId,
@@ -17,6 +19,7 @@ class AuthModel {
     this.phone,
     this.address,
     this.districtAreaId,
+    this.status,
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +32,7 @@ class AuthModel {
       phone: json['user']['phone'],
       address: json['user']['address'],
       districtAreaId: json['user']['district_area_id'],
+      status: json['user']['status'],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/model/user/sign_in_model.dart';
 import '../../../auth/provider/user_provider.dart';
@@ -45,56 +46,92 @@ class ProfileProvider extends ChangeNotifier {
     clearTextfield();
   }
 
+  int? authId;
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  int? selectedAreaId;
+  int? status;
+
   final formKey = GlobalKey<FormState>();
 
   UserModel userModel = UserModel();
 
   Future<void> getSavedData(context) async {
+    log('getSaveData');
     setLoading(true);
     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
     await userPrefrence.getSaveUser(userModel);
-    Future.delayed(const Duration(seconds: 1)).then((value) async {
+    Future.delayed(Duration.zero).then((value) async {
+      authId = userModel.id;
       firstNameController.text = userModel.firstName;
       lastNameController.text = userModel.lastName;
       emailController.text = userModel.email;
       phoneController.text = userModel.phone;
+      addressController.text = userModel.address;
+      selectedAreaId = userModel.districtAreaId;
+      status = userModel.status;
       setLoading(false);
     });
   }
 
-  // void updateMyProfile(BuildContext context) {
-  //   if (formKey.currentState!.validate()) {
-  //     formKey.currentState!.save();
+  Future<void> updateProfile(BuildContext context) async {
+    log('AUTHID $authId');
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
 
-  //     setLoading(true);
+      setLoading2(true);
 
-  //     // final SignInModel signinModel = SignInModel(
-  //     //   email: emailController.text,
-  //     //   password: passwordController.text,
-  //     // );
+      String userType = 'customer';
+      String firstName = firstNameController.text.trim();
+      String lastName = lastNameController.text.trim();
+      String email = emailController.text.trim();
+      String phone = phoneController.text.trim();
+      String address = addressController.text.trim();
 
-  //     userServices.signinUser(model: signinModel).then((value) {
-  //       if (value != null) {
-  //         setLoading(false);
+      final UserModel userModel = UserModel(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        address: address,
+        type: userType,
+        districtAreaId: selectedAreaId,
+        status: status,
+      );
 
-  //         storage.write(key: 'token', value: value.token);
-  //         saveUser(value);
+      // log('useModel ${userModel.updateJson()}');
 
-  //         Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-  //         Navigator.pushReplacementNamed(context, RouteName.home);
+      final userPrefrence = Provider.of<UserProvider>(context, listen: false);
 
-  //         clearTextfield();
-  //       } else {
-  //         setLoading(false);
-  //         return;
-  //       }
-  //     });
-  //   }
-  // }
+      await _userServices
+          .upateMyProfile(
+        authId: authId!,
+        model: userModel,
+      )
+          .then((value) {
+
+        if (value != null) {
+          setLoading2(false);
+
+          userPrefrence.saveUser(value);
+
+          userPrefrence.getUser();
+
+          Fluttertoast.showToast(msg: 'Update Success!');
+
+          Navigator.pop(context);
+
+
+        } else {
+          setLoading2(false);
+          return;
+        }
+      });
+    }
+  }
 
   final UserService _userServices = UserService();
 

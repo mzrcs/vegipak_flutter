@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -128,15 +129,19 @@ class SignupProvider extends ChangeNotifier {
 
       log('json ${jsonEncode(signUpModel.toJson())}');
 
-      final userPrefrences = Provider.of<UserProvider>(context, listen: false);
+      // final userPrefrences = Provider.of<UserProvider>(context, listen: false);
+
+      if (email.isNotEmpty) {
+        final SharedPreferences sp = await SharedPreferences.getInstance();
+        await sp.setString('signUpEmailAddress', email);
+      }
 
       _userServices.createAccount(model: signUpModel).then((value) {
         if (value != null) {
           setLoading(false);
 
-          userPrefrences.saveUserEmail(value);
+          // userPrefrences.saveUserEmail(value);
 
-          // Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
           Navigator.pushReplacementNamed(context, RouteName.otp);
 
           clearTextfield();
@@ -150,54 +155,112 @@ class SignupProvider extends ChangeNotifier {
     }
   }
 
-  String? verifyEmail;
+  String? signUpEmailAddress;
+  String code = '';
 
-  Future<void> getVerifiyEmail() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    verifyEmail = sp.getString('registerEmail') ?? '';
+  void onSubmitCode(String submitCode) {
+    log(submitCode);
+
+    code = submitCode;
     notifyListeners();
-
-    log('verifyEmail $verifyEmail');
   }
 
-  Future<void> verifyOTP(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+  Future<void> getSignUpEmailAddress() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
 
+    signUpEmailAddress = sp.getString('signUpEmailAddress') ?? '';
+    notifyListeners();
+
+    log('verify email $signUpEmailAddress');
+  }
+
+  Future<void> removeEmail() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove('signUpEmailAddress');
+  }
+
+  // Future<void> submitVerifyOTP(BuildContext context) async {
+  //   if (formKey.currentState!.validate()) {
+  //     formKey.currentState!.save();
+
+  //     setLoading(true);
+
+  //     String email = verifyEmail!;
+  //     String otp = '123456';
+
+  //     final VerifyOTPModel verifySignUpModel = VerifyOTPModel(
+  //       email: email,
+  //       otp: otp,
+  //     );
+
+  //     log('json ${jsonEncode(verifySignUpModel.toJson())}');
+
+  //     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
+
+  //     _userServices.verifyAccount(model: verifySignUpModel).then((value) {
+  //       if (value != null) {
+  //         setLoading(false);
+
+  //         // print('token' + value.token!);
+  //         storage.write(key: 'token', value: value.token);
+
+  //         userPrefrence.saveUser(value);
+
+  //         Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
+  //         Navigator.pushReplacementNamed(context, RouteName.home);
+
+  //         clearTextfield();
+  //       } else {
+  //         setLoading(false);
+  //         return;
+  //       }
+  //     });
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }
+
+  void submitVerifyOTP(context) {
+    // print(code.length);
+    if (code.length != 6) {
+      // SnackBarPop.popUp(context, 'Please enter the OTP', Colors.red);
+      Fluttertoast.showToast(
+          msg: 'Please enter the OTP', backgroundColor: Colors.red);
+    } else {
       setLoading(true);
 
-      String email = verifyEmail!;
-      String otp = '123456';
+      String email = signUpEmailAddress!;
+      String otp = code;
 
       final VerifyOTPModel verifySignUpModel = VerifyOTPModel(
         email: email,
         otp: otp,
       );
 
-      log('json ${jsonEncode(verifySignUpModel.toJson())}');
-
       final userPrefrence = Provider.of<UserProvider>(context, listen: false);
 
-      _userServices.verifyAccount(model: verifySignUpModel).then((value) {
-        if (value != null) {
-          setLoading(false);
+      _userServices.verifySignUpOTP(model: verifySignUpModel).then(
+        (value) {
+          if (value != null) {
+            setLoading(false);
 
-          // print('token' + value.token!);
-          storage.write(key: 'token', value: value.token);
+            log('value $value');
 
-          userPrefrence.saveUser(value);
+            storage.write(key: 'token', value: value.token);
 
-          Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-          Navigator.pushReplacementNamed(context, RouteName.home);
+            userPrefrence.saveUser(value);
 
-          clearTextfield();
-        } else {
-          setLoading(false);
-          return;
-        }
-      });
-    } else {
-      setLoading(false);
+            Provider.of<NavigationIndex>(context, listen: false).currentIndex =
+                0;
+            Navigator.pushReplacementNamed(context, RouteName.home);
+
+            removeEmail();
+          } else {
+            setLoading(false);
+            return;
+          }
+        },
+      );
     }
   }
 

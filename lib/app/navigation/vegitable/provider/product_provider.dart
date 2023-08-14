@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:vegipak/app/services/products_service.dart';
 
@@ -17,6 +19,26 @@ class ProductProvider extends ChangeNotifier {
 
   bool _loading = false;
   bool get isLoading => _loading;
+
+  bool connectInternet = true;
+
+  // CHECK INTERNET
+  // checkInternet() async {
+  //   connectInternet = await InternetConnectionChecker().hasConnection;
+  //   log('connect $connectInternet');
+
+  //   notifyListeners();
+  // }
+
+  // showInternetToast() async {
+  //   connectInternet = await InternetConnectionChecker().hasConnection;
+  //   if (connectInternet) {
+  //     Fluttertoast.showToast(msg: 'Internet Connected!');
+  //   } else {
+  //     Fluttertoast.showToast(msg: 'Please check your internet');
+  //   }
+  //   notifyListeners();
+  // }
 
   setLoading(bool value) {
     _loading = value;
@@ -66,9 +88,13 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  void getVegitableProduct(context) async {
-    // log("message");
+  Future<void> getVegitableProduct(context) async {
+    // Provider.of<NavigationIndex>(context, listen: false).checkInternet();
+    // checkInternet();
+
+    productList.clear();
     setLoading(true);
+
     await product.vegitableProducts(context).then((value) {
       if (value != null) {
         // log("message");
@@ -81,5 +107,7 @@ class ProductProvider extends ChangeNotifier {
         return null;
       }
     });
+
+    log('productList ${productList.length}');
   }
 }
