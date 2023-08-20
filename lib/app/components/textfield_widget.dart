@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../core/constants/my_colors.dart';
 
 Widget textFieldWidget1({
@@ -6,10 +7,13 @@ Widget textFieldWidget1({
   required String hintText,
   required IconData iconData,
   required TextEditingController controller,
+  required Function validator,
   void Function(String)? onChanged,
   TextInputType? textInputType,
+  final List<TextInputFormatter>? inputFormatters,
   bool? isPhoneField = false,
   bool? readOnly = false,
+  int? maxLines = 1,
 }) {
   return Container(
     decoration: BoxDecoration(
@@ -24,12 +28,8 @@ Widget textFieldWidget1({
       ],
     ),
     child: TextFormField(
-      validator: (String? value) {
-        if (value == null || value.isEmpty) {
-          return 'Required';
-        }
-        return null;
-      },
+      validator: (value) => validator(value),
+      inputFormatters: inputFormatters,
       textAlign: TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -38,6 +38,7 @@ Widget textFieldWidget1({
             fontSize: 17,
           ),
       controller: controller,
+      maxLines: maxLines,
       cursorColor: MyColors.kGreenColor,
       readOnly: readOnly!,
       autofocus: false,
@@ -46,11 +47,13 @@ Widget textFieldWidget1({
       obscureText: false,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 6),
-          child: Icon(iconData, color: MyColors.kGreenColor),
-        ),
-        prefixText: '  ',
+        prefixIcon: maxLines! > 1
+            ? null
+            : Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Icon(iconData, color: MyColors.kGreenColor),
+              ),
+        prefixText: maxLines > 1 ? '' : '  ',
         filled: true,
         fillColor: Colors.white,
         isCollapsed: true,
@@ -75,18 +78,20 @@ Widget textFieldWidget2({
   required BuildContext context,
   required String hintText,
   required TextEditingController controller,
+  required Function validator,
   void Function(String)? onChanged,
   TextInputType? textInputType,
   bool? isPhoneField = false,
   bool? readOnly = false,
 }) {
   return TextFormField(
-    validator: (String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Required';
-      }
-      return null;
-    },
+    validator: (value) => validator(value),
+    // validator: (String? value) {
+    //   if (value == null || value.isEmpty) {
+    //     return 'Required';
+    //   }
+    //   return null;
+    // },
     textAlign: TextAlign.start,
     textAlignVertical: TextAlignVertical.center,
     style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -219,66 +224,100 @@ Widget phoneFieldWidget({
   );
 }
 
-Widget dropDownWidget({
-  required Widget hintText,
-  required IconData iconData,
-  required Function(String?)? onChanged,
-  required Object? value,
-  required List<DropdownMenuItem<Object>>? items,
+Widget profileUpdateField({
+  required BuildContext context,
+  required String initialValue,
+  required String labelText,
+  required String hintText,
+  required TextEditingController controller,
+  required Function validator,
+  final List<TextInputFormatter>? inputFormatters,
+  bool readOnly = false,
+  TextInputType? textInputType,
 }) {
-  return Container(
-    width: double.infinity,
-    height: 55,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          spreadRadius: 3,
-          blurRadius: 10,
-        )
-      ],
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Icon(iconData, color: MyColors.kGreenColor),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: 0.4,
-          height: 55,
-          color: Colors.black.withOpacity(0.2),
-        ),
-        Expanded(
-          flex: 5,
-          child: DropdownButtonFormField(
-            hint: hintText,
-            decoration: const InputDecoration(
-              // labelText: 'Gulistan-e-Johuar',
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(left: 16, right: 12),
-            ),
-            isExpanded: false,
-            iconEnabledColor: Colors.green,
-            value: value,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items: items,
-            onChanged: (_) => onChanged,
-          ),
-        ),
-      ],
+  return TextFormField(
+    // initialValue: initialValue,
+    validator: (value) => validator(value),
+    inputFormatters: inputFormatters,
+    readOnly: readOnly,
+    // validator: (val) =>
+    //     val != null && val.isNotEmpty ? null : 'Required Field',
+    style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontSize: 16),
+    controller: controller,
+    keyboardType: textInputType,
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      hintText: hintText,
+      label: Text(
+        labelText,
+        style: const TextStyle(fontSize: 14),
+      ),
     ),
   );
 }
+
+// Widget dropDownWidget({
+//   required Widget hintText,
+//   required IconData iconData,
+//   required Function(String?)? onChanged,
+//   required Object? value,
+//   required List<DropdownMenuItem<Object>>? items,
+// }) {
+//   return Container(
+//     width: double.infinity,
+//     height: 55,
+//     decoration: BoxDecoration(
+//       color: Colors.white,
+//       boxShadow: [
+//         BoxShadow(
+//           color: Colors.black.withOpacity(0.05),
+//           spreadRadius: 3,
+//           blurRadius: 10,
+//         )
+//       ],
+//       borderRadius: BorderRadius.circular(8),
+//     ),
+//     child: Row(
+//       children: [
+//         Expanded(
+//           flex: 1,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Expanded(
+//                 child: Icon(iconData, color: MyColors.kGreenColor),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Container(
+//           width: 0.4,
+//           height: 55,
+//           color: Colors.black.withOpacity(0.2),
+//         ),
+//         Expanded(
+//           flex: 5,
+//           child: DropdownButtonFormField(
+//             hint: hintText,
+//             decoration: const InputDecoration(
+//               // labelText: 'Gulistan-e-Johuar',
+//               border: InputBorder.none,
+//               contentPadding: EdgeInsets.only(left: 16, right: 12),
+//             ),
+//             isExpanded: false,
+//             iconEnabledColor: Colors.green,
+//             value: value,
+//             icon: const Icon(Icons.keyboard_arrow_down),
+//             items: items,
+//             onChanged: (_) => onChanged,
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 Widget textWidget({
   required String text,

@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vegipak/app/model/general/general_model.dart';
@@ -15,7 +15,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> getGeneralSetting() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    log("getGeneralSetting");
+    // log("getGeneralSetting");
 
     await _userServices.generalSetting().then((value) async {
       if (value != null) {
@@ -33,8 +33,8 @@ class UserProvider extends ChangeNotifier {
         businessSupportEmail =
             sp.getString('businessEmail') ?? 'supportFake@vegipak.com';
 
-        log('businessPhone $businessPhone');
-        log('businessSupportEmail $businessSupportEmail');
+        // log('businessPhone $businessPhone');
+        // log('businessSupportEmail $businessSupportEmail');
 
         notifyListeners();
       } else {

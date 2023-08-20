@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -32,11 +30,11 @@ class NavigationIndex extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool connectInternet = true;
+  bool connectInternet = false;
 
   checkInternet() async {
     connectInternet = await InternetConnectionChecker().hasConnection;
-    log('connect $connectInternet');
+    // log('connect $connectInternet');
 
     notifyListeners();
   }

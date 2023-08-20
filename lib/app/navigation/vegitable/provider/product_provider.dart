@@ -1,5 +1,7 @@
 import 'dart:developer';
+// import 'dart:js';
 
+// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:vegipak/app/services/products_service.dart';
 
@@ -20,25 +22,10 @@ class ProductProvider extends ChangeNotifier {
   bool _loading = false;
   bool get isLoading => _loading;
 
+  bool _showError = false;
+  bool get isError => _showError;
+
   bool connectInternet = true;
-
-  // CHECK INTERNET
-  // checkInternet() async {
-  //   connectInternet = await InternetConnectionChecker().hasConnection;
-  //   log('connect $connectInternet');
-
-  //   notifyListeners();
-  // }
-
-  // showInternetToast() async {
-  //   connectInternet = await InternetConnectionChecker().hasConnection;
-  //   if (connectInternet) {
-  //     Fluttertoast.showToast(msg: 'Internet Connected!');
-  //   } else {
-  //     Fluttertoast.showToast(msg: 'Please check your internet');
-  //   }
-  //   notifyListeners();
-  // }
 
   setLoading(bool value) {
     _loading = value;
@@ -88,26 +75,62 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  // Future<void> getVegitableProduct(context) async {
+  //   // Provider.of<NavigationIndex>(context, listen: false).checkInternet();
+  //   // checkInternet();
+
+  //   try {
+  //     productList.clear();
+  //     setLoading(true);
+
+  //     await product.vegitableProducts(context).then((value) {
+  //       log("value $value");
+
+  //       if (value != null) {
+  //         // log("message");
+  //         productList = value;
+  //         notifyListeners();
+
+  //         setLoading(false);
+  //       } else {
+  //         log('else ');
+  //         setLoading(false);
+  //         return null;
+  //       }
+  //     });
+  //   } on DioError catch (e) {
+  //     log('DioErorr $e');
+  //     DioException().dioError2(e, context);
+  //   }
+
+  //   log('productList ${productList.length}');
+  // }
+
   Future<void> getVegitableProduct(context) async {
-    // Provider.of<NavigationIndex>(context, listen: false).checkInternet();
-    // checkInternet();
+    _showError = false;
+    try {
+      productList.clear();
+      setLoading(true);
 
-    productList.clear();
-    setLoading(true);
+      final response = await product.vegitableProducts(context);
 
-    await product.vegitableProducts(context).then((value) {
-      if (value != null) {
-        // log("message");
-        productList = value;
+      // log('response $response');
+
+      if (response != null) {
+        productList = response;
         notifyListeners();
 
         setLoading(false);
       } else {
         setLoading(false);
-        return null;
       }
-    });
-
-    log('productList ${productList.length}');
+    } catch (e) {
+      log('ERORR: $e');
+      setLoading(false);
+      if (e == 404 || e == 500) {
+        _showError = true;
+        notifyListeners();
+      }
+    }
   }
 }

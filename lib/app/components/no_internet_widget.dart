@@ -9,7 +9,9 @@ import '../navigation/navigation_bar/provider/index_navigation.dart';
 import 'logo_widget.dart';
 
 class NoInternet extends StatelessWidget {
-  const NoInternet({super.key});
+  const NoInternet({super.key, this.isServerError = false});
+
+  final bool isServerError;
 
   @override
   Widget build(BuildContext context) {
@@ -22,53 +24,60 @@ class NoInternet extends StatelessWidget {
               children: [
                 logoWidget(),
                 const SizedBox(height: 50),
-                const Text(
-                  'Something goes wrong. \nCheck your connection and try again.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w100,
+                if (!isServerError)
+                  const Text(
+                    'Something goes wrong. \nCheck your connection and try again.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w100,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                myButton2(
-                  'TRY AGAIN',
-                  () {
-                    Provider.of<NavigationIndex>(context, listen: false)
-                        .checkInternet();
-                    Provider.of<NavigationIndex>(context, listen: false)
-                        .showInternetToast(context);
-                  },
-                ),
+                if (isServerError)
+                  const Text(
+                    'SOMETHING WENT WRONG',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                if (isServerError) const SizedBox(height: 16),
+                if (isServerError)
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 50,
+                  ),
+                if (!isServerError) const SizedBox(height: 30),
+                if (!isServerError)
+                  myButton2(
+                    'TRY AGAIN',
+                    () {
+                      Provider.of<NavigationIndex>(context, listen: false)
+                          .checkInternet();
+                      Provider.of<NavigationIndex>(context, listen: false)
+                          .showInternetToast(context);
+                    },
+                  ),
                 const Spacer(),
                 Consumer<UserProvider>(builder: (context, provider, _) {
                   return Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Contact us or visit our website for \nplace your order',
+                        'Contact us now for your order',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          circleIconButton(
-                            iconData: Icons.phone,
-                            onTap: () {
-                              _makePhoneCall(provider.businessPhone.toString());
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          circleIconButton(
-                            iconData: Icons.public,
-                            onTap: () {},
-                          ),
-                        ],
-                      ),
+                      const SizedBox(height: 16),
+                      myButton('CALL US (${provider.businessPhone.toString()})',
+                          () {
+                        _makePhoneCall(provider.businessPhone.toString());
+                      })
                     ],
                   );
                 }),

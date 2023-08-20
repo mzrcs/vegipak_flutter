@@ -81,7 +81,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => OrderProvider(context)),
 
         //----------------
-        ChangeNotifierProvider(create: (context) => ProfileProvider(context)),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
       child: Consumer<SettingsProvider>(builder: (context, settingsManager, _) {

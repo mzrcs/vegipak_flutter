@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/model/cart/cart_model.dart';
@@ -11,6 +9,7 @@ import 'package:vegipak/app/utils/utils.dart';
 import '../../../auth/provider/user_provider.dart';
 import '../../../model/user/user_model.dart';
 import '../../../services/order_service.dart';
+import '../../../utils/field_validator.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -84,6 +83,7 @@ class CartProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
   final noteController = TextEditingController();
+  final textFieldValidator = TextFieldValidators();
 
   final formKey = GlobalKey<FormState>();
 
@@ -159,7 +159,7 @@ class CartProvider extends ChangeNotifier {
         cartItems: cartList,
       );
 
-      print(jsonEncode(myOrderModel.toJson()));
+      // print(jsonEncode(myOrderModel.toJson()));
 
       await _orderServices.createOrder(model: myOrderModel).then((value) {
         if (value != null) {

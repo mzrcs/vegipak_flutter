@@ -73,6 +73,8 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'First Name',
                     iconData: Icons.person,
                     controller: firstNameController,
+                          validator: () {},
+
                   ),
                   const SizedBox(height: 12),
 
@@ -82,6 +84,8 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Last Name',
                     iconData: Icons.person,
                     controller: lastNameController,
+                          validator: () {},
+
                   ),
                   const SizedBox(height: 12),
 
@@ -91,6 +95,8 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Email',
                     iconData: Icons.email,
                     controller: emailController,
+                          validator: () {},
+
                   ),
                   const SizedBox(height: 12),
 
@@ -110,6 +116,8 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Password',
                     iconData: Icons.lock,
                     controller: passwordController,
+                          validator: () {},
+
                   ),
                   const SizedBox(height: 12),
 
@@ -149,6 +157,8 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Address',
                     iconData: Icons.home,
                     controller: addressController,
+                          validator: () {},
+
                   ),
                   const SizedBox(height: 30),
                   Consumer<SignupProvider>(builder: (context, value, _) {

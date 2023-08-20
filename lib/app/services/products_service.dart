@@ -1,27 +1,36 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import '../core/api/api.dart';
 import '../dio/dio_interceptor.dart';
 import '../model/product/product_model.dart';
-import '../dio/dio_exception.dart';
+// import '../dio/dio_exception.dart';
 
 class ProductServices {
-  Future<List<ProductModel>?> vegitableProducts(context) async {
+  Future<dynamic> vegitableProducts(context) async {
     Dio dios = await ApiInterceptor().getApiUser();
     try {
-      
       Response response = await dios.get("$BASE_URL/product/show");
 
-      // ApiResponse apiResponse = ApiResponse.fromResponse(response);
+      // Response response = await Dio().get("https://reqres.in/api/users/23");
 
-      final List<ProductModel> productList = (response.data['products'] as List)
-          .map((e) => ProductModel.fromJson(e))
-          .toList();
+      log('statusCode ${response.statusCode}');
 
-      // Convert raw data to model
-      return productList;
+      if (response.statusCode == 200) {
+        final List<ProductModel> productList =
+            (response.data['products'] as List)
+                .map((e) => ProductModel.fromJson(e))
+                .toList();
+
+        // Convert raw data to model
+        return productList;
+      }
     } on DioError catch (e) {
-      // log(e.message.toString());
-      DioException().dioError(e);
+      log('e ${e.message.toString()}');
+
+      if (e.response != null) {
+        throw e.response!.statusCode!;
+      }
     }
     return null;
   }

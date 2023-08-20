@@ -9,6 +9,7 @@ import 'package:vegipak/app/utils/routes/routes_name.dart';
 // import 'package:vegipak/app/utils/utils.dart';
 import '../../model/user/sign_in_model.dart';
 import '../../navigation/navigation_bar/provider/index_navigation.dart';
+import '../../utils/field_validator.dart';
 
 bool isEmail(String em) {
   String p =
@@ -56,6 +57,9 @@ class LoginProvider extends ChangeNotifier {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final textFieldValidator = TextFieldValidators();
+
 
   final forgotEmailController = TextEditingController();
 

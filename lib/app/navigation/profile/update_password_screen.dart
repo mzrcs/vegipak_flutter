@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/navigation/profile/provider/profile_provider.dart';
-
-import '../../auth/widgets/auth_confim_button.dart';
+import '../../components/button_widget.dart';
 import '../../custom/annotated_widget.dart';
 import '../../components/textfield_widget.dart';
 
@@ -63,7 +62,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Form(
-                    key: value.formKey,
+                    key: value.passformKey,
                     child: Column(
                       children: [
                         const SizedBox(height: 12),
@@ -72,6 +71,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           hintText: 'Current Password',
                           iconData: Icons.lock,
                           controller: value.oldPasswordController,
+                          validator: value.textFieldValidator.validatePassword,
                         ),
                         const SizedBox(height: 12),
                         textFieldWidget1(
@@ -79,16 +79,18 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                           hintText: 'New Password',
                           iconData: Icons.lock,
                           controller: value.newPasswordController,
+                          validator:
+                              value.textFieldValidator.validateNewPassword,
                         ),
                         const SizedBox(height: 30),
-                        AuthConfirmButton(
-                          isLoading: value.isLoading2,
-                          title: 'Update Password',
-                          callBack: () {
+                        myButton(
+                          'Update Password',
+                          () {
                             Provider.of<ProfileProvider>(context, listen: false)
                                 .updatePassword(context);
                           },
-                        ),
+                          loading: value.isLoading2,
+                        )
                       ],
                     ),
                   ),

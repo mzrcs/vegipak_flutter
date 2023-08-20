@@ -37,6 +37,7 @@ class ProfileForm extends StatelessWidget {
                       hintText: 'Email',
                       iconData: Icons.email,
                       controller: emailController,
+                      validator: () {},
                     ),
 
                     const SizedBox(height: 30),

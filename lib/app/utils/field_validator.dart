@@ -1,22 +1,113 @@
 class TextFieldValidators {
-  dynamic firstNameErrorGetter(String value) {
+  // dynamic firstNameErrorGetter(String value) {
+  //   if (value.isEmpty) {
+  //     return 'Please Enter First Name';
+  //   } else if (value.length > 30) {
+  //     return 'First Name length Should be less than 30';
+  //   } else if (value.length < 3) {
+  //     return 'First Name must at least 3 characters';
+  //   }
+  //   return null;
+  // }
+
+  // dynamic lastNameErrorGetter(String value) {
+  //   if (value.isEmpty) {
+  //     return 'Please Enter Last Name';
+  //   } else if (value.length > 30) {
+  //     return 'Last Name length Should be less than 30';
+  //   } else if (value.length < 3) {
+  //     return 'Last Name must at least 3 characters';
+  //   }
+  //   return null;
+  // }
+
+  dynamic validateFirstName(String value) {
     if (value.isEmpty) {
-      return 'Please Enter First Name';
-    } else if (value.length > 30) {
-      return 'First Name length Should be less than 30';
-    } else if (value.length < 3) {
-      return 'First Name must at least 3 characters';
+      return 'First Name is required';
     }
-    return null;
+
+    if (value.length < 3) {
+      return 'First Name should be at least 3 characters';
+    }
+
+    return null; // Validation passed
   }
 
-  dynamic lastNameErrorGetter(String value) {
+  dynamic validateLastName(String value) {
     if (value.isEmpty) {
-      return 'Please Enter Last Name';
-    } else if (value.length > 30) {
-      return 'Last Name length Should be less than 30';
-    } else if (value.length < 3) {
-      return 'Last Name must at least 3 characters';
+      return 'Last Name is required';
+    }
+
+    if (value.length < 3) {
+      return 'Last Name should be at least 3 characters';
+    }
+
+    return null; // Validation passed
+  }
+
+  dynamic validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'Password is required';
+    }
+
+    if (value.length < 8) {
+      return 'Password should be at least 8 characters';
+    }
+
+    // Check for at least one uppercase letter, one lowercase letter, one digit, and one special symbol
+    if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+        .hasMatch(value)) {
+      return 'Password must include at least one uppercase, one lowercase, one digit, and one special symbol';
+    }
+
+    return null; // Validation passed
+  }
+
+  dynamic validateNewPassword(String value) {
+    if (value.isEmpty) {
+      return 'New Password is required';
+    }
+
+    if (value.length < 8) {
+      return 'New Password should be at least 8 characters';
+    }
+
+    // Check for at least one uppercase letter, one lowercase letter, one digit, and one special symbol
+    if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+        .hasMatch(value)) {
+      return 'New Password must include at least one uppercase, one lowercase, one digit, and one special symbol';
+    }
+
+    return null; // Validation passed
+  }
+
+  dynamic validateAddress(String value) {
+    if (value.isEmpty) {
+      return 'Address is required';
+    }
+
+    if (value.length < 10) {
+      return 'Address should be at least 10 characters';
+    }
+
+    return null; // Validation passed
+  }
+
+  dynamic validateNote(String value) {
+    if (value.isEmpty) {
+      return 'Note is required';
+    }
+
+    if (value.length < 10) {
+      return 'Note should be at least 10 characters';
+    }
+
+    return null; // Validation passed
+  }
+
+  dynamic noteErrorGetter(String value) {
+    if (value.isEmpty) {
+      return 'Please Enter Note';
     }
     return null;
   }
@@ -101,15 +192,15 @@ class TextFieldValidators {
     return null;
   }
 
-  dynamic passwordErrorGetter(String value) {
-    if (value.isEmpty) {
-      return 'PLease Enter Password';
-    }
-    if (value.length < 8) {
-      return 'Password Should be at least 8 characters';
-    }
-    return null;
-  }
+  // dynamic passwordErrorGetter(String value) {
+  //   if (value.isEmpty) {
+  //     return 'PLease Enter Password';
+  //   }
+  //   if (value.length < 8) {
+  //     return 'Password Should be at least 8 characters';
+  //   }
+  //   return null;
+  // }
 
   dynamic confirmPasswordErrorGetter(String confirmPassword, String password) {
     if (confirmPassword.isEmpty) {
@@ -129,14 +220,29 @@ class TextFieldValidators {
   //   }
   //   return null;
   // }
-  dynamic phoneNumberErrorGetter(String value) {
+  // dynamic phoneNumberErrorGetter(String value) {
+  //   if (value.isEmpty) {
+  //     return 'Please Enter Phone Number';
+  //   }
+  //   if (value.length != 10) {
+  //     return 'Mobile Number must be of 10 digit';
+  //   }
+  //   return null;
+  // }
+
+  dynamic validatePhoneNumber(String value) {
     if (value.isEmpty) {
-      return 'Please Enter Phone Number';
+      return 'Phone number is required';
     }
-    if (value.length != 10) {
-      return 'Mobile Number must be of 10 digit';
+
+    // Regular expression for the new Pakistan phone number format: 03XXXXXXXXX
+    RegExp phoneRegExp = RegExp(r'^03[0-9]{9}$');
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'Please use the format 03XXXXXXXXX';
     }
-    return null;
+
+    return null; // Validation passed
   }
 
   // String urlPattern =

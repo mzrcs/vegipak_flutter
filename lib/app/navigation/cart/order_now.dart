@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/navigation/cart/provider/cart_provider.dart';
@@ -65,19 +66,38 @@ class _OrderNowState extends State<OrderNow> {
 
                             SizedBox(height: 12.h),
 
-                            textFieldWidget2(
+                            textFieldWidget1(
                               context: context,
                               hintText: 'Phone',
+                              iconData: Icons.phone,
                               controller: value.phoneController,
+                              textInputType: TextInputType.number,
+                              validator:
+                                  value.textFieldValidator.validatePhoneNumber,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(11),
+                              ],
                             ),
 
                             SizedBox(height: 12.h),
 
                             // !: Address field
-                            textFieldWidget2(
+                            // textFieldWidget2(
+                            //   context: context,
+                            //   hintText: 'Address',
+                            //   controller: value.addressController,
+                            //   validator:
+                            //       value.textFieldValidator.addressErrorGetter,
+                            // ),
+
+                            textFieldWidget1(
                               context: context,
                               hintText: 'Address',
+                              iconData: Icons.home,
                               controller: value.addressController,
+                              validator:
+                                  value.textFieldValidator.validateAddress,
                             ),
 
                             SizedBox(height: 12.h),
@@ -90,7 +110,7 @@ class _OrderNowState extends State<OrderNow> {
                                   context: context,
                                   hintText: 'Select Area',
                                   errorText: 'Please select area',
-                                  iconData: Icons.home,
+                                  iconData: Icons.location_city,
                                   items: provider.districtAreaList
                                       .map(
                                         (item) => DropdownMenuItem<String>(
@@ -120,10 +140,22 @@ class _OrderNowState extends State<OrderNow> {
                             SizedBox(height: 12.h),
 
                             // !: Note field
-                            textFieldWidget2(
+                            // textFieldWidget2(
+                            //   context: context,
+                            //   hintText: 'Extra Note',
+                            //   controller: value.noteController,
+                            //   validator:
+                            //       value.textFieldValidator.noteErrorGetter,
+                            // ),
+
+                            textFieldWidget1(
                               context: context,
+                              maxLines: 3,
                               hintText: 'Extra Note',
+                              iconData: Icons.note_alt,
+                              textInputType: TextInputType.multiline,
                               controller: value.noteController,
+                              validator: value.textFieldValidator.validateNote,
                             ),
                           ],
                         ),

@@ -47,6 +47,7 @@ class LoginForm extends StatelessWidget {
                       iconData: Icons.email,
                       controller: provider.emailController,
                       readOnly: provider.isLoading ? true : false,
+                      validator: provider.textFieldValidator.validateAddress,
                     ),
                     const SizedBox(height: 16),
 
@@ -57,6 +58,7 @@ class LoginForm extends StatelessWidget {
                       iconData: Icons.lock,
                       controller: provider.passwordController,
                       readOnly: provider.isLoading ? true : false,
+                      validator: provider.textFieldValidator.validatePassword,
                     ),
                     const SizedBox(height: 24),
                     Align(

@@ -124,7 +124,7 @@ class Utils {
             //Add isDense true and zero Padding.
             //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 4),
+            contentPadding: const EdgeInsets.symmetric(vertical: 8),
             prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Icon(iconData, color: MyColors.kGreenColor, size: 24),

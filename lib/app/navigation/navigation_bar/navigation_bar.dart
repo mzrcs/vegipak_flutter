@@ -73,15 +73,17 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
                   inactiveColor: Colors.grey,
                 ),
                 BottomNavyBarItem(
-                  icon: Consumer<CartProvider>(builder: (context, value, _) {
-                    return value.totalProductCount == 0
-                        ? const Icon(Icons.shopping_cart_checkout_outlined)
-                        : Badge(
-                            label: Text(value.cartList.length.toString()),
-                            child: const Icon(
-                                Icons.shopping_cart_checkout_outlined),
-                          );
-                  }),
+                  icon: Consumer<CartProvider>(
+                    builder: (context, value, _) {
+                      return value.totalProductCount == 0
+                          ? const Icon(Icons.shopping_cart_checkout_outlined)
+                          : Badge(
+                              label: Text(value.cartList.length.toString()),
+                              child: const Icon(
+                                  Icons.shopping_cart_checkout_outlined),
+                            );
+                    },
+                  ),
                   title: const Text('Cart'),
                   activeColor: Colors.green,
                   inactiveColor: Colors.grey,
@@ -106,7 +108,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
             ),
           );
         } else {
-          return NoInternet();
+          return const NoInternet();
         }
       },
     );

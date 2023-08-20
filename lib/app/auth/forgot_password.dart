@@ -75,6 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           iconData: Icons.email,
                           controller: value.forgotEmailController,
                           readOnly: value.isLoading ? true : false,
+                          validator: (){},
                         ),
                       ],
                     ),
