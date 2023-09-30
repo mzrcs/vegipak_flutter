@@ -25,7 +25,7 @@ class DioException {
         //   Colors.red,
         // );
       } else if (e.response?.statusCode == 422) {
-        // log(e.response!.data['message']);
+        // print(e.response!.data['message']);
         AppToast.showToast(
             e.response!.data['message'][0].toString(), Colors.red);
       } else if (e.response?.statusCode == 500) {

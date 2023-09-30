@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vegipak/app/model/order/my_order_model.dart';
@@ -9,6 +11,11 @@ class OrderProvider extends ChangeNotifier {
     updateDateInfo();
     getMyOrders(context);
   }
+
+  bool _showError = false;
+  bool get isError => _showError;
+
+  bool connectInternet = true;
 
   bool _loading = false;
   bool get isLoading => _loading;
@@ -38,25 +45,35 @@ class OrderProvider extends ChangeNotifier {
   }
 
   void getMyOrders(context) async {
-    // log("message");
-    setLoading(true);
-    await order
-        .getMyOrders(
-      context: context,
-      currentDate: currentFormattedDate,
-      lastWeekDate: lastWeekFormattedDate,
-    )
-        .then((value) {
-      if (value != null) {
-        // log("message");
-        myOrdersList = value;
-        notifyListeners();
+    _showError = false;
+    try {
+      // log("message");
+      setLoading(true);
+      await order
+          .getMyOrders(
+        context: context,
+        currentDate: currentFormattedDate,
+        lastWeekDate: lastWeekFormattedDate,
+      )
+          .then((value) {
+        if (value != null) {
+          // log("message");
+          myOrdersList = value;
+          notifyListeners();
 
-        setLoading(false);
-      } else {
-        setLoading(false);
-        return null;
+          setLoading(false);
+        } else {
+          setLoading(false);
+          return null;
+        }
+      });
+    } catch (e) {
+      log('ERORR: $e');
+      setLoading(false);
+      if (e == 404 || e == 500) {
+        _showError = true;
+        notifyListeners();
       }
-    });
+    }
   }
 }

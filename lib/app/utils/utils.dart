@@ -87,6 +87,14 @@ class Utils {
     return DateFormat('dd/MMM/yy').format(parsedDate);
   }
 
+  String dateFormat2(String date) {
+    var parsedDate = DateTime.parse(date);
+    String formattedDate = DateFormat('dd MMM yy').format(parsedDate);
+    // final inputDate = DateFormat.parse(date);
+    // return DateFormat('d MMM, yyyy').format(parsedDate);
+    return formattedDate;
+  }
+
   // DROPDOWN
   customDropdownButton({
     required BuildContext context,
@@ -118,13 +126,15 @@ class Utils {
           style: Theme.of(context).textTheme.displaySmall!.copyWith(
                 fontWeight: FontWeight.w400,
                 color: Colors.black87,
-                fontSize: 17,
+                fontSize: 16,
               ),
           decoration: InputDecoration(
             //Add isDense true and zero Padding.
             //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
             isDense: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 8),
+
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 18),
             prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 6),
               child: Icon(iconData, color: MyColors.kGreenColor, size: 24),
@@ -133,18 +143,11 @@ class Utils {
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+              borderSide: BorderSide.none,
             ),
           ),
-          isExpanded: true,
+          isExpanded: false,
+
           hint: Text(
             hintText,
             style: Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -164,7 +167,7 @@ class Utils {
           onSaved: (value) {},
           buttonStyleData: const ButtonStyleData(
             height: 40,
-            padding: EdgeInsets.only(left: 2, right: 12),
+            padding: EdgeInsets.only(left: 2, right: 8),
           ),
           iconStyleData: const IconStyleData(
             icon: Icon(

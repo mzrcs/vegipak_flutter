@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vegipak/app/auth/widgets/auth_confim_button.dart';
 
 import '../components/logo_widget.dart';
+import '../core/constants/my_colors.dart';
 import '../utils/routes/routes_name.dart';
 
 class VerificationSuccess extends StatelessWidget {
@@ -12,34 +13,37 @@ class VerificationSuccess extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(26.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               logoWidget(),
               // const SizedBox(height: 30),
-              Column(
+              const Column(
                 children: [
-                  const Text(
+                  Text(
                     "Verification Successfully",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 26,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const Text(
+                  SizedBox(height: 4),
+                  Text(
                     "Your password send to your email please check & Re-Login to your account!",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: 20),
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: Colors.green.withOpacity(0.9),
+                    backgroundColor: MyColors.secondaryColor,
                     child:
-                        const Icon(Icons.check, color: Colors.white, size: 46),
+                        Icon(Icons.check, color: Colors.white, size: 46),
                   ),
                 ],
               ),
@@ -51,7 +55,9 @@ class VerificationSuccess extends StatelessWidget {
                   // Navigator.pushReplacementNamed(context, RouteName.login);
 
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                      RouteName.login, (Route route) => false);
+                    RouteName.login,
+                    (Route route) => false,
+                  );
                 },
               )
             ],

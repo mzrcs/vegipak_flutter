@@ -66,16 +66,20 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                     child: Column(
                       children: [
                         const SizedBox(height: 12),
-                        textFieldWidget1(
+                        textFieldPasswordWidget1(
                           context: context,
+                          obscureText: value.isobscureCurrent,
+                          onIconPress: value.visibilityCurrent,
                           hintText: 'Current Password',
                           iconData: Icons.lock,
                           controller: value.oldPasswordController,
                           validator: value.textFieldValidator.validatePassword,
                         ),
                         const SizedBox(height: 12),
-                        textFieldWidget1(
+                        textFieldPasswordWidget1(
                           context: context,
+                          obscureText: value.isobscureNew,
+                          onIconPress: value.visibilityNew,
                           hintText: 'New Password',
                           iconData: Icons.lock,
                           controller: value.newPasswordController,

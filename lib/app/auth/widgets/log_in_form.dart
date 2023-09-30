@@ -47,12 +47,14 @@ class LoginForm extends StatelessWidget {
                       iconData: Icons.email,
                       controller: provider.emailController,
                       readOnly: provider.isLoading ? true : false,
-                      validator: provider.textFieldValidator.validateAddress,
+                      validator: provider.textFieldValidator.validateEmailAddress,
                     ),
                     const SizedBox(height: 16),
 
                     // !: Password field
-                    textFieldWidget1(
+                    textFieldPasswordWidget1(
+                      obscureText: provider.isobscure,
+                      onIconPress: provider.visibility,
                       context: context,
                       hintText: 'Password',
                       iconData: Icons.lock,

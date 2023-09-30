@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../components/textfield_widget.dart';
 import '../../core/constants/my_colors.dart';
@@ -73,8 +74,7 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'First Name',
                     iconData: Icons.person,
                     controller: firstNameController,
-                          validator: () {},
-
+                    validator: provider.textFieldValidator.validateFirstName,
                   ),
                   const SizedBox(height: 12),
 
@@ -84,8 +84,7 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Last Name',
                     iconData: Icons.person,
                     controller: lastNameController,
-                          validator: () {},
-
+                    validator: provider.textFieldValidator.validateLastName,
                   ),
                   const SizedBox(height: 12),
 
@@ -95,29 +94,55 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Email',
                     iconData: Icons.email,
                     controller: emailController,
-                          validator: () {},
-
+                    validator: provider.textFieldValidator.validateEmailAddress,
                   ),
                   const SizedBox(height: 12),
 
                   // !: Phone field
-                  phoneFieldWidget(
+                  // phoneFieldWidget(
+                  //   context: context,
+                  //   hintText: '3XXXXXXXXX',
+                  //   iconData: Icons.phone,
+                  //   isPhoneField: true,
+                  //   controller: phoneController,
+                  //   inputFormatters: [
+                  //     FilteringTextInputFormatter.digitsOnly,
+                  //     LengthLimitingTextInputFormatter(10),
+                  //   ],
+                  // ),
+
+                  textFieldWidget1(
                     context: context,
-                    hintText: '3xxxxxxxxx',
+                    hintText: 'Phone',
                     iconData: Icons.phone,
-                    isPhoneField: true,
-                    controller: phoneController,
+                    controller: provider.phoneController,
+                    textInputType: TextInputType.number,
+                    validator: provider.textFieldValidator.validatePhoneNumber,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(11),
+                    ],
                   ),
                   const SizedBox(height: 12),
 
                   // !: Password field
-                  textFieldWidget1(
+                  // textFieldWidget1(
+                  //   context: context,
+                  //   hintText: 'Password',
+                  //   iconData: Icons.lock,
+                  //   controller: passwordController,
+                  //   validator: provider.textFieldValidator.validatePassword,
+                  // ),
+
+                  textFieldPasswordWidget1(
+                    obscureText: provider.isobscure,
+                    onIconPress: provider.visibility,
                     context: context,
                     hintText: 'Password',
                     iconData: Icons.lock,
-                    controller: passwordController,
-                          validator: () {},
-
+                    controller: provider.passwordController,
+                    readOnly: provider.isLoading ? true : false,
+                    validator: provider.textFieldValidator.validatePassword,
                   ),
                   const SizedBox(height: 12),
 
@@ -157,8 +182,7 @@ class SignUpForm extends StatelessWidget {
                     hintText: 'Address',
                     iconData: Icons.home,
                     controller: addressController,
-                          validator: () {},
-
+                    validator: provider.textFieldValidator.validateAddress,
                   ),
                   const SizedBox(height: 30),
                   Consumer<SignupProvider>(builder: (context, value, _) {

@@ -53,8 +53,15 @@ class UpdatePasswordModel {
         newPassword: json["new_password"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "old_password": oldPassword,
-        "new_password": newPassword,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "old_password": oldPassword,
+  //       "new_password": newPassword,
+  //     };
+
+  Map<String, dynamic> updateJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['old_password'] = oldPassword;
+    data['new_password'] = newPassword;
+    return data;
+  }
 }

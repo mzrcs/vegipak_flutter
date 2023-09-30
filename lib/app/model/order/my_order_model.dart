@@ -31,16 +31,6 @@ class MyOrderModel {
     this.updatedAt,
   });
 
-  // factory MyOrderModel.fromJson(Map<String, dynamic> json) => MyOrderModel(
-  //       userId: json['user_id'],
-  //       phone: json['phone'],
-  //       areaId: json['district_area_id'],
-  //       address: json['address'],
-  //       note: json['extra_notes'],
-  //       status: json['status'],
-  //       total: json['total_price'],
-  //       // cartItems: json['line_item'].map<CartModel>((e) => e.toJson()),
-  //     );
 
   factory MyOrderModel.fromJson(Map<String, dynamic> json) {
     return MyOrderModel(
@@ -70,8 +60,6 @@ class MyOrderModel {
       "status": status,
       "total_price": total,
       'line_items': cartItems!.map((item) => item.toJson()).toList(),
-      // "created_at": createAt,
-      // "updated_at": updateAt,
     };
   }
 }

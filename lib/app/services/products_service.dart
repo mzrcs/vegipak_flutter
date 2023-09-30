@@ -1,18 +1,17 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import '../core/api/api.dart';
-import '../dio/dio_interceptor.dart';
 import '../model/product/product_model.dart';
 // import '../dio/dio_exception.dart';
 
 class ProductServices {
   Future<dynamic> vegitableProducts(context) async {
-    Dio dios = await ApiInterceptor().getApiUser();
+    // Dio dios = await ApiInterceptor().getApiUser();
     try {
-      Response response = await dios.get("$BASE_URL/product/show");
-
-      // Response response = await Dio().get("https://reqres.in/api/users/23");
+      Response response = await Dio().get(
+        "$BASE_URL/product/show",
+        options: Options(headers: await headerWithAuth()),
+      );
 
       log('statusCode ${response.statusCode}');
 

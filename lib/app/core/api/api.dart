@@ -1,10 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 const String BASE_URL = "https://vegipak.com/public/api";
 const Map<String, dynamic> DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
+
+
+Future<Map<String, String>> headerWithAuth() async {
+  FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  final token = await storage.read(key: 'token');
+  return {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
+}
 
 class Api {
   final Dio _dio = Dio();

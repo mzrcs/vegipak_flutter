@@ -92,43 +92,84 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                           key: value.formKey,
                           child: Column(
                             children: [
-                              profileUpdateField(
+                              // textFieldWidget1(
+                              //   context: context,
+                              //   // initialValue: value.userModel.firstName,
+                              //   controller: value.firstNameController,
+                              //   // labelText: 'First',
+                              //   hintText: 'First Name',
+                              //   validator:
+                              //       value.textFieldValidator.validateFirstName,
+                              // ),
+                              textFieldWidget1(
                                 context: context,
-                                initialValue: value.userModel.firstName,
-                                controller: value.firstNameController,
-                                labelText: 'First',
                                 hintText: 'First Name',
+                                iconData: Icons.person,
+                                controller: value.firstNameController,
                                 validator:
                                     value.textFieldValidator.validateFirstName,
                               ),
                               const SizedBox(height: 16),
-                              profileUpdateField(
+                              // profileUpdateField(
+                              //   context: context,
+                              //   initialValue: value.userModel.lastName,
+                              //   controller: value.lastNameController,
+                              //   labelText: 'Last',
+                              //   hintText: 'Last Name',
+                              //   validator:
+                              //       value.textFieldValidator.validateLastName,
+                              // ),
+
+                              textFieldWidget1(
                                 context: context,
-                                initialValue: value.userModel.lastName,
-                                controller: value.lastNameController,
-                                labelText: 'Last',
                                 hintText: 'Last Name',
+                                iconData: Icons.person,
+                                controller: value.lastNameController,
                                 validator:
                                     value.textFieldValidator.validateLastName,
                               ),
                               const SizedBox(height: 16),
-                              profileUpdateField(
-                                context: context,
-                                initialValue: value.userModel.email,
-                                controller: value.emailController,
-                                labelText: 'Email',
-                                hintText: 'Email Address',
+                              // profileUpdateField(
+                              //   context: context,
+                              //   initialValue: value.userModel.email,
+                              //   controller: value.emailController,
+                              //   labelText: 'Email',
+                              //   hintText: 'Email Address',
+                              //   readOnly: true,
+                              //   validator:
+                              //       value.textFieldValidator.validateAddress,
+                              // ),
+
+                              textFieldWidget1(
                                 readOnly: true,
-                                validator: value
-                                    .textFieldValidator.validateAddress,
+                                context: context,
+                                hintText: 'Email',
+                                iconData: Icons.email,
+                                controller: value.emailController,
+                                validator:
+                                    value.textFieldValidator.validateAddress,
                               ),
                               const SizedBox(height: 16),
-                              profileUpdateField(
+                              // profileUpdateField(
+                              //   context: context,
+                              //   initialValue: value.userModel.phone,
+                              //   controller: value.phoneController,
+                              //   labelText: 'Phone',
+                              //   hintText: 'Phone',
+                              //   textInputType: TextInputType.number,
+                              //   validator: value
+                              //       .textFieldValidator.validatePhoneNumber,
+                              //   inputFormatters: [
+                              //     FilteringTextInputFormatter.digitsOnly,
+                              //     LengthLimitingTextInputFormatter(11),
+                              //   ],
+                              // ),
+
+                              textFieldWidget1(
                                 context: context,
-                                initialValue: value.userModel.phone,
-                                controller: value.phoneController,
-                                labelText: 'Phone',
                                 hintText: 'Phone',
+                                iconData: Icons.phone,
+                                controller: value.phoneController,
                                 textInputType: TextInputType.number,
                                 validator: value
                                     .textFieldValidator.validatePhoneNumber,
@@ -138,11 +179,20 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              profileUpdateField(
+                              // profileUpdateField(
+                              //   context: context,
+                              //   initialValue: value.userModel.address,
+                              //   labelText: 'Address',
+                              //   hintText: 'Address',
+                              //   controller: value.addressController,
+                              //   validator:
+                              //       value.textFieldValidator.validateAddress,
+                              // ),
+
+                              textFieldWidget1(
                                 context: context,
-                                initialValue: value.userModel.address,
-                                labelText: 'Address',
                                 hintText: 'Address',
+                                iconData: Icons.home,
                                 controller: value.addressController,
                                 validator:
                                     value.textFieldValidator.validateAddress,

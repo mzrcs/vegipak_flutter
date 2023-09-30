@@ -15,8 +15,9 @@ class ApiInterceptor {
           //--------------------onrequest
           final token = await storage.read(key: 'token');
           dio.interceptors.clear();
-          // log('token $token');
           options.headers.addAll({"Authorization": "Bearer $token"});
+
+          log('Bearer $token');
           return handler.next(options);
         },
         onResponse: (response, handler) {

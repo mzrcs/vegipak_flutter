@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:vegipak/app/utils/utils.dart';
 import '../provider/order_prov.dart';
 
 class MyOrderList extends StatelessWidget {
@@ -15,7 +16,7 @@ class MyOrderList extends StatelessWidget {
             : value.myOrdersList.isEmpty
                 ? Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: 20.h),
+                      padding: EdgeInsets.only(top: 30.h),
                       child: const Text(
                         'NO ORDER FOUND',
                         style: TextStyle(color: Colors.black87, fontSize: 14),
@@ -61,13 +62,29 @@ class MyOrderList extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "Order #${value.myOrdersList[index].id}",
-                                          style: const TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w200,
-                                          ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Order #${value.myOrdersList[index].id}",
+                                              style: const TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w200,
+                                              ),
+                                            ),
+                                            Text(
+                                              Utils().dateFormat2(value
+                                                  .myOrdersList[index].createdAt
+                                                  .toString()),
+                                              style: const TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w200,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         Container(
                                           padding: const EdgeInsets.all(7),

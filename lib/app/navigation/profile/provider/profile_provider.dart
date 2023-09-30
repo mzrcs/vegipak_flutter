@@ -24,6 +24,48 @@ class ProfileProvider extends ChangeNotifier {
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
+  //--------------------- Visibility (password)
+  bool isobscureCurrent = true;
+  bool isobscureNew = true;
+
+  Icon icon = const Icon(
+    Icons.visibility_off,
+  );
+
+  void visibilityCurrent() {
+    if (isobscureCurrent == false) {
+      // icon = const Icon(
+      //   Icons.visibility_off,
+      // );
+      isobscureCurrent = true;
+      notifyListeners();
+    } else {
+      // icon = const Icon(
+      //   Icons.visibility,
+      //   color: Colors.black,
+      // );
+      isobscureCurrent = false;
+      notifyListeners();
+    }
+  }
+
+  void visibilityNew() {
+    if (isobscureNew == false) {
+      // icon = const Icon(
+      //   Icons.visibility_off,
+      // );
+      isobscureNew = true;
+      notifyListeners();
+    } else {
+      // icon = const Icon(
+      //   Icons.visibility,
+      //   color: Colors.black,
+      // );
+      isobscureNew = false;
+      notifyListeners();
+    }
+  }
+
   bool _loading = false;
   bool get isLoading => _loading;
 
@@ -43,8 +85,9 @@ class ProfileProvider extends ChangeNotifier {
   resetLoading() {
     if (_loading2 == true) {
       _loading2 = false;
-      // notifyListeners();
     }
+    isobscureCurrent = true;
+    isobscureNew = true;
     clearTextfield();
   }
 
@@ -177,11 +220,12 @@ class ProfileProvider extends ChangeNotifier {
         newPassword: newPasswordController.text.trim(),
       );
 
-      log('[UPDATE] ${updatePasswordModel.toJson()}');
+      log('[UPDATE] ${updatePasswordModel.updateJson()}');
 
       await _userServices
-          .updatePassword(model: updatePasswordModel)
+          .updatePasswordNew(model: updatePasswordModel)
           .then((value) {
+        log('value $value');
         if (value != null) {
           setLoading2(false);
 

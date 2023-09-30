@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/user/sign_in_model.dart';
 import '../../services/user_service.dart';
+import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
 
 class ForgotPasswordProvider extends ChangeNotifier {
@@ -38,6 +39,8 @@ class ForgotPasswordProvider extends ChangeNotifier {
 
   final forgotEmailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  final textFieldValidator = TextFieldValidators();
 
   bool _loading = false;
   bool get isLoading => _loading;

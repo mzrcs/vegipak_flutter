@@ -75,36 +75,6 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  // Future<void> getVegitableProduct(context) async {
-  //   // Provider.of<NavigationIndex>(context, listen: false).checkInternet();
-  //   // checkInternet();
-
-  //   try {
-  //     productList.clear();
-  //     setLoading(true);
-
-  //     await product.vegitableProducts(context).then((value) {
-  //       log("value $value");
-
-  //       if (value != null) {
-  //         // log("message");
-  //         productList = value;
-  //         notifyListeners();
-
-  //         setLoading(false);
-  //       } else {
-  //         log('else ');
-  //         setLoading(false);
-  //         return null;
-  //       }
-  //     });
-  //   } on DioError catch (e) {
-  //     log('DioErorr $e');
-  //     DioException().dioError2(e, context);
-  //   }
-
-  //   log('productList ${productList.length}');
-  // }
 
   Future<void> getVegitableProduct(context) async {
     _showError = false;
@@ -113,8 +83,6 @@ class ProductProvider extends ChangeNotifier {
       setLoading(true);
 
       final response = await product.vegitableProducts(context);
-
-      // log('response $response');
 
       if (response != null) {
         productList = response;

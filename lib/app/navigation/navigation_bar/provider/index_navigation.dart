@@ -30,7 +30,7 @@ class NavigationIndex extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool connectInternet = false;
+  bool connectInternet = true;
 
   checkInternet() async {
     connectInternet = await InternetConnectionChecker().hasConnection;

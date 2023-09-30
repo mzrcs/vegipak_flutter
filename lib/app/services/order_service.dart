@@ -45,14 +45,22 @@ class OrderService {
     return null;
   }
 
-  Future<List<MyOrderModel>?> getMyOrders(
-      {required BuildContext context,
-      required String currentDate,
-      required String lastWeekDate}) async {
-    Dio dios = await ApiInterceptor().getApiUser();
+  Future<List<MyOrderModel>?> getMyOrders({
+    required BuildContext context,
+    required String currentDate,
+    required String lastWeekDate,
+  }) async {
+    // Dio dios = await ApiInterceptor().getApiUser();
     try {
-      Response response = await dios
-          .get("$BASE_URL/order/show?to=$currentDate&from=$lastWeekDate");
+      // Response response = await dios
+      //     .get("$BASE_URL/order/show23?to=$currentDate&from=$lastWeekDate");
+
+      Response response = await Dio().get(
+        "$BASE_URL/order/show?to=$currentDate&from=$lastWeekDate",
+        options: Options(headers: await headerWithAuth()),
+      );
+
+      log('response myOrder ${response.data}');
 
       // ApiResponse apiResponse = ApiResponse.fromResponse(response);
 
@@ -64,10 +72,45 @@ class OrderService {
       return orderList;
     } on DioError catch (e) {
       // log(e.message.toString());
-      DioException().dioError(e);
+      // DioException().dioError(e);
+
+      log('e ${e.message.toString()}');
+
+      if (e.response != null) {
+        throw e.response!.statusCode!;
+      }
     }
     return null;
   }
+
+  // Future<dynamic> vegitableProducts(context) async {
+  //   // Dio dios = await ApiInterceptor().getApiUser();
+  //   try {
+  //     Response response = await Dio().get(
+  //       "$BASE_URL/product/show33",
+  //       options: Options(headers: await headerWithAuth()),
+  //     );
+
+  //     log('statusCode ${response.statusCode}');
+
+  //     if (response.statusCode == 200) {
+  //       final List<ProductModel> productList =
+  //           (response.data['products'] as List)
+  //               .map((e) => ProductModel.fromJson(e))
+  //               .toList();
+
+  //       // Convert raw data to model
+  //       return productList;
+  //     }
+  //   } on DioError catch (e) {
+  //     log('e ${e.message.toString()}');
+
+  //     if (e.response != null) {
+  //       throw e.response!.statusCode!;
+  //     }
+  //   }
+  //   return null;
+  // }
 
   Future<AreaModel?> districtAreas() async {
     Dio dios = await ApiInterceptor().getApiUser();

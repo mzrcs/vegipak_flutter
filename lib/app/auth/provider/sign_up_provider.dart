@@ -16,6 +16,7 @@ import '../../model/user/area_model.dart';
 import '../../model/user/sign_up_model.dart';
 import '../../navigation/navigation_bar/provider/index_navigation.dart';
 import '../../services/user_service.dart';
+import '../../utils/field_validator.dart';
 import '../../utils/routes/routes_name.dart';
 // import '../../navigation/navigation_bar/provider/index_navigation.dart';
 // import '../../utils/routes/routes_name.dart';
@@ -62,6 +63,8 @@ class SignupProvider extends ChangeNotifier {
   final addressController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  final textFieldValidator = TextFieldValidators();
+
   bool _loading = false;
   bool get isLoading => _loading;
 
@@ -100,6 +103,25 @@ class SignupProvider extends ChangeNotifier {
     });
 
     // log('districtAreaList ${districtAreaList}');
+  }
+
+  //   if (value.isEmpty) {
+  //   return 'Phone number is required';
+  // }
+
+  // // Regular expression for the new Pakistan phone number format: 03XXXXXXXXX
+  // RegExp phoneRegExp = RegExp(r'^03[0-9]{9}$');
+
+  // if (!phoneRegExp.hasMatch(value)) {
+  //   return 'Please use the format 03XXXXXXXXX';
+  // }
+
+  // return null;
+
+  bool validatePhoneNumber(String phoneNumber) {
+    // Use a regular expression to check if the phone number matches the desired format
+    RegExp regExp = RegExp(r'^3\d{9}$');
+    return regExp.hasMatch(phoneNumber);
   }
 
   Future<void> signUp(BuildContext context) async {
@@ -153,6 +175,13 @@ class SignupProvider extends ChangeNotifier {
     } else {
       setLoading(false);
     }
+
+    // if (phoneController.text.isEmpty) {
+    //   Fluttertoast.showToast(
+    //     msg: 'Phone number is required',
+    //     backgroundColor: Colors.red,
+    //   );
+    // }
   }
 
   String? signUpEmailAddress;

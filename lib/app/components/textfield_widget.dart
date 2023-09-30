@@ -34,8 +34,8 @@ Widget textFieldWidget1({
       textAlignVertical: TextAlignVertical.center,
       style: Theme.of(context).textTheme.displaySmall!.copyWith(
             fontWeight: FontWeight.w400,
-            color: Colors.black87,
-            fontSize: 17,
+            color: Colors.black87.withOpacity(0.9),
+            fontSize: 16,
           ),
       controller: controller,
       maxLines: maxLines,
@@ -74,64 +74,150 @@ Widget textFieldWidget1({
   );
 }
 
-Widget textFieldWidget2({
+Widget textFieldPasswordWidget1({
   required BuildContext context,
   required String hintText,
+  required IconData iconData,
   required TextEditingController controller,
   required Function validator,
+  required Function onIconPress,
+  required bool obscureText,
   void Function(String)? onChanged,
   TextInputType? textInputType,
-  bool? isPhoneField = false,
+  final List<TextInputFormatter>? inputFormatters,
   bool? readOnly = false,
+  int? maxLines = 1,
 }) {
-  return TextFormField(
-    validator: (value) => validator(value),
-    // validator: (String? value) {
-    //   if (value == null || value.isEmpty) {
-    //     return 'Required';
-    //   }
-    //   return null;
-    // },
-    textAlign: TextAlign.start,
-    textAlignVertical: TextAlignVertical.center,
-    style: Theme.of(context).textTheme.displaySmall!.copyWith(
-          fontWeight: FontWeight.w400,
-          color: Colors.black87,
-          fontSize: 17,
-        ),
-    controller: controller,
-    cursorColor: MyColors.kGreenColor,
-    readOnly: readOnly!,
-    autofocus: false,
-    autocorrect: false,
-    keyboardType: textInputType,
-    obscureText: false,
-    textInputAction: TextInputAction.done,
-    decoration: InputDecoration(
-      // prefixIcon: Padding(
-      //   padding: const EdgeInsets.only(left: 6),
-      //   child: Icon(iconData, color: MyColors.kGreenColor),
-      // ),
-      prefixText: ' ',
-      filled: true,
-      fillColor: Colors.white,
-      isCollapsed: true,
-      contentPadding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
-      hintText: hintText,
-      hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
-            fontSize: 15,
-            color: Colors.grey.shade500,
-            fontWeight: FontWeight.w500,
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(6),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.05),
+          spreadRadius: 4,
+          blurRadius: 10,
+          offset: const Offset(0, 8),
+        )
+      ],
+    ),
+    child: TextFormField(
+      validator: (value) => validator(value),
+      inputFormatters: inputFormatters,
+      textAlign: TextAlign.start,
+      textAlignVertical: TextAlignVertical.center,
+      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            fontWeight: FontWeight.w400,
+            color: Colors.black87.withOpacity(0.9),
+            fontSize: 16,
           ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
-      ),
+      controller: controller,
+      maxLines: maxLines,
+      cursorColor: MyColors.kGreenColor,
+      readOnly: readOnly!,
+      autofocus: false,
+      autocorrect: false,
+      keyboardType: textInputType,
+      obscureText: obscureText,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+        prefixIcon: maxLines! > 1
+            ? null
+            : Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Icon(iconData, color: MyColors.kGreenColor),
+              ),
 
-      // errorText: 'This is the error text',
+        suffixIcon: GestureDetector(
+          onTap: () => onIconPress(),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Icon(
+              obscureText
+                  ? Icons.visibility_rounded
+                  : Icons.visibility_off_rounded,
+              color: MyColors.kGreenColor,
+            ),
+          ),
+        ),
+        prefixText: maxLines > 1 ? '' : '  ',
+        filled: true,
+        fillColor: Colors.white,
+        isCollapsed: true,
+        contentPadding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+        hintText: hintText,
+        hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              fontSize: 15,
+              color: Colors.grey.shade500,
+              fontWeight: FontWeight.w500,
+            ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+          borderSide: BorderSide.none,
+        ),
+        // errorText: 'This is the error text',
+      ),
     ),
   );
 }
+
+// Widget textFieldWidget2({
+//   required BuildContext context,
+//   required String hintText,
+//   required TextEditingController controller,
+//   required Function validator,
+//   void Function(String)? onChanged,
+//   TextInputType? textInputType,
+//   bool? isPhoneField = false,
+//   bool? readOnly = false,
+// }) {
+//   return TextFormField(
+//     validator: (value) => validator(value),
+//     // validator: (String? value) {
+//     //   if (value == null || value.isEmpty) {
+//     //     return 'Required';
+//     //   }
+//     //   return null;
+//     // },
+//     textAlign: TextAlign.start,
+//     textAlignVertical: TextAlignVertical.center,
+//     style: Theme.of(context).textTheme.displaySmall!.copyWith(
+//           fontWeight: FontWeight.w400,
+//           color: Colors.black87,
+//           fontSize: 17,
+//         ),
+//     controller: controller,
+//     cursorColor: MyColors.kGreenColor,
+//     readOnly: readOnly!,
+//     autofocus: false,
+//     autocorrect: false,
+//     keyboardType: textInputType,
+//     obscureText: false,
+//     textInputAction: TextInputAction.done,
+//     decoration: InputDecoration(
+//       // prefixIcon: Padding(
+//       //   padding: const EdgeInsets.only(left: 6),
+//       //   child: Icon(iconData, color: MyColors.kGreenColor),
+//       // ),
+//       prefixText: ' ',
+//       filled: true,
+//       fillColor: Colors.white,
+//       isCollapsed: true,
+//       contentPadding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+//       hintText: hintText,
+//       hintStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
+//             fontSize: 15,
+//             color: Colors.grey.shade500,
+//             fontWeight: FontWeight.w500,
+//           ),
+//       border: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(6),
+//         borderSide: BorderSide(color: Colors.grey.shade100, width: 0.1),
+//       ),
+
+//       // errorText: 'This is the error text',
+//     ),
+//   );
+// }
 
 Widget phoneFieldWidget({
   required BuildContext context,
@@ -139,6 +225,8 @@ Widget phoneFieldWidget({
   required IconData iconData,
   required TextEditingController controller,
   void Function(String)? onChanged,
+  TextInputType? keyboardType = TextInputType.phone,
+  List<TextInputFormatter>? inputFormatters,
   bool? isPhoneField = false,
   bool? readOnly = false,
 }) {
@@ -164,7 +252,7 @@ Widget phoneFieldWidget({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(child: Icon(iconData, color: MyColors.kGreenColor)),
-              if (isPhoneField) textWidget(text: '+92', fontSize: 17),
+              if (isPhoneField) textWidget(text: '+92', fontSize: 16),
               if (isPhoneField) const SizedBox(width: 12),
             ],
           ),
@@ -181,6 +269,8 @@ Widget phoneFieldWidget({
             child: TextField(
               controller: controller,
               readOnly: readOnly!,
+              keyboardType: keyboardType,
+              inputFormatters: inputFormatters,
               cursorColor: MyColors.kGreenColor,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
                     fontWeight: FontWeight.w600,
@@ -192,9 +282,9 @@ Widget phoneFieldWidget({
               // },
               // onSubmitted: (String? input) => onSubmit(),
               // onFieldSubmitted: (String? input) => onSubmitted!(),
-              onChanged: (value) {
-                onChanged!(value);
-              },
+              // onChanged: (value) {
+              //   onChanged!(value);
+              // },
               decoration: InputDecoration(
                 // hintStyle: GoogleFonts.poppins(
                 //   fontSize: 12,
@@ -226,7 +316,7 @@ Widget phoneFieldWidget({
 
 Widget profileUpdateField({
   required BuildContext context,
-  required String initialValue,
+  // required String initialValue,
   required String labelText,
   required String hintText,
   required TextEditingController controller,
@@ -258,67 +348,6 @@ Widget profileUpdateField({
   );
 }
 
-// Widget dropDownWidget({
-//   required Widget hintText,
-//   required IconData iconData,
-//   required Function(String?)? onChanged,
-//   required Object? value,
-//   required List<DropdownMenuItem<Object>>? items,
-// }) {
-//   return Container(
-//     width: double.infinity,
-//     height: 55,
-//     decoration: BoxDecoration(
-//       color: Colors.white,
-//       boxShadow: [
-//         BoxShadow(
-//           color: Colors.black.withOpacity(0.05),
-//           spreadRadius: 3,
-//           blurRadius: 10,
-//         )
-//       ],
-//       borderRadius: BorderRadius.circular(8),
-//     ),
-//     child: Row(
-//       children: [
-//         Expanded(
-//           flex: 1,
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Expanded(
-//                 child: Icon(iconData, color: MyColors.kGreenColor),
-//               ),
-//             ],
-//           ),
-//         ),
-//         Container(
-//           width: 0.4,
-//           height: 55,
-//           color: Colors.black.withOpacity(0.2),
-//         ),
-//         Expanded(
-//           flex: 5,
-//           child: DropdownButtonFormField(
-//             hint: hintText,
-//             decoration: const InputDecoration(
-//               // labelText: 'Gulistan-e-Johuar',
-//               border: InputBorder.none,
-//               contentPadding: EdgeInsets.only(left: 16, right: 12),
-//             ),
-//             isExpanded: false,
-//             iconEnabledColor: Colors.green,
-//             value: value,
-//             icon: const Icon(Icons.keyboard_arrow_down),
-//             items: items,
-//             onChanged: (_) => onChanged,
-//           ),
-//         ),
-//       ],
-//     ),
-//   );
-// }
-
 Widget textWidget({
   required String text,
   double fontSize = 12,
@@ -328,6 +357,7 @@ Widget textWidget({
     style: TextStyle(
       fontSize: fontSize,
       color: Colors.grey.shade500,
+      fontWeight: FontWeight.w400,
     ),
   );
 }

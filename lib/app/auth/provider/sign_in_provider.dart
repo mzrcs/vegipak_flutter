@@ -28,6 +28,9 @@ bool isValidPassword(String value) {
 }
 
 class LoginProvider extends ChangeNotifier {
+
+
+  
   //--------------------- Visibility (password)
   bool isobscure = true;
   Icon icon = const Icon(

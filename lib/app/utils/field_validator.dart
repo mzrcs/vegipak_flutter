@@ -93,6 +93,17 @@ class TextFieldValidators {
     return null; // Validation passed
   }
 
+  dynamic validateEmailAddress(String value) {
+    if (value.isEmpty) {
+      return 'Email Address is required';
+    } else if (!RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value)) {
+      return 'Please enter valid email address';
+    }
+    return null;
+  }
+
   dynamic validateNote(String value) {
     if (value.isEmpty) {
       return 'Note is required';
@@ -211,24 +222,6 @@ class TextFieldValidators {
     return null;
   }
 
-  // dynamic phoneNumberErrorGetter(String value) {
-  //   if (value.isEmpty) {
-  //     return 'PLease Enter Phone Number';
-  //   }
-  //   if (value.length < 9) {
-  //     return 'Phone Number Should be at least 9 characters';
-  //   }
-  //   return null;
-  // }
-  // dynamic phoneNumberErrorGetter(String value) {
-  //   if (value.isEmpty) {
-  //     return 'Please Enter Phone Number';
-  //   }
-  //   if (value.length != 10) {
-  //     return 'Mobile Number must be of 10 digit';
-  //   }
-  //   return null;
-  // }
 
   dynamic validatePhoneNumber(String value) {
     if (value.isEmpty) {
@@ -244,12 +237,6 @@ class TextFieldValidators {
 
     return null; // Validation passed
   }
-
-  // String urlPattern =
-  //     r"(https?|http)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
-  // // var match = RegExp( , caseSensitive: false)
-  // //     .firstMatch('https://www.google.com');
-  // var match = RegExp(urlPattern);
 
   dynamic urlErrorGetter(String value) {
     if (!RegExp(
