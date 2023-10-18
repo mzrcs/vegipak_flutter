@@ -195,7 +195,7 @@ class CartOrderNow extends StatelessWidget {
                           if (value.totalProductCount > 0) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => OrderNow(),
+                                builder: (context) => const OrderNow(),
                                 //     ChangeNotifierProvider<CartProvider>.value(
                                 //   value: context.read<CartProvider>(),
                                 //   child: const OrderNow(),

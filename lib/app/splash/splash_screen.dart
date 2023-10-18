@@ -13,6 +13,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  // @override
+  // void initState() {
+  //   Provider.of<SplashProvider>(context, listen: false).splashTimer(context);
+
+  //   super.initState();
+  // }
   // Timer? _timer;
 
   void goToNextScreen() async {

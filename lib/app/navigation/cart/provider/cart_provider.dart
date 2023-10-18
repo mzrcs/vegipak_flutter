@@ -63,6 +63,7 @@ class CartProvider extends ChangeNotifier {
 
   void removeToCart(CartModel cartItem, BuildContext context) {
     cartList.remove(cartItem);
+    clearTextfield();
     Utils.snackBarPopUp(context, "Removed From Cart Successfully", Colors.red);
     notifyListeners();
   }
@@ -90,6 +91,9 @@ class CartProvider extends ChangeNotifier {
   bool _loading = false;
   bool get isLoading => _loading;
 
+  bool _showError = false;
+  bool get isError => _showError;
+
   setLoading(bool value) {
     _loading = value;
     notifyListeners();
@@ -111,6 +115,7 @@ class CartProvider extends ChangeNotifier {
   UserModel userModel = UserModel();
 
   Future<void> getSavedData(context) async {
+    _showError = false;
     setLoadingData(true);
     final userPrefrence = Provider.of<UserProvider>(context, listen: false);
     await userPrefrence.getSaveUser(userModel);
@@ -143,45 +148,75 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<void> orderNow(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    _showError = false;
+    try {
+      if (formKey.currentState!.validate()) {
+        formKey.currentState!.save();
 
-      setLoading(true);
+        setLoading(true);
 
-      final MyOrderModel myOrderModel = MyOrderModel(
-        userId: authId!,
-        phone: phoneController.text,
-        areaId: selectedAreaId!,
-        address: addressController.text,
-        note: noteController.text,
-        status: 'Pending',
-        total: int.parse(subTotal.toStringAsFixed(0)),
-        cartItems: cartList,
-      );
+        final MyOrderModel myOrderModel = MyOrderModel(
+          userId: authId!,
+          phone: phoneController.text,
+          areaId: selectedAreaId!,
+          address: addressController.text,
+          note: noteController.text,
+          status: 'Pending',
+          total: int.parse(subTotal.toStringAsFixed(0)),
+          cartItems: cartList,
+        );
 
-      // print(jsonEncode(myOrderModel.toJson()));
+        await _orderServices.createOrder(model: myOrderModel).then((value) {
+          print('value $value');
+          if (value != null) {
+            setLoading(false);
+            Map<String, dynamic> responseData = value;
 
-      await _orderServices.createOrder(model: myOrderModel).then((value) {
-        if (value != null) {
-          setLoading(false);
+            if (responseData.containsKey('status')) {
+              int statusCode = responseData['status'];
+              List<dynamic> errorMessages = responseData['message'];
 
-          // print('value $value');
+              if (statusCode == 500) {
+                for (dynamic errorMessage in errorMessages) {
+                  print('Error Message: $errorMessage');
 
-          Utils.snackBarPopUp(
-              context, "Order Created Successfully", Colors.green);
+                  Utils.snackBarPopUp(
+                    context,
+                    errorMessage,
+                    Colors.red,
+                    duration: 6,
+                  );
+                  // Show an error message to the user
+                  // You can use a Flutter widget to display the error message
+                }
+              }
+            } else {
+              Utils.snackBarPopUp(
+                  context, "Order Created Successfully", Colors.green);
 
-          Navigator.pushReplacementNamed(context, RouteName.thankyou);
+              Navigator.pushReplacementNamed(context, RouteName.thankyou);
 
-          Provider.of<OrderProvider>(context, listen: false)
-              .getMyOrders(context);
+              Provider.of<OrderProvider>(context, listen: false)
+                  .getMyOrders(context);
 
-          cartList.clear();
-          clearTextfield();
-        } else {
-          setLoading(false);
-          return;
-        }
-      });
+              cartList.clear();
+              clearTextfield();
+            }
+          } else {
+            setLoading(false);
+            return;
+          }
+        });
+      }
+    } catch (e) {
+      log('ERORR new: $e');
+      setLoading(false);
+      // cartList.clear();
+      clearTextfield();
+      if (e == 404 || e == 500) {
+        _showError = true;
+        notifyListeners();
+      }
     }
   }
 

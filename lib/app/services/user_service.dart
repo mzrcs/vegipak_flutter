@@ -275,7 +275,9 @@ class UserService {
 }
 
 Future<Map<String, String>> headerWithAuth() async {
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
 
   final token = await storage.read(key: 'token');
   return {'Accept': 'application/json', 'Authorization': 'Bearer $token'};

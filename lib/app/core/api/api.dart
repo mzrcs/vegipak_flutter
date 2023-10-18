@@ -7,9 +7,10 @@ const Map<String, dynamic> DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 };
 
-
 Future<Map<String, String>> headerWithAuth() async {
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
 
   final token = await storage.read(key: 'token');
   return {'Accept': 'application/json', 'Authorization': 'Bearer $token'};
@@ -50,8 +51,6 @@ class ApiResponse {
       message: data["message"] ?? "Unexpected error",
     );
   }
-
-
 }
 
 

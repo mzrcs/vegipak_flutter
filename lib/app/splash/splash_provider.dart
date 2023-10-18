@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vegipak/app/utils/routes/routes_name.dart';
 
 class SplashProvider extends ChangeNotifier {
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
   // String? onboardValue;
   String? signinCheck;
   String? email;
@@ -17,24 +19,28 @@ class SplashProvider extends ChangeNotifier {
     Timer(
       const Duration(seconds: 2),
       () async {
-        signinCheck = await storage.read(key: 'token');
-
         final SharedPreferences sp = await SharedPreferences.getInstance();
         email = sp.getString('email');
-        isIntroScreenShown = sp.getBool('isIntroScreen') ?? false;
+        isIntroScreenShown = sp.getBool('onboard') ?? false;
+        signinCheck = await storage.read(key: 'token');
 
-        // print(signinCheck.toString());
+        print('signinCheck: ' + signinCheck.toString());
+        // print('isIntroScreenShown $isIntroScreenShown');
+
         // print('email ' + email.toString());
         if (signinCheck != null) {
           router.pushNamedAndRemoveUntil(RouteName.home, (route) => false);
         } else {
           if (signinCheck == null) {
-            print(isIntroScreenShown);
+            print('isIntroScreenShown else $isIntroScreenShown');
             if (!isIntroScreenShown) {
-              await sp.setBool('isIntroScreen', true);
+              print('show on board screen!');
+              await sp.setBool('onboard', true);
 
               router.pushNamedAndRemoveUntil(
-                  RouteName.onboard, (route) => false);
+                RouteName.onboard,
+                (route) => false,
+              );
             } else {
               router.pushNamedAndRemoveUntil(RouteName.login, (route) => false);
             }

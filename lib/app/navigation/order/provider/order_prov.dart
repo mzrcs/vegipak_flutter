@@ -15,7 +15,7 @@ class OrderProvider extends ChangeNotifier {
   bool _showError = false;
   bool get isError => _showError;
 
-  bool connectInternet = true;
+  // bool connectInternet = true;
 
   bool _loading = false;
   bool get isLoading => _loading;

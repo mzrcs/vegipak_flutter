@@ -12,7 +12,7 @@ class OrderService {
   // final _api = Api();
 
   Future<dynamic> createOrder({required MyOrderModel model}) async {
-    Dio dios = await ApiInterceptor().getApiUser();
+    // Dio dios = await ApiInterceptor().getApiUser();
 
     try {
       // Response response = await _api.sendRequest.post(
@@ -20,10 +20,20 @@ class OrderService {
       //   data: jsonEncode(model.toJson()),
       // );
 
-      Response response = await dios.post(
+      // Response response = await dios.post(
+      //   "$BASE_URL/order/storeasdadad",
+      //   data: jsonEncode(model.toJson()),
+      // );
+
+      Response response = await Dio().post(
         "$BASE_URL/order/store",
         data: jsonEncode(model.toJson()),
+        options: Options(headers: await headerWithAuth()),
       );
+
+      log('order statuscode ${response.statusCode}');
+      log('order response store $response');
+      log('order response data ${response.data}');
 
       if (response.statusCode == 200) {
         if (response.data == null) {
@@ -40,7 +50,13 @@ class OrderService {
       // return apiResponse.data;
     } on DioError catch (e) {
       // log(e.message.toString());
-      DioException().dioError(e);
+      // DioException().dioError(e);
+
+      log('e ${e.message.toString()}');
+
+      if (e.response != null) {
+        throw e.response!.statusCode!;
+      }
     }
     return null;
   }

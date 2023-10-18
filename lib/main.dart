@@ -39,23 +39,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  // bool _isIntroScreenShownAlready = false;
-  // Future<void> checkHasViewedAlready() async {
-  //   final SharedPreferences prefs = await globals.sharedPrefs;
-  //   bool? isIntroScreenShownAlready =
-  //       prefs.getBool("isIntroScreenShownAlready");
-  //   if (isIntroScreenShownAlready != null && isIntroScreenShownAlready) {
-  //     setState(() {
-  //       _isIntroScreenShownAlready = true;
-  //     });
-  //   }
-  // }
 
-  // @override
-  // void initState() {
-  //   // checkHasViewedAlready();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {

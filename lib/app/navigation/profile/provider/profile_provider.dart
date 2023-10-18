@@ -22,7 +22,9 @@ class ProfileProvider extends ChangeNotifier {
 
   AuthModel authModel = AuthModel(uId: 4);
 
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
 
   //--------------------- Visibility (password)
   bool isobscureCurrent = true;
@@ -120,7 +122,7 @@ class ProfileProvider extends ChangeNotifier {
     // log("message");
     setLoading(true);
     await _orderServices.districtAreas().then((value) {
-      if (value != null) {
+      if (value != null && value.districtAreas != null) {
         // print(value.districtAreas);
         districtAreaList = value.districtAreas!;
         notifyListeners();

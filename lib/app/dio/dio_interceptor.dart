@@ -5,7 +5,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dio_exception.dart';
 
 class ApiInterceptor {
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
   Dio dio = Dio();
 
   Future<Dio> getApiUser() async {
@@ -14,10 +16,10 @@ class ApiInterceptor {
         onRequest: (options, handler) async {
           //--------------------onrequest
           final token = await storage.read(key: 'token');
+          log('Bearer $token');
           dio.interceptors.clear();
           options.headers.addAll({"Authorization": "Bearer $token"});
 
-          log('Bearer $token');
           return handler.next(options);
         },
         onResponse: (response, handler) {

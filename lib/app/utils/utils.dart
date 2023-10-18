@@ -64,8 +64,9 @@ class Utils {
   static Future<void> snackBarPopUp(
     BuildContext context,
     String text,
-    Color color,
-  ) async {
+    Color color, {
+    int duration = 3,
+  }) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -74,7 +75,7 @@ class Utils {
               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
         ),
         backgroundColor: color,
-        duration: const Duration(seconds: 3),
+        duration: Duration(seconds: duration),
       ),
     );
   }

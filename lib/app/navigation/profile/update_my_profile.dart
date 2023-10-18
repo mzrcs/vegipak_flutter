@@ -1,12 +1,15 @@
 import 'dart:developer';
 
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vegipak/app/components/button_widget.dart';
 import 'package:vegipak/app/custom/annotated_widget.dart';
+import 'package:vegipak/screens/my_cart.dart';
 import '../../components/textfield_widget.dart';
+import '../../model/user/area_model.dart';
 import '../../utils/utils.dart';
 import 'provider/profile_provider.dart';
 
@@ -18,6 +21,8 @@ class UpdateMyProfile extends StatefulWidget {
 }
 
 class _UpdateMyProfileState extends State<UpdateMyProfile> {
+  final jobRoleCtrl = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -200,7 +205,7 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                               const SizedBox(height: 16),
                               Consumer<ProfileProvider>(
                                 builder: (context, provider, _) {
-                                  log('area Id ${provider.selectedAreaId}');
+                                  // log('area Id ${provider.selectedAreaId}');
                                   return Utils().customDropdownButton(
                                     value: provider.selectedAreaId.toString(),
                                     context: context,
@@ -233,6 +238,61 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                                 },
                               ),
                               const SizedBox(height: 16),
+
+                              // Consumer<ProfileProvider>(
+                              //     builder: (context, provider, _) {
+                              //   List<DistrictAreas> districtAreaList = provider
+                              //       .getDistrictArea() as List<DistrictAreas>;
+                              //   // log('area Id ${provider.selectedAreaId}');
+
+                              //   return Container(
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(6),
+                              //       boxShadow: [
+                              //         BoxShadow(
+                              //           color: Colors.black.withOpacity(0.05),
+                              //           spreadRadius: 4,
+                              //           blurRadius: 10,
+                              //           offset: const Offset(0, 8),
+                              //         )
+                              //       ],
+                              //     ),
+                              //     child: CustomDropdown(
+                              //       fillColor: Colors.white,
+                              //       hintText: 'Select job role',
+
+                              //       // onChanged: (value) {
+                              //       //   provider.selectAreaId(
+                              //       //       int.parse(value.toString()));
+                              //       //   print(value);
+                              //       // },
+
+                              //       onChanged: (selectedAreaName) {
+                              //         // Find the corresponding DistrictAreas object
+                              //         DistrictAreas selectedArea =
+                              //             provider.districtAreaList.firstWhere(
+                              //           (area) => area.name == selectedAreaName,
+                              //           orElse: () =>
+                              //               DistrictAreas(), // Provide a default DistrictAreas object
+                              //         );
+
+                              //         int selectedAreaId = selectedArea.id ?? 0;
+                              //         provider.selectAreaId(selectedAreaId);
+
+                              //         // You can use the selectedAreaId as needed.
+                              //       },
+                              //       items: districtAreaList.isNotEmpty
+                              //           ? provider.districtAreaList
+                              //               .map((area) => area.name ?? '')
+                              //               .toList()
+                              //           : [],
+                              //       controller: jobRoleCtrl,
+                              //     ),
+                              //   );
+                              // }),
+
+                              const SizedBox(height: 16),
+
                               myButton(
                                 'Update',
                                 () {

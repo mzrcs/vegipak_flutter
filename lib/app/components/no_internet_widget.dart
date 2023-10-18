@@ -6,7 +6,6 @@ import 'package:vegipak/app/components/button_widget.dart';
 import 'package:vegipak/app/core/constants/my_colors.dart';
 import 'package:vegipak/app/custom/annotated_widget.dart';
 import '../navigation/navigation_bar/provider/index_navigation.dart';
-import '../navigation/vegitable/provider/product_provider.dart';
 import 'logo_widget.dart';
 
 class NoInternet extends StatelessWidget {
