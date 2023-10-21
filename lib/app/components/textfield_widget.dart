@@ -28,6 +28,7 @@ Widget textFieldWidget1({
       ],
     ),
     child: TextFormField(
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: (value) => validator(value),
       inputFormatters: inputFormatters,
       textAlign: TextAlign.start,
@@ -101,6 +102,7 @@ Widget textFieldPasswordWidget1({
       ],
     ),
     child: TextFormField(
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: (value) => validator(value),
       inputFormatters: inputFormatters,
       textAlign: TextAlign.start,

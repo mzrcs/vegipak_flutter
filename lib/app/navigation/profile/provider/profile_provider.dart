@@ -112,9 +112,18 @@ class ProfileProvider extends ChangeNotifier {
 
   UserModel userModel = UserModel();
 
+  String? selectedAreaName;
+
+  // String? get selectedAreaName => _selectedAreaName;
+
   selectAreaId(int value) {
     selectedAreaId = value;
     log('selectedAreaId $selectedAreaId');
+    notifyListeners();
+  }
+
+  void selectAreaName(String areaName) {
+    selectedAreaName = areaName;
     notifyListeners();
   }
 
@@ -125,6 +134,7 @@ class ProfileProvider extends ChangeNotifier {
       if (value != null && value.districtAreas != null) {
         // print(value.districtAreas);
         districtAreaList = value.districtAreas!;
+        updateSelectedAreaName(selectedAreaId.toString());
         notifyListeners();
 
         setLoading(false);
@@ -133,6 +143,18 @@ class ProfileProvider extends ChangeNotifier {
         return null;
       }
     });
+  }
+
+  void updateSelectedAreaName(String? areaId) {
+    for (var area in districtAreaList) {
+      if (area.id.toString() == areaId) {
+        // return area.name;
+        // area.name = selectedAreaName;
+        selectedAreaName = area.name;
+        notifyListeners();
+      }
+    }
+    print('selectedAreaName $selectedAreaName');
   }
 
   Future<void> getSavedData(context) async {
@@ -149,6 +171,8 @@ class ProfileProvider extends ChangeNotifier {
       addressController.text = userModel.address;
       selectedAreaId = userModel.districtAreaId;
       status = userModel.status;
+
+      // updateSelectedAreaName(selectedAreaId!);
       setLoading(false);
     });
   }

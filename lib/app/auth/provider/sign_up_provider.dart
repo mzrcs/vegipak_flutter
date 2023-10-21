@@ -60,6 +60,11 @@ class SignupProvider extends ChangeNotifier {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   int? selectedAreaId;
+
+  String? _selectedAreaName;
+
+  String? get selectedAreaName => _selectedAreaName;
+
   final addressController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -83,6 +88,11 @@ class SignupProvider extends ChangeNotifier {
 
   selectAreaId(int value) {
     selectedAreaId = value;
+    notifyListeners();
+  }
+
+  void selectAreaName(String areaName) {
+    _selectedAreaName = areaName;
     notifyListeners();
   }
 
