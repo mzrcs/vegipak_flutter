@@ -94,7 +94,11 @@ class LoginProvider extends ChangeNotifier {
           userPrefrence.saveUser(value);
 
           Provider.of<NavigationIndex>(context, listen: false).currentIndex = 0;
-          Navigator.pushReplacementNamed(context, RouteName.home);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RouteName.home,
+            (route) => false,
+          );
 
           clearTextfield();
         } else {

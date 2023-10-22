@@ -239,7 +239,7 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                               //     );
                               //   },
                               // ),
-                              const SizedBox(height: 16),
+                              // const SizedBox(height: 16),
 
                               DropDownWidget(
                                 onTap: () {
@@ -269,7 +269,7 @@ class _UpdateMyProfileState extends State<UpdateMyProfile> {
                                 ),
                               ),
 
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 32),
 
                               myButton(
                                 'Update',

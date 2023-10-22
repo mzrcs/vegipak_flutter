@@ -14,7 +14,7 @@ List<OnboardingContents> contents = [
   OnboardingContents(
     title: "On Your Doorstep",
     desc:
-        "We provide the best services in the town.So, Instead of going out your Vegbusket will be on your doorstep.",
+        "We provide the best services in the town. So, Instead of going out your Vegbusket will be on your doorstep.",
     image: "assets/images/scooter_guy.jpeg",
   ),
   OnboardingContents(

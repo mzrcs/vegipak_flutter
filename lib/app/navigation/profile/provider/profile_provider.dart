@@ -171,8 +171,6 @@ class ProfileProvider extends ChangeNotifier {
       addressController.text = userModel.address;
       selectedAreaId = userModel.districtAreaId;
       status = userModel.status;
-
-      // updateSelectedAreaName(selectedAreaId!);
       setLoading(false);
     });
   }
@@ -275,7 +273,10 @@ class ProfileProvider extends ChangeNotifier {
     userPrefrence.remove();
 
     Navigator.pushNamedAndRemoveUntil(
-        context, RouteName.login, (route) => false);
+      context,
+      RouteName.login,
+      (route) => false,
+    );
     notifyListeners();
   }
 

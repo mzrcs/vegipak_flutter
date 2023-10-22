@@ -39,18 +39,23 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-
-
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
     //   SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
     // );
 
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xFF000000),
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    );
+
     return MultiProvider(
       // create: (context) => SettingsProvider(),
       providers: [
-        ChangeNotifierProvider(create: (context) => SplashProvider()),
+        // ChangeNotifierProvider(create: (context) => SplashProvider()),
         //----------------
 
         ChangeNotifierProvider(create: (context) => UserProvider()),

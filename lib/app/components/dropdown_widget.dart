@@ -5,7 +5,6 @@ import '../core/constants/my_colors.dart';
 class DropDownWidget extends StatelessWidget {
   const DropDownWidget({super.key, required this.onTap, required this.title});
 
-
   final VoidCallback onTap;
   final Widget title;
 
@@ -33,7 +32,7 @@ class DropDownWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.home, color: MyColors.kGreenColor),
+              const Icon(Icons.location_city, color: MyColors.kGreenColor),
               const SizedBox(width: 16),
               title,
               // Text(

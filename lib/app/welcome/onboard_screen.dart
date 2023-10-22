@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vegipak/app/core/constants/my_colors.dart';
 // import '../auth/check_sign_in_prov.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/size_config.dart';
@@ -83,15 +84,26 @@ class _OnboardScreenState extends State<OnboardScreen> {
                             contents[i].title,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 28.0,
+                              fontSize: 26.0,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 16),
                           Text(
                             contents[i].desc,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 19.0),
+                            // style: const TextStyle(
+                            //   fontSize: 18.0,
+                            //   fontWeight: FontWeight.w300,
+                            // ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall!
+                                .copyWith(
+                                  // fontWeight: FontWeight.w500,
+                                  fontSize: 17,
+                                  color: Colors.black54,
+                                ),
                           )
                         ],
                       ),

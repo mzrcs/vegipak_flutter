@@ -7,7 +7,7 @@ import 'package:vegipak/app/utils/routes/routes_name.dart';
 
 class SplashProvider extends ChangeNotifier {
   FlutterSecureStorage storage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(encryptedSharedPreferences: false),
   );
   // String? onboardValue;
   String? signinCheck;

@@ -112,7 +112,26 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectAreaName(String areaName) {
+    selectedAreaName = areaName;
+    notifyListeners();
+  }
+
   UserModel userModel = UserModel();
+
+  String? selectedAreaName;
+
+  void updateSelectedAreaName(String? areaId) {
+    for (var area in districtAreaList) {
+      if (area.id.toString() == areaId) {
+        // return area.name;
+        // area.name = selectedAreaName;
+        selectedAreaName = area.name;
+        notifyListeners();
+      }
+    }
+    print('selectedAreaName $selectedAreaName');
+  }
 
   Future<void> getSavedData(context) async {
     _showError = false;
@@ -137,6 +156,7 @@ class CartProvider extends ChangeNotifier {
       if (value != null) {
         // print(value.districtAreas);
         districtAreaList = value.districtAreas!;
+        updateSelectedAreaName(selectedAreaId.toString());
         notifyListeners();
 
         setLoadingData(false);
@@ -172,25 +192,9 @@ class CartProvider extends ChangeNotifier {
             setLoading(false);
             Map<String, dynamic> responseData = value;
 
-            if (responseData.containsKey('status')) {
-              int statusCode = responseData['status'];
-              List<dynamic> errorMessages = responseData['message'];
+            log('status ${responseData['status']}');
 
-              if (statusCode == 500) {
-                for (dynamic errorMessage in errorMessages) {
-                  print('Error Message: $errorMessage');
-
-                  Utils.snackBarPopUp(
-                    context,
-                    errorMessage,
-                    Colors.red,
-                    duration: 6,
-                  );
-                  // Show an error message to the user
-                  // You can use a Flutter widget to display the error message
-                }
-              }
-            } else {
+            if (responseData['status'] == 'Success') {
               Utils.snackBarPopUp(
                   context, "Order Created Successfully", Colors.green);
 
@@ -201,7 +205,50 @@ class CartProvider extends ChangeNotifier {
 
               cartList.clear();
               clearTextfield();
+            } else if (responseData['status'] == 500) {
+              List<dynamic> errorMessages = responseData['message'];
+              for (dynamic errorMessage in errorMessages) {
+                print('Error Message: $errorMessage');
+
+                Utils.snackBarPopUp(
+                  context,
+                  errorMessage,
+                  Colors.red,
+                  duration: 6,
+                );
+              }
             }
+
+            // if (responseData.containsKey('status')) {
+            //   // int statusCode = responseData['status'];
+
+            //   if (responseData['status'] == 500) {
+            //     List<dynamic> errorMessages = responseData['message'];
+            //     for (dynamic errorMessage in errorMessages) {
+            //       print('Error Message: $errorMessage');
+
+            //       Utils.snackBarPopUp(
+            //         context,
+            //         errorMessage,
+            //         Colors.red,
+            //         duration: 6,
+            //       );
+            //       // Show an error message to the user
+            //       // You can use a Flutter widget to display the error message
+            //     }
+            //   }
+            // } else {
+            //   Utils.snackBarPopUp(
+            //       context, "Order Created Successfully", Colors.green);
+
+            //   Navigator.pushReplacementNamed(context, RouteName.thankyou);
+
+            //   Provider.of<OrderProvider>(context, listen: false)
+            //       .getMyOrders(context);
+
+            //   cartList.clear();
+            //   clearTextfield();
+            // }
           } else {
             setLoading(false);
             return;
